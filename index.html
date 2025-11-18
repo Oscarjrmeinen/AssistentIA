@@ -320,10 +320,11 @@
     </div>
 
     <script>
-        // SISTEMA CORRIGIDO - Aceita "cadastrar" e "cadastro"
+        // SISTEMA REVOLUCIONÁRIO - Foco APENAS nas palavras ESPECÍFICAS
         const knowledgeBase = {
             "bairros": {
-                targetWords: ["bairro", "bairros", "zona", "zonas", "região", "tele entrega", "motoqueiro", "cobrador", "f6"],
+                // PALAVRAS EXCLUSIVAS do módulo bairros
+                targetWords: ["bairro", "bairros", "zona", "zonas", "região", "tele entrega", "motoqueiro", "cobrador", "f6", "processar lote", "taxa entrega"],
                 answer: `<strong>📍 Cadastro de Bairros - Farma/Linx <span class="module-tag">MÓDULO BAIRROS</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
@@ -365,7 +366,8 @@
             },
 
             "clientes": {
-                targetWords: ["cliente", "clientes", "pessoa", "cpf", "cnpj", "lgpd"],
+                // PALAVRAS EXCLUSIVAS do módulo clientes
+                targetWords: ["cliente", "clientes", "cpf", "cnpj", "lgpd", "matrícula", "matricula", "limite crédito", "limite credito"],
                 answer: `<strong>👤 Cadastro de Clientes <span class="module-tag cliente">MÓDULO CLIENTES</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
@@ -384,6 +386,7 @@
             },
 
             "dependentes": {
+                // PALAVRAS EXCLUSIVAS do módulo dependentes
                 targetWords: ["dependente", "dependentes", "familia", "familiar", "parente", "filho", "filha"],
                 answer: `<strong>👨‍👩‍👧‍👦 Incluir Dependentes <span class="module-tag dependente">MÓDULO DEPENDENTES</span></strong><br><br>
                 
@@ -405,6 +408,7 @@
             },
 
             "convênios": {
+                // PALAVRAS EXCLUSIVAS do módulo convênios
                 targetWords: ["convênio", "convenio", "convênios", "convenios", "plano", "planos", "vincular"],
                 answer: `<strong>📋 Vincular Convênios <span class="module-tag">MÓDULO CONVÊNIOS</span></strong><br><br>
                 
@@ -438,77 +442,63 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA CORRIGIDO - Aceita "cadastrar" e "cadastro" igualmente
+        // SISTEMA DEFINITIVO - IGNORA "cadastrar" e foca nas palavras ESPECÍFICAS
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            const words = normalizedQuestion.split(/\s+/);
-            
             console.log('🔍 ANALISANDO FRASE:', normalizedQuestion);
-            console.log('📝 PALAVRAS ENCONTRADAS:', words);
             
-            // 1. VERIFICA SE TEM "CADASTRAR" OU "CADASTRO" NA FRASE
-            const hasCadastrar = normalizedQuestion.includes('cadastrar');
-            const hasCadastro = normalizedQuestion.includes('cadastro');
+            // REMOVE palavras genéricas que causam confusão
+            const cleanedQuestion = normalizedQuestion
+                .replace(/\b(cadastrar|cadastro|criar|novo|adicionar|incluir|registrar|como|quero|preciso|fazer)\b/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
             
-            console.log(`📊 TEM "CADASTRAR": ${hasCadastrar}`);
-            console.log(`📊 TEM "CADASTRO": ${hasCadastro}`);
+            console.log('🧹 FRASE LIMPA:', cleanedQuestion);
             
-            // 2. PROCURA POR PALAVRAS-ALVO EM TODAS AS POSIÇÕES
-            for (let i = 0; i < words.length; i++) {
-                const word = words[i];
-                
-                // Verifica se é uma palavra-alvo de algum módulo
-                for (const [module, data] of Object.entries(knowledgeBase)) {
-                    if (data.targetWords.includes(word)) {
-                        console.log(`✅✅✅ ENCONTRADO: "${word}" no módulo ${module.toUpperCase()}`);
-                        
-                        // Se encontrou uma palavra-alvo, verifica o contexto
-                        if ((hasCadastrar || hasCadastro) && i > 0) {
-                            // Verifica se a palavra anterior é "cadastrar" ou "cadastro"
-                            const previousWord = words[i - 1];
-                            if (previousWord === 'cadastrar' || previousWord === 'cadastro') {
-                                console.log(`🎯 CONTEXTO CORRETO: "${previousWord} ${word}"`);
-                                return data.answer;
-                            }
-                        }
-                        
-                        // Se não encontrou contexto específico, retorna mesmo assim
-                        return data.answer;
-                    }
+            const words = cleanedQuestion.split(/\s+/);
+            console.log('📝 PALAVRAS RELEVANTES:', words);
+            
+            // 1. PRIMEIRO: Procura por palavras ESPECÍFICAS de BAIRROS (prioridade máxima)
+            for (const word of words) {
+                if (knowledgeBase.bairros.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO BAIRROS: "${word}"`);
+                    return knowledgeBase.bairros.answer;
                 }
             }
             
-            // 3. SE NÃO ENCONTROU PALAVRAS-ALVO, PROCURA POR COMBINAÇÕES ESPECÍFICAS
-            console.log('🔎 PROCURANDO COMBINAÇÕES ESPECÍFICAS...');
-            
-            // Combinações para BAIRROS
-            if ((hasCadastrar || hasCadastro) && normalizedQuestion.includes('bairro')) {
-                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: cadastrar/cadastro + bairro');
-                return knowledgeBase.bairros.answer;
+            // 2. SEGUNDO: Procura por palavras ESPECÍFICAS de CLIENTES
+            for (const word of words) {
+                if (knowledgeBase.clientes.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO CLIENTES: "${word}"`);
+                    return knowledgeBase.clientes.answer;
+                }
             }
             
-            // Combinações para CLIENTES
-            if ((hasCadastrar || hasCadastro) && normalizedQuestion.includes('cliente')) {
-                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: cadastrar/cadastro + cliente');
-                return knowledgeBase.clientes.answer;
+            // 3. TERCEIRO: Procura por palavras ESPECÍFICAS de DEPENDENTES
+            for (const word of words) {
+                if (knowledgeBase.dependentes.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO DEPENDENTES: "${word}"`);
+                    return knowledgeBase.dependentes.answer;
+                }
             }
             
-            // Combinações para DEPENDENTES
-            if ((normalizedQuestion.includes('incluir') || normalizedQuestion.includes('adicionar')) && 
-                normalizedQuestion.includes('dependente')) {
-                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: incluir/adicionar + dependente');
-                return knowledgeBase.dependentes.answer;
+            // 4. QUARTO: Procura por palavras ESPECÍFICAS de CONVÊNIOS
+            for (const word of words) {
+                if (knowledgeBase.convênios.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO CONVÊNIOS: "${word}"`);
+                    return knowledgeBase.convênios.answer;
+                }
             }
             
-            console.log('❌ NENHUMA CORRESPONDÊNCIA ENCONTRADA');
+            console.log('❌ NENHUMA PALAVRA ESPECÍFICA ENCONTRADA');
             return `🤔 <strong>Não entendi sua pergunta!</strong><br><br>
                 <div class="suggested-alternative">
-                <strong>Tente uma destas formas:</strong><br><br>
-                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('cadastrar bairro')">cadastrar bairro</strong>"<br>
-                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('cadastro bairro')">cadastro bairro</strong>"<br>
-                • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cadastrar cliente')">cadastrar cliente</strong>"<br>
-                • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="askQuestion('incluir dependente')">incluir dependente</strong>"<br>
-                <em>Ambas as formas funcionam agora!</em>
+                <strong>Digite o nome do que você quer cadastrar:</strong><br><br>
+                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('bairro')">bairro</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cliente')">cliente</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="askQuestion('dependente')">dependente</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('convênio')">convênio</strong>"<br>
+                <em>Ou use as sugestões acima!</em>
                 </div>`;
         }
 
@@ -575,14 +565,13 @@
 
         // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>🎯 SISTEMA CORRIGIDO - ACEITA AMBAS AS FORMAS</strong><br><br>
-            <strong>Agora funciona com:</strong><br><br>
-            • "<strong>cadastrar bairro</strong>" → Módulo Bairros ✅<br>
-            • "<strong>cadastro bairro</strong>" → Módulo Bairros ✅<br>
-            • "<strong>cadastrar cliente</strong>" → Módulo Clientes ✅<br>
-            • "<strong>cadastro cliente</strong>" → Módulo Clientes ✅<br>
-            • "<strong>incluir dependente</strong>" → Módulo Dependentes ✅<br><br>
-            <em>Ambas as formas "cadastrar" e "cadastro" funcionam perfeitamente! 🚀</em>`);
+            addMessage(`<strong>🎯 SISTEMA DEFINITIVO - Foco nas PALAVRAS ESPECÍFICAS</strong><br><br>
+            <strong>Agora o sistema IGNORA "cadastrar" e foca no que importa:</strong><br><br>
+            • "<strong>cadastrar</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<strong>cadastro</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<strong>qualquer coisa</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br><br>
+            <em>O sistema agora foca APENAS nas palavras ESPECÍFICAS de cada módulo! 🚀</em>`);
         }, 1000);
     </script>
 </body>
