@@ -116,10 +116,14 @@
             background: #34495e;
             color: white;
             padding: 15px 20px;
+            position: relative;
         }
 
         .chat-header h3 {
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .chat-header p {
@@ -134,6 +138,23 @@
             font-size: 12px;
             display: inline-block;
             margin-top: 5px;
+        }
+
+        .api-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: normal;
+        }
+        
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-disconnected {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         .chat-messages {
@@ -258,12 +279,6 @@
             border-top: 1px dashed #ddd;
         }
 
-        .sub-modules {
-            margin-left: 20px;
-            border-left: 2px solid #34495e;
-            padding-left: 10px;
-        }
-
         /* Modal de Administração */
         .modal {
             display: none;
@@ -295,6 +310,19 @@
             padding-bottom: 10px;
         }
 
+        .api-config {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .api-config h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
         textarea {
             width: 100%;
             height: 300px;
@@ -308,6 +336,15 @@
             line-height: 1.4;
         }
 
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
         .btn {
             background: #3498db;
             color: white;
@@ -317,14 +354,27 @@
             cursor: pointer;
             margin: 5px;
             font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
         }
 
         .btn-success {
             background: #28a745;
         }
 
+        .btn-success:hover {
+            background: #218838;
+        }
+
         .btn-danger {
             background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
         }
 
         .btn-group {
@@ -334,16 +384,30 @@
             margin: 15px 0;
         }
 
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-
         .module-description {
             font-size: 12px;
             color: #bbb;
             margin-top: 3px;
             padding-left: 28px;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        small {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .credits-info {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 12px;
+            border-left: 4px solid #ffc107;
         }
     </style>
 </head>
@@ -429,15 +493,18 @@
         <!-- Chat Area -->
         <div class="chat-area">
             <div class="chat-header">
-                <h3>Assistente IA - Softpharma</h3>
-                <p>Especializado em Cadastros - Baseado no Manual Linx</p>
+                <h3>Assistente IA - Softpharma 
+                    <span class="api-status status-disconnected" id="apiStatus">🔴 IA Offline</span>
+                </h3>
+                <p>Especializado em Cadastros - IA Integrada com Manual Linx</p>
                 <div class="current-module" id="currentModuleDisplay">Módulo: Clientes</div>
             </div>
 
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
-                    👋 Olá! Sou seu assistente especializado em <strong>Cadastros do Softpharma</strong>. 
-                    Posso ajudar com dúvidas sobre clientes, produtos, fornecedores e outros cadastros.
+                    🧠 <strong>Assistente IA Softpharma</strong><br><br>
+                    Olá! Sou seu assistente inteligente especializado no Softpharma. 
+                    Estou integrado com IA para entender suas dúvidas e buscar respostas no manual oficial.
                 </div>
                 
                 <div class="suggested-questions" id="suggestedQuestions">
@@ -456,7 +523,7 @@
             </div>
 
             <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre cadastros no Softpharma...">
+                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre o Softpharma...">
                 <button id="sendButton">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -470,8 +537,27 @@
     <!-- Modal de Administração -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
-            <h3>📚 Base de Conhecimento - Cadastros Softpharma</h3>
+            <h3>⚙️ Configuração do Assistente IA</h3>
             
+            <!-- Configuração da API OpenAI -->
+            <div class="api-config">
+                <h4>🔑 Configuração da API OpenAI</h4>
+                <input type="password" id="apiKey" placeholder="Cole sua API Key da OpenAI aqui">
+                <small>
+                    💡 Obtenha em: <strong>platform.openai.com → API Keys → Create new secret key</strong><br>
+                    🏷️ Custa aproximadamente R$ 0,50 por 1000 perguntas
+                </small>
+                <div class="btn-group">
+                    <button class="btn btn-success" id="testApi">🧪 Testar Conexão</button>
+                    <button class="btn btn-danger" id="clearApi">🗑️ Limpar API Key</button>
+                </div>
+                
+                <div class="credits-info">
+                    📊 <strong>Como funciona:</strong> A IA lê todo o manual que você cadastrar e usa essas informações 
+                    para responder dúvidas de forma inteligente e contextualizada.
+                </div>
+            </div>
+
             <div class="btn-group">
                 <button class="btn btn-success" id="loadLinxStructure">📥 Carregar Estrutura Linx</button>
                 <button class="btn" id="saveKnowledge">💾 Salvar Conhecimento</button>
@@ -480,7 +566,6 @@
 
             <textarea id="knowledgeText" placeholder="Cole aqui o conteúdo do menu de Cadastros do portal Linx...
 
-FORMATO RECOMENDADO:
 === clientes ===
 [Conteúdo sobre cadastro de clientes]
 
@@ -490,18 +575,42 @@ FORMATO RECOMENDADO:
 === produtos ===
 [Conteúdo sobre cadastro de produtos]
 
-... e assim por diante para cada módulo de cadastro"></textarea>
+=== convenios ===
+[Conteúdo sobre cadastro de convênios]
+
+=== fabricantes ===
+[Conteúdo sobre cadastro de fabricantes]
+
+=== transportadoras ===
+[Conteúdo sobre cadastro de transportadoras]
+
+=== vendedores ===
+[Conteúdo sobre cadastro de vendedores]
+
+=== tecnicos ===
+[Conteúdo sobre cadastro de técnicos]
+
+=== usuarios ===
+[Conteúdo sobre cadastro de usuários]"></textarea>
             
             <button class="btn" id="closeModal">✕ Fechar</button>
 
             <div id="currentKnowledge" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                <h4>📋 Módulos de Cadastro Configurados:</h4>
+                <h4>📋 Status dos Módulos:</h4>
                 <div id="knowledgePreview"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // ========== CONFIGURAÇÃO DA IA ==========
+        let openAIConfig = {
+            apiKey: localStorage.getItem('openai_api_key') || '',
+            model: 'gpt-3.5-turbo',
+            temperature: 0.3,
+            maxTokens: 800
+        };
+
         // ========== BASE DE CONHECIMENTO - CADASTROS SOFTPHARMA ==========
         let knowledgeBase = {
             clientes: `CADASTRO DE CLIENTES - SOFTPHARMA
@@ -669,70 +778,138 @@ FORMATO RECOMENDADO:
         const currentModuleDisplay = document.getElementById('currentModuleDisplay');
         const suggestedQuestions = document.getElementById('suggestedQuestions');
         const loadLinxStructure = document.getElementById('loadLinxStructure');
+        const apiKeyInput = document.getElementById('apiKey');
+        const testApiBtn = document.getElementById('testApi');
+        const clearApiBtn = document.getElementById('clearApi');
+        const apiStatus = document.getElementById('apiStatus');
 
         let currentModule = 'clientes';
 
-        // ========== FUNÇÕES PRINCIPAIS ==========
+        // ========== FUNÇÃO PRINCIPAL DA IA ==========
+        async function getAIResponse(question, module) {
+            // Se não tem API key, usa o sistema local
+            if (!openAIConfig.apiKey) {
+                return generateLocalResponse(question, module);
+            }
 
-        // Função para buscar na base de conhecimento
+            try {
+                showTyping(true);
+                
+                // Prepara o contexto com TODO o manual
+                const fullManual = Object.entries(knowledgeBase)
+                    .map(([mod, content]) => `=== ${mod.toUpperCase()} ===\n${content}`)
+                    .join('\n\n');
+
+                const systemMessage = `Você é um especialista técnico no ERP Softpharma da Linx.
+
+MANUAL COMPLETO DO SOFTPHARMA:
+${fullManual}
+
+INSTRUÇÕES CRÍTICAS:
+1. Use APENAS as informações do manual acima para responder
+2. Seja extremamente prático e direto
+3. Formate respostas com tópicos claros
+4. Use terminologia técnica do Softpharma
+5. Se a informação NÃO ESTIVER NO MANUAL, diga: "Não encontrei esta informação específica no manual do Softpharma. Sugiro consultar o suporte técnico da Linx."
+6. Módulo atual da pergunta: ${module}
+
+Formato da resposta:
+- Seja claro e objetivo
+- Use marcadores quando possível
+- Inclua caminhos de menu exatos
+- Mantenha linguagem técnica apropriada`;
+
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${openAIConfig.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: openAIConfig.model,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: systemMessage
+                            },
+                            {
+                                role: 'user', 
+                                content: question
+                            }
+                        ],
+                        max_tokens: openAIConfig.maxTokens,
+                        temperature: openAIConfig.temperature
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `Erro API: ${response.status}`);
+                }
+
+                const data = await response.json();
+                showTyping(false);
+                
+                if (data.choices && data.choices[0]) {
+                    return `🧠 **Resposta da IA (Baseada no Manual Linx):**\n\n${data.choices[0].message.content}\n\n---\n*Fonte: Manual Linx Softpharma + OpenAI*`;
+                } else {
+                    throw new Error('Resposta inválida da API');
+                }
+                
+            } catch (error) {
+                showTyping(false);
+                console.error('Erro IA:', error);
+                
+                // Fallback para sistema local
+                const localResponse = generateLocalResponse(question, module);
+                return `⚠️ **IA Temporariamente Indisponível**\n\n${localResponse}\n\n---\n*Usando base de conhecimento local*`;
+            }
+        }
+
+        // Sistema local (fallback)
+        function generateLocalResponse(question, module) {
+            const searchResult = searchKnowledge(question, module);
+            
+            if (searchResult.hasMatch) {
+                return `📋 **Baseado no manual de Cadastros:**\n\n${searchResult.moduleKnowledge}\n\n*Fonte: Manual Linx - Módulo ${module}*`;
+            } else {
+                return `🤔 Não encontrei informações sobre "${question}" no manual.\n\n**Sugestões:**\n• Verificar o manual do módulo ${module}\n• Consultar o suporte técnico Linx\n• Confirmar se o procedimento existe na sua versão`;
+            }
+        }
+
+        // ========== SISTEMA DE BUSCA LOCAL ==========
         function searchKnowledge(question, module) {
             const moduleKnowledge = knowledgeBase[module] || '';
-            const allKnowledge = Object.values(knowledgeBase).join('\n');
-            
-            // Busca por palavras-chave
             const keywords = question.toLowerCase().split(' ').filter(word => word.length > 3);
             let foundMatches = [];
             
-            // Procura no módulo atual
             keywords.forEach(keyword => {
                 if (moduleKnowledge.toLowerCase().includes(keyword)) {
-                    foundMatches.push(`Encontrado em ${module}: "${keyword}"`);
+                    foundMatches.push(keyword);
                 }
             });
             
-            // Se não encontrou, procura em toda base
+            // Busca em todos os módulos se não encontrou no atual
             if (foundMatches.length === 0) {
-                keywords.forEach(keyword => {
-                    for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
-                        if (knowledge.toLowerCase().includes(keyword)) {
-                            foundMatches.push(`Encontrado em ${mod}: "${keyword}"`);
-                            break;
-                        }
+                for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
+                    if (knowledge.toLowerCase().includes(question.toLowerCase())) {
+                        return {
+                            hasMatch: true,
+                            moduleKnowledge: knowledge,
+                            matches: ['Encontrado em outro módulo']
+                        };
                     }
-                });
+                }
             }
             
             return {
                 hasMatch: foundMatches.length > 0,
-                matches: foundMatches,
                 moduleKnowledge: moduleKnowledge,
-                allKnowledge: allKnowledge
+                matches: foundMatches
             };
         }
 
-        // Função para gerar resposta
-        function generateResponse(question, module) {
-            const searchResult = searchKnowledge(question, module);
-            
-            if (searchResult.hasMatch) {
-                return `📋 **Baseado no manual de Cadastros do Softpharma:**
-
-${searchResult.moduleKnowledge}
-
-*Fonte: Manual Linx - Módulo ${module.charAt(0).toUpperCase() + module.slice(1)}*`;
-            } else {
-                return `🤔 Não encontrei informações específicas sobre "${question}" na base de conhecimento de cadastros.
-
-**Sugestões:**
-• Verifique o manual do módulo ${module}
-• Consulte o suporte técnico Linx
-• Confirme se o cadastro existe no menu Cadastros
-
-Posso ajudar com outros tipos de cadastro!`;
-            }
-        }
-
-        // Função para adicionar mensagem ao chat
+        // ========== FUNÇÕES DE CHAT ==========
         function addMessage(text, sender, source = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
@@ -741,7 +918,7 @@ Posso ajudar com outros tipos de cadastro!`;
             if (source) {
                 const sourceDiv = document.createElement('div');
                 sourceDiv.className = 'knowledge-source';
-                sourceDiv.textContent = `Fonte: ${source}`;
+                sourceDiv.textContent = `Sistema: ${source}`;
                 messageDiv.appendChild(sourceDiv);
             }
             
@@ -749,35 +926,30 @@ Posso ajudar com outros tipos de cadastro!`;
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Função para mostrar/ocultar typing indicator
         function showTyping(show) {
             typingIndicator.style.display = show ? 'block' : 'none';
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Enviar mensagem
-        function sendMessage() {
+        async function sendMessage() {
             const message = userInput.value.trim();
             if (!message) return;
 
             addMessage(message, 'user');
             userInput.value = '';
-            showTyping(true);
-
-            setTimeout(() => {
-                showTyping(false);
-                const response = generateResponse(message, currentModule);
-                addMessage(response, 'bot', `Cadastros Softpharma - ${currentModule}`);
-            }, 1500);
+            
+            const response = await getAIResponse(message, currentModule);
+            const systemType = openAIConfig.apiKey ? 'IA Integrada' : 'Base Local';
+            addMessage(response, 'bot', systemType);
         }
 
-        // Atualizar perguntas sugeridas
+        // ========== ATUALIZAR PERGUNTAS SUGERIDAS ==========
         function updateSuggestedQuestions() {
             const questions = {
                 clientes: [
                     "Como cadastrar um novo cliente?",
                     "Quais campos são obrigatórios no cadastro de cliente?",
-                    "Como alterar dados de um cliente?",
+                    "Como alterar dados de um cliente existente?",
                     "Onde vejo o histórico de compras do cliente?"
                 ],
                 fornecedores: [
@@ -797,36 +969,6 @@ Posso ajudar com outros tipos de cadastro!`;
                     "Quais configurações preciso fazer no convênio?",
                     "Como funciona desconto de convênio?",
                     "Onde vejo os convênios ativos?"
-                ],
-                fabricantes: [
-                    "Como cadastrar um novo fabricante?",
-                    "Preciso do registro ANVISA do fabricante?",
-                    "Onde cadastro o telefone do SAC?",
-                    "Como editar dados do fabricante?"
-                ],
-                transportadoras: [
-                    "Como cadastrar uma transportadora?",
-                    "Quais documentos da transportadora são necessários?",
-                    "Onde cadastro o RNTRC?",
-                    "Como definir a transportadora padrão?"
-                ],
-                vendedores: [
-                    "Como cadastrar um novo vendedor?",
-                    "Onde defino a comissão do vendedor?",
-                    "Como bloquear acesso de vendedor?",
-                    "Onde vejo o desempenho do vendedor?"
-                ],
-                tecnicos: [
-                    "Como cadastrar um técnico?",
-                    "Preciso do CRF do técnico?",
-                    "Onde defino as responsabilidades?",
-                    "Como inativar um técnico?"
-                ],
-                usuarios: [
-                    "Como criar um novo usuário?",
-                    "Quais perfis de acesso existem?",
-                    "Como redefinir senha de usuário?",
-                    "Onde vejo o log de acesso?"
                 ]
             };
 
@@ -848,7 +990,6 @@ Posso ajudar com outros tipos de cadastro!`;
         }
 
         // ========== ADMINISTRAÇÃO ==========
-
         function loadSavedKnowledge() {
             const saved = localStorage.getItem('softpharma_cadastros_knowledge');
             if (saved) {
@@ -872,8 +1013,17 @@ Posso ajudar com outros tipos de cadastro!`;
             knowledgePreview.innerHTML = preview;
         }
 
-        // ========== EVENT LISTENERS ==========
+        function updateAPIStatus() {
+            if (openAIConfig.apiKey) {
+                apiStatus.textContent = '🟢 IA Conectada';
+                apiStatus.className = 'api-status status-connected';
+            } else {
+                apiStatus.textContent = '🔴 IA Offline';
+                apiStatus.className = 'api-status status-disconnected';
+            }
+        }
 
+        // ========== EVENT LISTENERS ==========
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
@@ -893,6 +1043,52 @@ Posso ajudar com outros tipos de cadastro!`;
             });
         });
 
+        // Configuração da API
+        testApiBtn.addEventListener('click', async function() {
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                alert('Por favor, cole sua API Key da OpenAI primeiro');
+                return;
+            }
+
+            const testBtn = this;
+            testBtn.textContent = 'Testando...';
+            testBtn.disabled = true;
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/models', {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    openAIConfig.apiKey = apiKey;
+                    localStorage.setItem('openai_api_key', apiKey);
+                    updateAPIStatus();
+                    alert('✅ Conexão com OpenAI estabelecida! A IA está pronta para usar.');
+                } else {
+                    throw new Error('API Key inválida ou sem créditos');
+                }
+            } catch (error) {
+                alert('❌ Erro na conexão: ' + error.message);
+            } finally {
+                testBtn.textContent = '🧪 Testar Conexão';
+                testBtn.disabled = false;
+            }
+        });
+
+        clearApiBtn.addEventListener('click', function() {
+            if (confirm('Tem certeza que quer remover a API Key?')) {
+                openAIConfig.apiKey = '';
+                localStorage.removeItem('openai_api_key');
+                apiKeyInput.value = '';
+                updateAPIStatus();
+                alert('API Key removida. Voltando para modo local.');
+            }
+        });
+
+        // Administração do Conhecimento
         adminBtn.addEventListener('click', () => {
             let fullKnowledge = '';
             for (const [module, content] of Object.entries(knowledgeBase)) {
@@ -956,7 +1152,7 @@ Posso ajudar com outros tipos de cadastro!`;
             }
             
             saveKnowledgeBase();
-            alert('✅ Base de conhecimento atualizada! O assistente já está usando as novas informações.');
+            alert('✅ Base de conhecimento atualizada! A IA já está usando as novas informações.');
         });
 
         clearKnowledge.addEventListener('click', () => {
@@ -983,13 +1179,31 @@ Posso ajudar com outros tipos de cadastro!`;
         });
 
         // ========== INICIALIZAÇÃO ==========
-        
-        loadSavedKnowledge();
-        userInput.focus();
-        updateSuggestedQuestions();
-        updateKnowledgePreview();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar configurações salvas
+            loadSavedKnowledge();
+            
+            // Carregar API Key se existir
+            const savedKey = localStorage.getItem('openai_api_key');
+            if (savedKey) {
+                apiKeyInput.value = savedKey;
+                openAIConfig.apiKey = savedKey;
+            }
+            updateAPIStatus();
+            
+            // Configuração inicial
+            userInput.focus();
+            updateSuggestedQuestions();
+            updateKnowledgePreview();
 
-        addMessage('💡 <strong>Dica:</strong> Use o botão "Administrar Conhecimento" para adicionar o conteúdo real do portal Linx!', 'system');
+            // Mensagem de boas-vindas
+            addMessage(
+                `💡 <strong>Dica:</strong> Configure a API OpenAI no botão "Administrar Conhecimento" para ativar a IA inteligente!<br><br>
+                🧠 <strong>Com IA:</strong> Entende perguntas complexas e busca em todo o manual<br>
+                📋 <strong>Sem IA:</strong> Busca por palavras-chave na base local`, 
+                'system'
+            );
+        });
     </script>
 </body>
 </html>
