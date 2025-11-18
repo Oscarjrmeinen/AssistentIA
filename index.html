@@ -176,6 +176,15 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
         }
+
+        .path-highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -194,10 +203,10 @@
             </div>
             
             <div class="suggested-questions">
+                <div class="suggestion" data-question="Como acessar o cadastro de clientes?">Acessar cadastro</div>
                 <div class="suggestion" data-question="Como cadastrar um novo cliente?">Cadastrar novo cliente</div>
                 <div class="suggestion" data-question="Como incluir dependentes?">Incluir dependentes</div>
                 <div class="suggestion" data-question="Como editar dados do cliente?">Editar cliente</div>
-                <div class="suggestion" data-question="Como excluir um cliente?">Excluir cliente</div>
                 <div class="suggestion" data-question="Quais dados básicos são obrigatórios?">Dados obrigatórios</div>
             </div>
             
@@ -219,62 +228,98 @@
     <script>
         // Base de conhecimento expandida baseada nos manuais
         const knowledgeBase = {
+            "acessar": {
+                question: "Como acessar o cadastro de clientes?",
+                answer: `<strong>Caminho para acessar o Cadastro de Clientes:</strong><br><br>
+                <div class="path-highlight">Menu > Cadastros > Clientes</div><br>
+                
+                <strong>Passo a passo detalhado:</strong><br>
+                1. No menu principal do Softpharma, clique em <strong>"Cadastros"</strong><br>
+                2. Na lista de cadastros, selecione <strong>"Clientes"</strong><br>
+                3. O sistema abrirá a tela principal de cadastro de clientes<br><br>
+                
+                <strong>Na tela de cadastro você encontra:</strong><br>
+                • Lista de clientes cadastrados<br>
+                • Botão para <strong>novo cadastro</strong><br>
+                • Opção de <strong>consultar</strong> clientes existentes (F2)<br>
+                • Filtros para busca rápida<br><br>
+                
+                <em>Dica: Use a tecla F2 para consultar clientes rapidamente.</em>`
+            },
             "cadastrar": {
                 question: "Como cadastrar um novo cliente?",
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
-                1. <strong>Acesse o programa Cadastro de Clientes</strong><br>
-                2. <strong>Preencha os dados básicos:</strong><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
+                
+                1. <strong>Acesse o cadastro de clientes</strong> pelo caminho acima<br>
+                2. Clique no botão <strong>"Novo"</strong> ou similar<br>
+                3. <strong>Preencha os dados básicos:</strong><br>
                    - Código (gerado automaticamente)<br>
                    - Nome completo<br>
                    - CPF/CNPJ (quando exigido pelo convênio)<br>
-                3. <strong>Guia Dados Básicos:</strong><br>
+                4. <strong>Guia Dados Básicos:</strong><br>
                    - Endereço completo (CEP, rua, número, complemento)<br>
                    - Contatos (telefone, celular, e-mail)<br>
                    - Documentos oficiais<br>
                    - Data de nascimento e naturalidade<br>
-                4. <strong>Termo LGPD:</strong> Informe se o consentimento foi assinado<br>
-                5. <strong>Salve o cadastro</strong><br><br>
+                5. <strong>Termo LGPD:</strong> Informe se o consentimento foi assinado<br>
+                6. <strong>Salve o cadastro</strong><br><br>
+                
                 <em>O código do cliente é gerado automaticamente: (Filial × 10.000) + Sequência</em>`
             },
             "dependentes": {
                 question: "Como incluir dependentes?",
                 answer: `<strong>Incluindo dependentes:</strong><br><br>
-                1. No cadastro do cliente, acesse a guia <strong>"Dependentes"</strong><br>
-                2. Clique para adicionar novo dependente<br>
-                3. Preencha os dados:<br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
+                
+                1. Acesse o cadastro do cliente desejado<br>
+                2. Navegue até a guia <strong>"Dependentes"</strong><br>
+                3. Clique para adicionar novo dependente<br>
+                4. Preencha os dados:<br>
                    - Nome completo<br>
                    - Grau de parentesco<br>
                    - Telefone de contato<br>
                    - Data de nascimento<br>
                    - Situação (ativo/inativo)<br>
-                4. Para controle por senha:<br>
+                5. Para controle por senha:<br>
                    - <strong>Gerar Senha Padrão</strong> (até 6 dígitos)<br>
                    - <strong>Cadastrar biometria</strong> (até 5 digitais)<br>
-                5. <strong>Salve</strong> o dependente<br><br>
+                6. <strong>Salve</strong> o dependente<br><br>
+                
                 <em>Ao inativar um dependente, o sistema remove automaticamente os vínculos com convênios.</em>`
             },
             "editar": {
                 question: "Como editar dados do cliente?",
                 answer: `<strong>Editando dados do cliente:</strong><br><br>
-                1. <strong>Localize o cliente</strong> usando F2 - Consultar<br>
-                2. Acesse o cadastro do cliente<br>
-                3. Navegue pelas guias:<br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Selecionar Cliente] > Editar</div><br>
+                
+                1. <strong>Acesse o cadastro de clientes</strong><br>
+                2. <strong>Localize o cliente</strong> usando F2 - Consultar<br>
+                3. Selecione o cliente e clique em <strong>"Editar"</strong><br>
+                4. Navegue pelas guias:<br>
                    - <strong>Dados Básicos:</strong> Endereço, contatos, documentos<br>
                    - <strong>Dependentes:</strong> Adicionar/editar dependentes<br>
                    - <strong>Convênios:</strong> Vincular/desvincular convênios<br>
-                4. Faça as alterações necessárias<br>
-                5. <strong>Salve</strong> as modificações<br><br>
+                5. Faça as alterações necessárias<br>
+                6. <strong>Salve</strong> as modificações<br><br>
+                
                 <em>Alterações em dados básicos afetam relatórios fiscais e correspondências.</em>`
             },
             "excluir": {
                 question: "Como excluir um cliente?",
                 answer: `<strong>Observação importante:</strong><br><br>
+                
                 No Softpharma, a prática recomendada é <strong>inativar</strong> clientes em vez de excluí-los, para manter o histórico.<br><br>
+                
                 <strong>Para inativar:</strong><br>
-                1. Localize o cliente<br>
+                1. Acesse o cadastro do cliente<br>
                 2. Edite o cadastro<br>
                 3. Altere a situação para "Inativo"<br>
                 4. Salve as alterações<br><br>
+                
                 <strong>Se necessário excluir:</strong><br>
                 - Verifique se não existem vendas ou movimentações vinculadas<br>
                 - Consulte o manual específico ou suporte técnico<br>
@@ -283,6 +328,7 @@
             "dados básicos": {
                 question: "Quais dados básicos são obrigatórios?",
                 answer: `<strong>Dados Básicos Obrigatórios:</strong><br><br>
+                
                 • <strong>Identificação:</strong><br>
                   - Nome completo<br>
                   - Código (automático)<br>
@@ -292,6 +338,7 @@
                   - Cidade, UF e Bairro<br>
                 • <strong>Contato:</strong> Pelo menos um telefone<br>
                 • <strong>CPF/CNPJ:</strong> Obrigatório apenas se exigido pelo convênio<br><br>
+                
                 <strong>Dados Adicionais Importantes:</strong><br>
                 • E-mail (para NF-e/NFC-e)<br>
                 • Data de nascimento<br>
@@ -301,45 +348,75 @@
             "código": {
                 question: "Como funciona o código do cliente?",
                 answer: `<strong>Sistema de Código do Cliente:</strong><br><br>
+                
                 O código é gerado automaticamente seguindo esta lógica:<br><br>
+                
                 <strong>Exemplo Prático:</strong><br>
                 • Filial: 2<br>
                 • Sequência: 100<br>
                 • Cálculo: (2 × 10.000) + 100<br>
                 • <strong>Código Gerado: 20000100</strong><br><br>
+                
                 <em>O primeiro dígito identifica a filial e os demais a sequência numérica única.</em>`
             },
             "senha": {
                 question: "Como funciona o controle por senha?",
                 answer: `<strong>Controle por Senha/Biometria:</strong><br><br>
+                
                 <strong>Para clientes/dependentes:</strong><br>
                 1. <strong>Gerar Senha Padrão:</strong> Sistema cria senha com 6 dígitos<br>
                 2. <strong>Alterar Senha:</strong> Cliente altera na primeira compra<br>
                 3. <strong>Biometria:</strong> Cadastro de até 5 digitais<br><br>
+                
                 <strong>Visualizar Senha:</strong><br>
                 • Acesse a <strong>Ficha de Cliente</strong> (F8 ou ALT+1)<br>
                 • Senha padrão aparece temporariamente<br><br>
+                
                 <em>A senha é necessária para compras com controle de acesso.</em>`
             },
             "convênio": {
                 question: "Como vincular convênios?",
                 answer: `<strong>Vinculando Convênios:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
+                
                 1. No cadastro do cliente, acesse a guia <strong>"Convênios"</strong><br>
                 2. Clique para adicionar novo vínculo<br>
                 3. Selecione o convênio na lista<br>
                 4. Configure as permissões específicas<br>
                 5. Para dependentes: marque "autorizado a comprar"<br>
                 6. <strong>Salve</strong> o vínculo<br><br>
+                
                 <em>Um cliente pode ter múltiplos convênios vinculados.</em>`
+            },
+            "menu": {
+                question: "Onde fica o cadastro de clientes no menu?",
+                answer: `<strong>Localização no Menu do Softpharma:</strong><br><br>
+                
+                <div class="path-highlight">MENU PRINCIPAL > CADASTROS > CLIENTES</div><br>
+                
+                <strong>Navegação completa:</strong><br>
+                1. <strong>Menu Principal</strong> - Tela inicial do Softpharma<br>
+                2. <strong>Cadastros</strong> - Seção de todos os cadastros do sistema<br>
+                3. <strong>Clientes</strong> - Cadastro específico de clientes<br><br>
+                
+                <strong>Dentro do cadastro de clientes você encontra:</strong><br>
+                • Cadastro de novos clientes<br>
+                • Consulta de clientes existentes<br>
+                • Edição de dados<br>
+                • Gestão de dependentes<br>
+                • Vínculos com convênios<br><br>
+                
+                <em>Use o atalho F2 para consultar clientes rapidamente.</em>`
             },
             "default": {
                 question: "Outras dúvidas",
                 answer: `Não encontrei uma resposta específica para sua pergunta. Tente reformular ou use uma destas opções:<br><br>
+                • "Como acessar o cadastro de clientes?"<br>
                 • "Como cadastrar um novo cliente?"<br>
                 • "Como incluir dependentes?"<br>
                 • "Como editar dados do cliente?"<br>
-                • "Quais dados básicos são obrigatórios?"<br>
-                • "Como funciona o controle por senha?"<br><br>
+                • "Quais dados básicos são obrigatórios?"<br><br>
                 <em>Estou baseado nos manuais oficiais do Softpharma.</em>`
             }
         };
@@ -428,6 +505,7 @@
         // Mensagem de boas-vindas com sugestões
         setTimeout(() => {
             addMessage(`<strong>Posso ajudar com:</strong><br>
+            • <strong>Acesso ao cadastro</strong> (Menu > Cadastros > Clientes)<br>
             • Cadastro de novos clientes<br>
             • Inclusão de dependentes<br>
             • Edição de dados<br>
