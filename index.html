@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistente Softpharma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .success {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        
+        .next-steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Assistente Softpharma</h1>
+        
+        <div class="success">
+            ✅ SITE FUNCIONANDO PERFEITAMENTE!
+        </div>
+        
+        <p>Parabéns! Seu assistente está no ar e pronto para evoluir.</p>
+        
+        <div class="next-steps">
+            <h3>Próximos passos:</h3>
+            <ol>
+                <li>✅ Site hospedado com sucesso</li>
+                <li>➡️ Adicionar sistema de chat</li>
+                <li>➡️ Conectar com IA</li>
+                <li>➡️ Personalizar para sua farmácia</li>
+            </ol>
+        </div>
+        
+        <p><strong>URL do seu site:</strong><br>
+        <span id="current-url" style="color: #667eea; font-weight: bold;"></span></p>
+    </div>
+
+    <script>
+        // Mostra a URL atual
+        document.getElementById('current-url').textContent = window.location.href;
+        
+        console.log('✅ Site do Assistente Softpharma carregado com sucesso!');
+    </script>
+</body>
+</html>
