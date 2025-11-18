@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente Cadastro - Softpharma</title>
+    <title>Assistente Completo Cadastro - Softpharma</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -30,7 +30,7 @@
         
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -55,7 +55,7 @@
         }
         
         .chat-container {
-            height: 500px;
+            height: 600px;
             display: flex;
             flex-direction: column;
         }
@@ -72,7 +72,7 @@
         .message {
             padding: 1rem;
             border-radius: 15px;
-            max-width: 80%;
+            max-width: 85%;
             line-height: 1.4;
             animation: fadeIn 0.3s ease-in;
         }
@@ -101,10 +101,11 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            background: #f8f9fa;
         }
         
         .suggestion {
-            background: #f8f9fa;
+            background: white;
             border: 1px solid #dee2e6;
             padding: 0.5rem 1rem;
             border-radius: 20px;
@@ -185,29 +186,48 @@
             border-radius: 0 4px 4px 0;
             font-weight: 500;
         }
+
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid var(--secondary);
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background: #ffecb3;
+            border-left: 4px solid #ffc107;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💊 Assistente Cadastro - Softpharma</h1>
-            <p>IA especializada no sistema de cadastro de clientes</p>
+            <h1>💊 Assistente Completo Cadastro - Softpharma</h1>
+            <p>IA especializada com conhecimento integral do cadastro de clientes</p>
         </div>
         
         <div class="chat-container">
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
                     Olá! Sou seu assistente especializado em Cadastro de Clientes do Softpharma. 
-                    Posso ajudar com dúvidas sobre cadastro, dependentes, edição e exclusão de clientes.
+                    Agora com conhecimento completo de todos os módulos: Dados Básicos, Dependentes, Convênios, Consulta, Informações Adicionais e Relatórios!
                 </div>
             </div>
             
             <div class="suggested-questions">
                 <div class="suggestion" data-question="Como acessar o cadastro de clientes?">Acessar cadastro</div>
-                <div class="suggestion" data-question="Como cadastrar um novo cliente?">Cadastrar novo cliente</div>
+                <div class="suggestion" data-question="Como cadastrar um novo cliente?">Novo cliente</div>
                 <div class="suggestion" data-question="Como incluir dependentes?">Incluir dependentes</div>
-                <div class="suggestion" data-question="Como editar dados do cliente?">Editar cliente</div>
-                <div class="suggestion" data-question="Quais dados básicos são obrigatórios?">Dados obrigatórios</div>
+                <div class="suggestion" data-question="Como vincular convênios?">Vincular convênios</div>
+                <div class="suggestion" data-question="Como consultar clientes?">Consultar clientes</div>
+                <div class="suggestion" data-question="Como configurar descontos?">Configurar descontos</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -226,130 +246,246 @@
     </div>
 
     <script>
-        // Base de conhecimento expandida baseada nos manuais
+        // Base de conhecimento COMPLETA baseada em todos os manuais
         const knowledgeBase = {
             "acessar": {
                 question: "Como acessar o cadastro de clientes?",
                 answer: `<strong>Caminho para acessar o Cadastro de Clientes:</strong><br><br>
                 <div class="path-highlight">Menu > Cadastros > Clientes</div><br>
                 
-                <strong>Passo a passo detalhado:</strong><br>
-                1. No menu principal do Softpharma, clique em <strong>"Cadastros"</strong><br>
-                2. Na lista de cadastros, selecione <strong>"Clientes"</strong><br>
-                3. O sistema abrirá a tela principal de cadastro de clientes<br><br>
+                <strong>Estrutura completa do cadastro:</strong><br>
+                • <strong>Dados Básicos</strong> - Informações fundamentais do cliente<br>
+                • <strong>Dependentes</strong> - Cadastro de familiares<br>
+                • <strong>Informações Adicionais</strong> - Dados complementares<br>
+                • <strong>Convênios</strong> - Vínculos com planos<br>
+                • <strong>Consulta</strong> - Busca e filtros<br>
+                • <strong>Relatórios</strong> - Fichas e listagens<br><br>
                 
-                <strong>Na tela de cadastro você encontra:</strong><br>
-                • Lista de clientes cadastrados<br>
-                • Botão para <strong>novo cadastro</strong><br>
-                • Opção de <strong>consultar</strong> clientes existentes (F2)<br>
-                • Filtros para busca rápida<br><br>
-                
-                <em>Dica: Use a tecla F2 para consultar clientes rapidamente.</em>`
+                <em>Use F2 para consultar clientes existentes rapidamente.</em>`
             },
+
             "cadastrar": {
                 question: "Como cadastrar um novo cliente?",
-                answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
+                answer: `<strong>Passo a passo COMPLETO para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
                 
-                1. <strong>Acesse o cadastro de clientes</strong> pelo caminho acima<br>
-                2. Clique no botão <strong>"Novo"</strong> ou similar<br>
-                3. <strong>Preencha os dados básicos:</strong><br>
-                   - Código (gerado automaticamente)<br>
-                   - Nome completo<br>
-                   - CPF/CNPJ (quando exigido pelo convênio)<br>
-                4. <strong>Guia Dados Básicos:</strong><br>
-                   - Endereço completo (CEP, rua, número, complemento)<br>
-                   - Contatos (telefone, celular, e-mail)<br>
-                   - Documentos oficiais<br>
-                   - Data de nascimento e naturalidade<br>
-                5. <strong>Termo LGPD:</strong> Informe se o consentimento foi assinado<br>
-                6. <strong>Salve o cadastro</strong><br><br>
+                <strong>1. DADOS BÁSICOS (Obrigatórios):</strong><br>
+                • Código (automático): (Filial × 10.000) + Sequência<br>
+                • Nome completo<br>
+                • Endereço completo (CEP autocompleta)<br>
+                • Contatos (telefone/celular)<br>
+                • E-mails (até 5)<br>
+                • Documentos oficiais<br>
+                • Data nascimento e naturalidade<br>
+                • Termo LGPD assinado<br><br>
                 
-                <em>O código do cliente é gerado automaticamente: (Filial × 10.000) + Sequência</em>`
+                <strong>2. VINCULAR CONVÊNIO (Obrigatório):</strong><br>
+                • Cliente deve ter pelo menos 1 convênio<br>
+                • Preencher matrícula (ou gerar automaticamente)<br>
+                • Configurar situação do vínculo<br>
+                • Definir limite de crédito se necessário<br><br>
+                
+                <div class="info-box"><strong>Dica:</strong> CPF/CNPJ só é obrigatório se exigido pelo convênio.</div>`
             },
+
             "dependentes": {
                 question: "Como incluir dependentes?",
-                answer: `<strong>Incluindo dependentes:</strong><br><br>
+                answer: `<strong>Cadastro COMPLETO de dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
                 
-                1. Acesse o cadastro do cliente desejado<br>
-                2. Navegue até a guia <strong>"Dependentes"</strong><br>
-                3. Clique para adicionar novo dependente<br>
-                4. Preencha os dados:<br>
-                   - Nome completo<br>
-                   - Grau de parentesco<br>
-                   - Telefone de contato<br>
-                   - Data de nascimento<br>
-                   - Situação (ativo/inativo)<br>
-                5. Para controle por senha:<br>
-                   - <strong>Gerar Senha Padrão</strong> (até 6 dígitos)<br>
-                   - <strong>Cadastrar biometria</strong> (até 5 digitais)<br>
-                6. <strong>Salve</strong> o dependente<br><br>
+                <strong>Dados necessários:</strong><br>
+                • Nome completo<br>
+                • Grau de parentesco<br>
+                • Telefone de contato<br>
+                • Data de nascimento<br>
+                • Situação (ativo/inativo)<br><br>
                 
-                <em>Ao inativar um dependente, o sistema remove automaticamente os vínculos com convênios.</em>`
+                <strong>Controle por senha/biometria:</strong><br>
+                • <strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos<br>
+                • <strong>Cadastrar biometria</strong> - Até 5 digitais<br>
+                • Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)<br><br>
+                
+                <div class="warning-box"><strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.</div>`
             },
+
+            "convênios": {
+                question: "Como vincular convênios?",
+                answer: `<strong>Vínculo COMPLETO com convênios:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
+                
+                <strong>Abas de configuração:</strong><br>
+                • <strong>Geral</strong> - Matrícula, situação, limite crédito<br>
+                • <strong>Descontos e Bloqueios</strong> - Regras específicas<br>
+                • <strong>Observação e Mensagem</strong> - Alertas na venda<br>
+                • <strong>Dependentes</strong> - Autorizar compras<br>
+                • <strong>Informações Adicionais</strong> - Trabalho e bancos<br>
+                • <strong>Limites Cheque</strong> - Configurações específicas<br><br>
+                
+                <strong>Configurações principais:</strong><br>
+                • Matrícula automática: Código Cliente + Código Convênio<br>
+                • Limite de crédito por convênio<br>
+                • Dias prazo ou data vencimento<br>
+                • Carência (Particular, VIP I, VIP II)<br>
+                • Bloquear fidelidade se necessário<br><br>
+                
+                <div class="info-box"><strong>Lembrete:</strong> Cliente precisa de pelo menos 1 convênio vinculado.</div>`
+            },
+
+            "consultar": {
+                question: "Como consultar clientes?",
+                answer: `<strong>Sistema COMPLETO de consulta:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > Consulta</div><br>
+                
+                <strong>Tipos de busca:</strong><br>
+                • <strong>Por Nome</strong> - Nome completo ou iniciais<br>
+                • <strong>Por Convênio</strong> - Filtro por convênio específico<br>
+                • <strong>Por Cartão</strong> - Número do cartão fidelidade<br>
+                • <strong>Inativos</strong> - Apenas vínculos inativos<br>
+                • <strong>Por CPF</strong> - Busca direta por CPF<br>
+                • <strong>Por Telefone</strong> - Busca por contato<br><br>
+                
+                <strong>Funcionalidades avançadas:</strong><br>
+                • <strong>Agrupar Convênios</strong> - Mostra cliente uma vez<br>
+                • <strong>%Silva</strong> - Busca por parte do nome<br>
+                • <strong>Ícone vermelho</strong> - Vínculo bloqueado<br>
+                • <strong>Ícone preto</strong> - Vínculo suspenso<br><br>
+                
+                <div class="info-box"><strong>Dica:</strong> Use F2 para consulta rápida em qualquer campo.</div>`
+            },
+
+            "descontos": {
+                question: "Como configurar descontos?",
+                answer: `<strong>Sistema COMPLETO de descontos:</strong><br><br>
+                
+                <strong>Hierarquia de descontos (ordem de aplicação):</strong><br>
+                1º <strong>Desconto por Produto</strong><br>
+                2º <strong>Desconto por Laboratório</strong><br>
+                3º <strong>Desconto por Tipo de Produto</strong><br>
+                4º <strong>Desconto por Grupo Principal</strong><br><br>
+                
+                <strong>Tipos de desconto disponíveis:</strong><br>
+                • <strong>Desconto Normal</strong> - % por modalidade pagamento<br>
+                • <strong>Desconto por Faixa</strong> - Por intervalo de valores<br>
+                • <strong>Desconto por Condição</strong> - Por condição pagamento<br><br>
+                
+                <strong>Localização:</strong><br>
+                <div class="path-highlight">Cadastro Clientes > Convênios > Aba Descontos e Bloqueios</div><br>
+                <strong>OU</strong><br>
+                <div class="path-highlight">Programa Liberar/Retirar Descontos</div><br>
+                
+                <div class="warning-box"><strong>Importante:</strong> Descontos do cliente são validados ANTES dos descontos do convênio.</div>`
+            },
+
+            "informações adicionais": {
+                question: "Como preencher informações adicionais?",
+                answer: `<strong>Guia Informações Adicionais - Dados COMPLETOS:</strong><br><br>
+                
+                <strong>Dados Pessoais:</strong><br>
+                • Estado civil<br>
+                • Nome e nascimento do cônjuge<br>
+                • Nome dos pais<br>
+                • Renda familiar<br>
+                • Tempo de residência<br>
+                • Tipo de moradia (própria/alugada)<br><br>
+                
+                <strong>Controles Especiais:</strong><br>
+                • <strong>Não ligar em Pós Vendas</strong> - Opt-out<br>
+                • <strong>SPC</strong> - Alerta na venda<br>
+                • <strong>Pontuação fidelidade</strong> - Visualização<br>
+                • <strong>Benefício aposentado</strong> - Número cartão<br>
+                • <strong>Controle vendedor</strong> - Código 4 dígitos<br><br>
+                
+                <strong>Senha/Biometria:</strong><br>
+                • Senha única pessoal<br>
+                • Gerar senha padrão (6 dígitos)<br>
+                • Cadastrar até 5 biometrias<br><br>
+                
+                <strong>Dados Fiscais:</strong><br>
+                • Tipo de contribuinte<br>
+                • Inscrição Estadual (IE)<br>
+                • SUFRAMA (9 caracteres)<br>
+                • Conta contábil<br><br>
+                
+                <strong>Referências:</strong><br>
+                • Até 4 referências pessoais</div>`
+            },
+
+            "relatórios": {
+                question: "Quais relatórios estão disponíveis?",
+                answer: `<strong>Relatórios COMPLETOS do cadastro:</strong><br><br>
+                
+                <strong>1. FICHA DO CLIENTE (F5 ou ALT+1):</strong><br>
+                • Todas as informações do cliente<br>
+                • Opção imprimir informações fidelidade<br>
+                • Lista todos os convênios vinculados<br><br>
+                
+                <strong>2. MENSAGENS DOS CLIENTES (F6):</strong><br>
+                • Listagem de clientes com mensagens<br>
+                • Código, nome e mensagem cadastrada<br>
+                • Filtro por convênio<br><br>
+                
+                <strong>3. E-MAIL DOS CLIENTES (F8):</strong><br>
+                • Lista de e-mails para mala direta<br>
+                • Filtro por convênio e situação<br>
+                • Gera arquivo texto com e-mails<br><br>
+                
+                <div class="info-box"><strong>Uso:</strong> Ideal para promoções, comunicados e arquivo físico.</div>`
+            },
+
             "editar": {
                 question: "Como editar dados do cliente?",
-                answer: `<strong>Editando dados do cliente:</strong><br><br>
+                answer: `<strong>Edição COMPLETA de cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Selecionar Cliente] > Editar</div><br>
                 
-                1. <strong>Acesse o cadastro de clientes</strong><br>
-                2. <strong>Localize o cliente</strong> usando F2 - Consultar<br>
-                3. Selecione o cliente e clique em <strong>"Editar"</strong><br>
-                4. Navegue pelas guias:<br>
-                   - <strong>Dados Básicos:</strong> Endereço, contatos, documentos<br>
-                   - <strong>Dependentes:</strong> Adicionar/editar dependentes<br>
-                   - <strong>Convênios:</strong> Vincular/desvincular convênios<br>
-                5. Faça as alterações necessárias<br>
-                6. <strong>Salve</strong> as modificações<br><br>
+                <strong>Procedimento:</strong><br>
+                1. Localizar cliente (F2 - Consultar)<br>
+                2. Selecionar e clicar "Editar"<br>
+                3. Navegar pelas guias:<br>
+                   - Dados Básicos<br>
+                   - Dependentes<br>
+                   - Informações Adicionais<br>
+                   - Convênios<br>
+                4. Fazer alterações<br>
+                5. Salvar modificações<br><br>
                 
-                <em>Alterações em dados básicos afetam relatórios fiscais e correspondências.</em>`
+                <div class="warning-box"><strong>Atenção:</strong> Alterações em dados básicos afetam relatórios fiscais e correspondências.</div>`
             },
+
             "excluir": {
                 question: "Como excluir um cliente?",
-                answer: `<strong>Observação importante:</strong><br><br>
+                answer: `<strong>Prática RECOMENDADA - Inativar vs Excluir:</strong><br><br>
                 
-                No Softpharma, a prática recomendada é <strong>inativar</strong> clientes em vez de excluí-los, para manter o histórico.<br><br>
+                <strong>INATIVAR (Recomendado):</strong><br>
+                1. Acessar cadastro do cliente<br>
+                2. Editar cadastro<br>
+                3. Alterar situação para "Inativo"<br>
+                4. Salvar alterações<br><br>
                 
-                <strong>Para inativar:</strong><br>
-                1. Acesse o cadastro do cliente<br>
-                2. Edite o cadastro<br>
-                3. Altere a situação para "Inativo"<br>
-                4. Salve as alterações<br><br>
+                <strong>Vantagens da inativação:</strong><br>
+                • Mantém histórico completo<br>
+                • Preserva vendas anteriores<br>
+                • Permite reativação futura<br>
+                • Atende requirements fiscais<br><br>
                 
-                <strong>Se necessário excluir:</strong><br>
-                - Verifique se não existem vendas ou movimentações vinculadas<br>
-                - Consulte o manual específico ou suporte técnico<br>
-                - Em alguns casos, pode ser necessário via banco de dados (com supervisão)`
+                <strong>EXCLUIR (Apenas casos específicos):</strong><br>
+                • Verificar ausência de vendas vinculadas<br>
+                • Consultar suporte técnico<br>
+                • Pode exigir acesso ao banco de dados<br><br>
+                
+                <div class="warning-box"><strong>Importante:</strong> Cliente só é considerado inativo quando TODOS os vínculos com convênios estiverem inativos.</div>`
             },
-            "dados básicos": {
-                question: "Quais dados básicos são obrigatórios?",
-                answer: `<strong>Dados Básicos Obrigatórios:</strong><br><br>
-                
-                • <strong>Identificação:</strong><br>
-                  - Nome completo<br>
-                  - Código (automático)<br>
-                • <strong>Endereço:</strong><br>
-                  - CEP (completa automaticamente)<br>
-                  - Logradouro e número<br>
-                  - Cidade, UF e Bairro<br>
-                • <strong>Contato:</strong> Pelo menos um telefone<br>
-                • <strong>CPF/CNPJ:</strong> Obrigatório apenas se exigido pelo convênio<br><br>
-                
-                <strong>Dados Adicionais Importantes:</strong><br>
-                • E-mail (para NF-e/NFC-e)<br>
-                • Data de nascimento<br>
-                • Documentos oficiais<br>
-                • Termo LGPD assinado`
-            },
+
             "código": {
                 question: "Como funciona o código do cliente?",
-                answer: `<strong>Sistema de Código do Cliente:</strong><br><br>
+                answer: `<strong>Sistema de Código Automático:</strong><br><br>
                 
-                O código é gerado automaticamente seguindo esta lógica:<br><br>
+                <strong>Lógica de geração:</strong><br>
+                • <strong>Cálculo:</strong> (Filial × 10.000) + Sequência<br><br>
                 
                 <strong>Exemplo Prático:</strong><br>
                 • Filial: 2<br>
@@ -357,67 +493,46 @@
                 • Cálculo: (2 × 10.000) + 100<br>
                 • <strong>Código Gerado: 20000100</strong><br><br>
                 
-                <em>O primeiro dígito identifica a filial e os demais a sequência numérica única.</em>`
+                <strong>Características:</strong><br>
+                • Gerado automaticamente pelo sistema<br>
+                • Primeiro dígito identifica a filial<br>
+                • Sequência única por filial<br>
+                • Não editável após criação<br><br>
+                
+                <div class="info-box"><strong>Observação:</strong> O código é único e permanente para cada cliente.</div>`
             },
-            "senha": {
-                question: "Como funciona o controle por senha?",
-                answer: `<strong>Controle por Senha/Biometria:</strong><br><br>
-                
-                <strong>Para clientes/dependentes:</strong><br>
-                1. <strong>Gerar Senha Padrão:</strong> Sistema cria senha com 6 dígitos<br>
-                2. <strong>Alterar Senha:</strong> Cliente altera na primeira compra<br>
-                3. <strong>Biometria:</strong> Cadastro de até 5 digitais<br><br>
-                
-                <strong>Visualizar Senha:</strong><br>
-                • Acesse a <strong>Ficha de Cliente</strong> (F8 ou ALT+1)<br>
-                • Senha padrão aparece temporariamente<br><br>
-                
-                <em>A senha é necessária para compras com controle de acesso.</em>`
-            },
-            "convênio": {
-                question: "Como vincular convênios?",
-                answer: `<strong>Vinculando Convênios:</strong><br><br>
-                
-                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
-                
-                1. No cadastro do cliente, acesse a guia <strong>"Convênios"</strong><br>
-                2. Clique para adicionar novo vínculo<br>
-                3. Selecione o convênio na lista<br>
-                4. Configure as permissões específicas<br>
-                5. Para dependentes: marque "autorizado a comprar"<br>
-                6. <strong>Salve</strong> o vínculo<br><br>
-                
-                <em>Um cliente pode ter múltiplos convênios vinculados.</em>`
-            },
+
             "menu": {
                 question: "Onde fica o cadastro de clientes no menu?",
-                answer: `<strong>Localização no Menu do Softpharma:</strong><br><br>
+                answer: `<strong>Localização COMPLETA no Menu:</strong><br><br>
                 
                 <div class="path-highlight">MENU PRINCIPAL > CADASTROS > CLIENTES</div><br>
                 
-                <strong>Navegação completa:</strong><br>
-                1. <strong>Menu Principal</strong> - Tela inicial do Softpharma<br>
-                2. <strong>Cadastros</strong> - Seção de todos os cadastros do sistema<br>
-                3. <strong>Clientes</strong> - Cadastro específico de clientes<br><br>
+                <strong>Módulos disponíveis:</strong><br>
+                • <strong>Cadastro Completo</strong> - Dados, dependentes, convênios<br>
+                • <strong>Consulta Avançada</strong> - Múltiplos filtros<br>
+                • <strong>Relatórios</strong> - Fichas, mensagens, e-mails<br>
+                • <strong>Configurações</strong> - Por usuário<br><br>
                 
-                <strong>Dentro do cadastro de clientes você encontra:</strong><br>
-                • Cadastro de novos clientes<br>
-                • Consulta de clientes existentes<br>
-                • Edição de dados<br>
-                • Gestão de dependentes<br>
-                • Vínculos com convênios<br><br>
+                <strong>Atalhos disponíveis:</strong><br>
+                • F2 - Consultar clientes<br>
+                • F5 - Ficha do cliente<br>
+                • F6 - Mensagens dos clientes<br>
+                • F8 - E-mail dos clientes<br><br>
                 
-                <em>Use o atalho F2 para consultar clientes rapidamente.</em>`
+                <em>Use os atalhos para agilizar o trabalho diário.</em>`
             },
+
             "default": {
                 question: "Outras dúvidas",
-                answer: `Não encontrei uma resposta específica para sua pergunta. Tente reformular ou use uma destas opções:<br><br>
-                • "Como acessar o cadastro de clientes?"<br>
+                answer: `Não encontrei uma resposta específica. Tente estas opções:<br><br>
                 • "Como cadastrar um novo cliente?"<br>
                 • "Como incluir dependentes?"<br>
-                • "Como editar dados do cliente?"<br>
-                • "Quais dados básicos são obrigatórios?"<br><br>
-                <em>Estou baseado nos manuais oficiais do Softpharma.</em>`
+                • "Como vincular convênios?"<br>
+                • "Como consultar clientes?"<br>
+                • "Como configurar descontos?"<br>
+                • "Quais relatórios disponíveis?"<br><br>
+                <em>Base completo nos manuais oficiais do Softpharma - Cadastro de Clientes.</em>`
             }
         };
 
@@ -482,7 +597,7 @@
                 hideTyping();
                 const answer = processQuestion(question);
                 addMessage(answer);
-            }, 1500);
+            }, 1000);
         }
 
         // Event listeners
@@ -504,15 +619,16 @@
 
         // Mensagem de boas-vindas com sugestões
         setTimeout(() => {
-            addMessage(`<strong>Posso ajudar com:</strong><br>
-            • <strong>Acesso ao cadastro</strong> (Menu > Cadastros > Clientes)<br>
-            • Cadastro de novos clientes<br>
-            • Inclusão de dependentes<br>
-            • Edição de dados<br>
-            • Dados obrigatórios<br>
-            • Controle por senha<br>
-            • Vinculação de convênios<br><br>
-            <em>Clique nas sugestões abaixo ou digite sua pergunta!</em>`);
+            addMessage(`<strong>Agora com conhecimento COMPLETO do cadastro de clientes!</strong><br><br>
+            <strong>Módulos que domino:</strong><br>
+            • ✅ <strong>Dados Básicos</strong> - Informações fundamentais<br>
+            • ✅ <strong>Dependentes</strong> - Cadastro familiar completo<br>
+            • ✅ <strong>Informações Adicionais</strong> - Dados complementares<br>
+            • ✅ <strong>Convênios</strong> - Vínculos e configurações<br>
+            • ✅ <strong>Consulta</strong> - Sistema de busca avançada<br>
+            • ✅ <strong>Relatórios</strong> - Fichas e listagens<br>
+            • ✅ <strong>Descontos</strong> - Hierarquia e configurações<br><br>
+            <em>Clique nas sugestões ou digite sua pergunta!</em>`);
         }, 1000);
     </script>
 </body>
