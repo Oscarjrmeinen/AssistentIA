@@ -27,12 +27,11 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 900px;
-            height: 80vh;
+            max-width: 1000px;
+            height: 90vh;
             display: flex;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 250px;
             background: #2c3e50;
@@ -65,11 +64,26 @@
             background: #3498db;
         }
 
-        /* Chat Area */
+        .admin-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: auto;
+            font-weight: bold;
+        }
+
+        .admin-btn:hover {
+            background: #c0392b;
+        }
+
         .chat-area {
             flex: 1;
             display: flex;
             flex-direction: column;
+            border-left: 1px solid #eee;
         }
 
         .chat-header {
@@ -87,7 +101,7 @@
         }
 
         .message {
-            max-width: 70%;
+            max-width: 80%;
             padding: 12px 16px;
             margin: 10px 0;
             border-radius: 18px;
@@ -107,6 +121,15 @@
             align-self: flex-end;
             margin-left: auto;
             border-bottom-right-radius: 5px;
+        }
+
+        .message.system {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            align-self: center;
+            max-width: 90%;
+            font-size: 14px;
+            text-align: center;
         }
 
         .chat-input {
@@ -183,6 +206,76 @@
         .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
         .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
+        .knowledge-source {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dashed #ddd;
+        }
+
+        /* Modal de Administração */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .knowledge-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
@@ -200,19 +293,21 @@
             <div class="menu-item" data-module="clientes">👥 Cadastro de Clientes</div>
             <div class="menu-item" data-module="produtos">💊 Cadastro de Produtos</div>
             <div class="menu-item" data-module="relatorios">📊 Relatórios</div>
+            
+            <button class="admin-btn" id="adminBtn">⚙️ Administrar Conhecimento</button>
         </div>
 
         <!-- Chat Area -->
         <div class="chat-area">
             <div class="chat-header">
                 <h3>Assistente IA - Softpharma</h3>
-                <p>Como posso ajudar você hoje?</p>
+                <p>Baseado no manual oficial do sistema</p>
             </div>
 
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
-                    👋 Olá! Sou seu assistente do Softpharma. 
-                    Estou aqui para tirar dúvidas sobre o sistema.
+                    👋 Olá! Sou seu assistente especializado no Softpharma. 
+                    Posso tirar dúvidas baseadas no manual oficial do sistema.
                 </div>
                 
                 <div class="suggested-questions">
@@ -222,17 +317,19 @@
                     <div class="suggested-question" data-question="Como cadastrar um novo produto?">
                         💊 Como cadastrar um novo produto?
                     </div>
-                    <div class="suggested-question" data-question="Onde vejo o estoque de medicamentos?">
-                        📦 Onde vejo o estoque de medicamentos?
+                    <div class="suggested-question" data-question="Como consultar estoque?">
+                        📦 Como consultar estoque?
                     </div>
                 </div>
             </div>
 
             <div class="typing-indicator" id="typingIndicator">
-                <div class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="message bot">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
 
@@ -248,23 +345,242 @@
         </div>
     </div>
 
+    <!-- Modal de Administração -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <h3>📚 Base de Conhecimento - Softpharma</h3>
+            
+            <div class="knowledge-item">
+                <strong>Como adicionar conhecimento:</strong>
+                <p>Cole trechos do manual do Softpharma abaixo. O assistente usará estas informações para responder dúvidas.</p>
+            </div>
+
+            <textarea id="knowledgeText" placeholder="Cole aqui o conteúdo do manual do Softpharma...
+
+Exemplo:
+MÓDULO VENDAS
+- Para aplicar desconto: Vá em Vendas → Nova Venda → Clique em 'Desconto' → Informe o percentual
+- Para consultar histórico: Relatórios → Vendas → Histórico por Período
+
+MÓDULO ESTOQUE
+- Cadastrar produto: Estoque → Produtos → Novo → Preencha dados obrigatórios
+- Consultar estoque: Estoque → Consulta → Filtre por produto ou categoria"></textarea>
+            
+            <button class="btn" id="saveKnowledge">💾 Salvar Conhecimento</button>
+            <button class="btn btn-danger" id="clearKnowledge">🗑️ Limpar Tudo</button>
+            <button class="btn" id="closeModal">✕ Fechar</button>
+
+            <div id="currentKnowledge" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none;">
+                <h4>Conhecimento Atual Salvo:</h4>
+                <div id="knowledgePreview"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Elementos do DOM
+        // ========== BASE DE CONHECENDO DO SOFTPHARMA ==========
+        let knowledgeBase = {
+            vendas: `
+MÓDULO DE VENDAS - SOFTPHARMA
+1. INICIAR VENDA:
+   - Clique em "Nova Venda" no módulo de Vendas
+   - Selecione o cliente ou digite "Consumidor Final"
+   - Escaneie o código de barras ou busque o produto
+
+2. APLICAR DESCONTO:
+   - Durante a venda, clique no botão "Desconto"
+   - Informe percentual ou valor fixo
+   - Descontos acima de 20% exigem senha de supervisor
+
+3. FINALIZAR VENDA:
+   - Clique em "Finalizar Venda"
+   - Selecione forma de pagamento
+   - Sistema emite NFC-e automaticamente
+
+4. CONSULTAR HISTÓRICO:
+   - Vá em "Relatórios" → "Vendas" → "Histórico"
+   - Filtre por data, vendedor ou cliente
+            `,
+            estoque: `
+MÓDULO DE ESTOQUE - SOFTPHARMA
+1. CADASTRAR PRODUTO:
+   - Estoque → Produtos → Novo Produto
+   - Preencha: Código, Descrição, Princípio Ativo
+   - Informe: Preço de Venda, Estoque Mínimo
+
+2. CONTROLE DE ESTOQUE:
+   - Estoque → Movimentação → Entrada/Saída
+   - Para entrada: informe lote, validade, quantidade
+   - Sistema controla automaticamente saldo
+
+3. INVENTÁRIO:
+   - Estoque → Inventário → Novo
+   - Conte os produtos físicos
+   - Sistema reconcilia diferenças
+
+4. ALERTAS:
+   - Produtos com estoque baixo aparecem em vermelho
+   - Validades próximas geram alertas amarelos
+            `,
+            financeiro: `
+MÓDULO FINANCEIRO - SOFTPHARMA
+1. CONTAS A RECEBER:
+   - Financeiro → Contas a Receber → Nova
+   - Informe: Cliente, Valor, Vencimento
+   - Sistema gera parcelas automaticamente
+
+2. FLUXO DE CAIXA:
+   - Relatórios → Financeiro → Fluxo de Caixa
+   - Mostra entradas e saídas diárias
+   - Filtre por período específico
+
+3. CONCILIAÇÃO BANCÁRIA:
+   - Financeiro → Conciliação → Nova
+   - Importe extrato ou digite manualmente
+   - Marque lançamentos conciliados
+            `,
+            clientes: `
+CADASTRO DE CLIENTES - SOFTPHARMA
+1. NOVO CLIENTE:
+   - Cadastro → Clientes → Novo
+   - Informe: Nome, CPF/CNPJ, Telefone
+   - Endereço para emissão de NFC-e
+
+2. HISTÓRICO DO CLIENTE:
+   - Clique no cliente → Aba "Histórico"
+   - Veja compras anteriores, crédito, etc.
+
+3. FIDELIDADE:
+   - Sistema calcula pontos automaticamente
+   - Configure regras em "Configurações"
+            `,
+            produtos: `
+CADASTRO DE PRODUTOS - SOFTPHARMA
+1. MEDICAMENTOS:
+   - Informe: Princípio Ativo, Concentração
+   - Tarja: Vermelha, Preta, Livre
+   - Número de registro ANVISA
+
+2. PREÇOS:
+   - Preço de Custo, Preço de Venda
+   - Margem de lucro calculada automaticamente
+   - Promoções com datas específicas
+
+3. CONTROLE ESPECIAL:
+   - Medicamentos controlados exigem receita
+   - Sistema bloqueia venda sem receita válida
+            `,
+            relatorios: `
+RELATÓRIOS - SOFTPHARMA
+1. VENDAS:
+   - Relatório de Vendas por Período
+   - Vendas por Vendedor
+   - Produtos Mais Vendidos
+
+2. ESTOQUE:
+   - Posição de Estoque
+   - Produtos em Falta
+   - Validades Próximas
+
+3. FINANCEIRO:
+   - Fluxo de Caixa
+   - Contas a Pagar/Receber
+   - Resultado Mensal
+            `
+        };
+
+        // ========== ELEMENTOS DO DOM ==========
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
         const menuItems = document.querySelectorAll('.menu-item');
-        const suggestedQuestions = document.querySelectorAll('.suggested-question');
+        const adminBtn = document.getElementById('adminBtn');
+        const adminModal = document.getElementById('adminModal');
+        const knowledgeText = document.getElementById('knowledgeText');
+        const saveKnowledge = document.getElementById('saveKnowledge');
+        const clearKnowledge = document.getElementById('clearKnowledge');
+        const closeModal = document.getElementById('closeModal');
+        const currentKnowledge = document.getElementById('currentKnowledge');
+        const knowledgePreview = document.getElementById('knowledgePreview');
 
-        // Módulo atual
         let currentModule = 'vendas';
 
+        // ========== FUNÇÕES PRINCIPAIS ==========
+
+        // Função para buscar na base de conhecimento
+        function searchKnowledge(question, module) {
+            const moduleKnowledge = knowledgeBase[module] || '';
+            const allKnowledge = Object.values(knowledgeBase).join('\n');
+            
+            // Busca por palavras-chave na pergunta
+            const keywords = question.toLowerCase().split(' ');
+            let foundMatches = [];
+            
+            // Procura no módulo atual primeiro
+            keywords.forEach(keyword => {
+                if (keyword.length > 3 && moduleKnowledge.toLowerCase().includes(keyword)) {
+                    foundMatches.push(`Encontrado em ${module}: "${keyword}"`);
+                }
+            });
+            
+            // Se não encontrou no módulo atual, procura em toda base
+            if (foundMatches.length === 0) {
+                keywords.forEach(keyword => {
+                    if (keyword.length > 3) {
+                        for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
+                            if (knowledge.toLowerCase().includes(keyword)) {
+                                foundMatches.push(`Encontrado em ${mod}: "${keyword}"`);
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+            
+            return {
+                hasMatch: foundMatches.length > 0,
+                matches: foundMatches,
+                moduleKnowledge: moduleKnowledge,
+                allKnowledge: allKnowledge
+            };
+        }
+
+        // Função para gerar resposta baseada no conhecimento
+        function generateResponse(question, module) {
+            const searchResult = searchKnowledge(question, module);
+            
+            if (searchResult.hasMatch) {
+                return `Baseado no manual do Softpharma:
+
+${searchResult.moduleKnowledge}
+
+Se precisar de mais detalhes, consulte o capítulo específico no manual ou entre em contato com o suporte.`;
+            } else {
+                return `Não encontrei informações específicas sobre "${question}" na base de conhecimento do Softpharma.
+
+Sugiro:
+1. Consultar o manual do módulo ${module}
+2. Entrar em contato com o suporte técnico
+3. Verificar se a funcionalidade está disponível na sua versão
+
+Posso ajudar com outras dúvidas sobre o sistema!`;
+            }
+        }
+
         // Função para adicionar mensagem ao chat
-        function addMessage(text, sender) {
+        function addMessage(text, sender, source = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
             messageDiv.textContent = text;
+            
+            if (source) {
+                const sourceDiv = document.createElement('div');
+                sourceDiv.className = 'knowledge-source';
+                sourceDiv.textContent = `Fonte: ${source}`;
+                messageDiv.appendChild(sourceDiv);
+            }
+            
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -273,40 +589,6 @@
         function showTyping(show) {
             typingIndicator.style.display = show ? 'block' : 'none';
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Respostas baseadas no manual do Softpharma
-        function getAIResponse(question, module) {
-            const responses = {
-                vendas: {
-                    "Como aplicar desconto em uma venda?": "No módulo de vendas, localize o campo 'Desconto (%)'. Digite o percentual desejado. Para descontos acima de 20%, o sistema pode solicitar senha de supervisor.",
-                    "Como finalizar uma venda?": "Após adicionar todos os produtos, clique em 'Finalizar Venda'. O sistema gerará NFC-e automaticamente se configurado.",
-                    "Como consultar histórico de vendas?": "Acesse Relatórios > Vendas > Histórico. Você pode filtrar por data, vendedor ou cliente."
-                },
-                estoque: {
-                    "Como cadastrar um novo produto?": "Vá em Cadastro > Produtos > Novo. Preencha código, nome, princípio ativo, tarja e preço. Medicamentos exigem informações específicas da ANVISA.",
-                    "Onde vejo o estoque de medicamentos?": "No módulo Estoque > Consulta, você vê quantidade atual, estoque mínimo e validade dos produtos.",
-                    "Como atualizar estoque?": "Em Estoque > Movimentação > Entrada, informe produto, lote, validade e quantidade."
-                },
-                financeiro: {
-                    "Como registrar contas a receber?": "Financeiro > Contas a Receber > Nova. Informe cliente, valor, vencimento e forma de pagamento.",
-                    "Onde vejo o fluxo de caixa?": "Relatórios > Financeiro > Fluxo de Caixa mostra entradas e saídas por período."
-                }
-            };
-
-            // Busca resposta específica
-            if (responses[module] && responses[module][question]) {
-                return responses[module][question];
-            }
-
-            // Resposta genérica
-            const genericResponses = [
-                "Entendi sua dúvida sobre " + module + ". No manual do Softpharma, esta funcionalidade está detalhada no capítulo específico deste módulo.",
-                "Para " + question.toLowerCase() + ", consulte a seção do módulo " + module + " no manual do sistema.",
-                "Esta é uma ótima pergunta sobre " + module + ". Recomendo verificar o tutorial específico no menu Ajuda do Softpharma."
-            ];
-
-            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
         }
 
         // Enviar mensagem
@@ -321,14 +603,11 @@
             // Mostra typing indicator
             showTyping(true);
 
-            // Simula resposta da IA
+            // Simula processamento
             setTimeout(() => {
                 showTyping(false);
-                const response = getAIResponse(message, currentModule);
-                addMessage(response, 'bot');
-
-                // Atualiza perguntas sugeridas
-                updateSuggestedQuestions();
+                const response = generateResponse(message, currentModule);
+                addMessage(response, 'bot', `Base de Conhecimento Softpharma - Módulo ${currentModule}`);
             }, 1500);
         }
 
@@ -338,52 +617,90 @@
                 vendas: [
                     "Como aplicar desconto em uma venda?",
                     "Como finalizar uma venda?",
-                    "Como consultar histórico de vendas?"
+                    "Como consultar histórico de vendas?",
+                    "Como emitir NFC-e?"
                 ],
                 estoque: [
                     "Como cadastrar um novo produto?",
                     "Onde vejo o estoque de medicamentos?",
-                    "Como atualizar estoque?"
+                    "Como atualizar estoque?",
+                    "Como fazer inventário?"
                 ],
                 financeiro: [
                     "Como registrar contas a receber?",
                     "Onde vejo o fluxo de caixa?",
-                    "Como emitir relatório financeiro?"
+                    "Como emitir relatório financeiro?",
+                    "Como conciliar extrato?"
                 ],
                 clientes: [
                     "Como cadastrar novo cliente?",
                     "Como editar dados do cliente?",
-                    "Onde vejo histórico do cliente?"
+                    "Onde vejo histórico do cliente?",
+                    "Como funciona fidelidade?"
                 ],
                 produtos: [
                     "Como cadastrar novo medicamento?",
                     "Como definir preço de venda?",
-                    "Onde cadastro informações técnicas?"
+                    "Onde cadastro informações técnicas?",
+                    "Como controlar medicamentos controlados?"
                 ],
                 relatorios: [
                     "Como gerar relatório de vendas?",
                     "Quais relatórios são mais usados?",
-                    "Como exportar relatórios para Excel?"
+                    "Como exportar relatórios para Excel?",
+                    "Como ver produtos mais vendidos?"
                 ]
             };
 
             const suggestedContainer = document.querySelector('.suggested-questions');
             suggestedContainer.innerHTML = '';
 
-            questions[currentModule].forEach(question => {
-                const questionElement = document.createElement('div');
-                questionElement.className = 'suggested-question';
-                questionElement.textContent = question;
-                questionElement.setAttribute('data-question', question);
-                questionElement.addEventListener('click', function() {
-                    userInput.value = this.getAttribute('data-question');
-                    sendMessage();
+            if (questions[currentModule]) {
+                questions[currentModule].forEach(question => {
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'suggested-question';
+                    questionElement.textContent = question;
+                    questionElement.setAttribute('data-question', question);
+                    questionElement.addEventListener('click', function() {
+                        userInput.value = this.getAttribute('data-question');
+                        sendMessage();
+                    });
+                    suggestedContainer.appendChild(questionElement);
                 });
-                suggestedContainer.appendChild(questionElement);
-            });
+            }
         }
 
-        // Event Listeners
+        // ========== ADMINISTRAÇÃO DA BASE DE CONHECIMENTO ==========
+
+        // Carregar conhecimento salvo no localStorage
+        function loadSavedKnowledge() {
+            const saved = localStorage.getItem('softpharma_knowledge');
+            if (saved) {
+                knowledgeBase = JSON.parse(saved);
+                updateKnowledgePreview();
+            }
+        }
+
+        // Salvar conhecimento no localStorage
+        function saveKnowledgeBase() {
+            localStorage.setItem('softpharma_knowledge', JSON.stringify(knowledgeBase));
+            updateKnowledgePreview();
+        }
+
+        // Atualizar preview do conhecimento
+        function updateKnowledgePreview() {
+            let preview = '';
+            for (const [module, content] of Object.entries(knowledgeBase)) {
+                const lines = content.split('\n').slice(0, 3); // Mostra apenas 3 primeiras linhas
+                preview += `<strong>${module.toUpperCase()}:</strong> ${lines.join(' ').substring(0, 100)}...<br>`;
+            }
+            knowledgePreview.innerHTML = preview;
+            currentKnowledge.style.display = 'block';
+        }
+
+        // ========== EVENT LISTENERS ==========
+
+        // Chat
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
@@ -401,7 +718,81 @@
             });
         });
 
-        // Perguntas sugeridas
+        // Administração
+        adminBtn.addEventListener('click', () => {
+            // Preenche o textarea com o conhecimento atual
+            let fullKnowledge = '';
+            for (const [module, content] of Object.entries(knowledgeBase)) {
+                fullKnowledge += `=== ${module.toUpperCase()} ===\n${content}\n\n`;
+            }
+            knowledgeText.value = fullKnowledge;
+            adminModal.style.display = 'flex';
+        });
+
+        saveKnowledge.addEventListener('click', () => {
+            const newKnowledge = knowledgeText.value;
+            
+            // Processa o texto para separar por módulos
+            const modules = newKnowledge.split('===');
+            const newKnowledgeBase = {};
+            
+            modules.forEach(moduleText => {
+                if (moduleText.trim()) {
+                    const lines = moduleText.split('\n');
+                    const moduleName = lines[0].toLowerCase().trim();
+                    const content = lines.slice(1).join('\n').trim();
+                    
+                    if (moduleName && content) {
+                        newKnowledgeBase[moduleName] = content;
+                    }
+                }
+            });
+            
+            // Mantém a estrutura original se não encontrou módulos
+            if (Object.keys(newKnowledgeBase).length > 0) {
+                knowledgeBase = newKnowledgeBase;
+            } else {
+                // Se não separou por módulos, coloca tudo em "geral"
+                knowledgeBase.geral = newKnowledge;
+            }
+            
+            saveKnowledgeBase();
+            alert('✅ Base de conhecimento atualizada!');
+        });
+
+        clearKnowledge.addEventListener('click', () => {
+            if (confirm('Tem certeza que quer limpar toda a base de conhecimento?')) {
+                knowledgeBase = {
+                    vendas: '', estoque: '', financeiro: '', 
+                    clientes: '', produtos: '', relatorios: ''
+                };
+                saveKnowledgeBase();
+                knowledgeText.value = '';
+                alert('Base de conhecimento limpa!');
+            }
+        });
+
+        closeModal.addEventListener('click', () => {
+            adminModal.style.display = 'none';
+        });
+
+        // Fechar modal clicando fora
+        adminModal.addEventListener('click', (e) => {
+            if (e.target === adminModal) {
+                adminModal.style.display = 'none';
+            }
+        });
+
+        // ========== INICIALIZAÇÃO ==========
+        
+        // Carregar conhecimento salvo
+        loadSavedKnowledge();
+        
+        // Focar no input automaticamente
+        userInput.focus();
+
+        // Perguntas sugeridas iniciais
+        const suggestedQuestions = document.querySelectorAll('.suggested-question');
         suggestedQuestions.forEach(question => {
             question.addEventListener('click', function() {
                 userInput.value = this.getAttribute('data-question');
@@ -409,8 +800,8 @@
             });
         });
 
-        // Focar no input automaticamente
-        userInput.focus();
+        // Mostrar mensagem de boas-vindas
+        addMessage('💡 Dica: Use o botão "Administrar Conhecimento" para adicionar informações do manual do Softpharma!', 'system');
     </script>
 </body>
 </html>
