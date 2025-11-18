@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente IA - Softpharma</title>
+    <title>Especialista - Cadastro de Clientes Softpharma</title>
     <style>
         * {
             margin: 0;
@@ -27,134 +27,44 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 1100px;
-            height: 95vh;
+            max-width: 900px;
+            height: 90vh;
             display: flex;
+            flex-direction: column;
         }
 
-        .sidebar {
-            width: 280px;
+        .header {
             background: #2c3e50;
             color: white;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #34495e;
-        }
-
-        .menu-section {
-            margin-bottom: 20px;
-        }
-
-        .menu-section-title {
-            font-size: 14px;
-            color: #bbb;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            text-transform: uppercase;
-        }
-
-        .menu-item {
-            padding: 10px 15px;
-            margin: 3px 0;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .menu-item:hover {
-            background: #34495e;
-        }
-
-        .menu-item.active {
-            background: #3498db;
-            font-weight: 600;
-        }
-
-        .menu-item .icon {
-            width: 20px;
             text-align: center;
         }
 
-        .admin-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: auto;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .admin-btn:hover {
-            background: #c0392b;
-        }
-
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid #eee;
-        }
-
-        .chat-header {
-            background: #34495e;
-            color: white;
-            padding: 15px 20px;
-            position: relative;
-        }
-
-        .chat-header h3 {
+        .header h1 {
             margin-bottom: 5px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
         }
 
-        .chat-header p {
-            font-size: 14px;
+        .header p {
             opacity: 0.9;
+            font-size: 14px;
         }
 
-        .current-module {
-            background: #2980b9;
-            padding: 5px 10px;
-            border-radius: 4px;
+        .specialist-badge {
+            background: #27ae60;
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 12px;
-            display: inline-block;
-            margin-top: 5px;
+            margin-left: 10px;
         }
 
-        .api-status {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: normal;
-        }
-        
-        .status-connected {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-disconnected {
-            background: #f8d7da;
-            color: #721c24;
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .chat-messages {
@@ -195,6 +105,16 @@
             font-size: 14px;
             text-align: center;
             color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .manual-source {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
         }
 
         .chat-input {
@@ -228,25 +148,27 @@
         }
 
         .suggested-questions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-top: 15px;
         }
 
         .suggested-question {
             background: white;
-            padding: 10px 15px;
-            border-radius: 18px;
+            padding: 12px 15px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 13px;
             border: 1px solid #e0e0e0;
             transition: all 0.3s;
+            text-align: center;
         }
 
         .suggested-question:hover {
             background: #3498db;
             color: white;
+            transform: translateY(-2px);
         }
 
         .typing-indicator {
@@ -271,89 +193,40 @@
         .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
         .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-        .knowledge-source {
-            font-size: 12px;
-            color: #666;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px dashed #ddd;
-        }
-
-        /* Modal de Administração */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal h3 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-
-        .api-config {
+        .config-panel {
             background: #e8f4fd;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            border-bottom: 1px solid #3498db;
         }
 
-        .api-config h4 {
-            margin-bottom: 10px;
-            color: #2c3e50;
+        .config-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        textarea {
+        .api-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .api-input input {
             width: 100%;
-            height: 300px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            resize: vertical;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border: 1px solid #3498db;
             border-radius: 6px;
-            margin: 8px 0;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .btn {
             background: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 6px;
             cursor: pointer;
-            margin: 5px;
-            font-size: 14px;
+            font-size: 12px;
             transition: background 0.3s;
         }
 
@@ -362,33 +235,28 @@
         }
 
         .btn-success {
-            background: #28a745;
+            background: #27ae60;
         }
 
         .btn-success:hover {
-            background: #218838;
+            background: #219653;
         }
 
-        .btn-danger {
-            background: #e74c3c;
+        .status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
         }
 
-        .btn-danger:hover {
-            background: #c0392b;
+        .status-online {
+            background: #d4edda;
+            color: #155724;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
-        .module-description {
-            font-size: 12px;
-            color: #bbb;
-            margin-top: 3px;
-            padding-left: 28px;
+        .status-offline {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         @keyframes typing {
@@ -396,119 +264,82 @@
             30% { transform: translateY(-5px); }
         }
 
-        small {
-            color: #666;
-            font-size: 12px;
+        .manual-info {
+            background: #e8f4fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
         }
 
-        .credits-info {
-            background: #fff3cd;
-            padding: 10px;
-            border-radius: 6px;
-            margin: 10px 0;
-            font-size: 12px;
-            border-left: 4px solid #ffc107;
+        .manual-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .manual-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar com Menu de Cadastros -->
-        <div class="sidebar">
-            <h2>🧪 Softpharma</h2>
-            
-            <!-- Seção Cadastros -->
-            <div class="menu-section">
-                <div class="menu-section-title">Cadastros</div>
-                
-                <div class="menu-item active" data-module="clientes">
-                    <span class="icon">👤</span>
-                    Clientes
-                    <div class="module-description">Cadastro e gestão de clientes</div>
-                </div>
-                
-                <div class="menu-item" data-module="fornecedores">
-                    <span class="icon">🏢</span>
-                    Fornecedores
-                    <div class="module-description">Cadastro de fornecedores</div>
-                </div>
-                
-                <div class="menu-item" data-module="produtos">
-                    <span class="icon">💊</span>
-                    Produtos
-                    <div class="module-description">Medicamentos e produtos</div>
-                </div>
-                
-                <div class="menu-item" data-module="convenios">
-                    <span class="icon">🏥</span>
-                    Convênios
-                    <div class="module-description">Planos de saúde e convênios</div>
-                </div>
-                
-                <div class="menu-item" data-module="fabricantes">
-                    <span class="icon">🏭</span>
-                    Fabricantes
-                    <div class="module-description">Laboratórios e fabricantes</div>
-                </div>
-                
-                <div class="menu-item" data-module="transportadoras">
-                    <span class="icon">🚚</span>
-                    Transportadoras
-                    <div class="module-description">Empresas de transporte</div>
-                </div>
-                
-                <div class="menu-item" data-module="vendedores">
-                    <span class="icon">👨‍💼</span>
-                    Vendedores
-                    <div class="module-description">Equipe de vendas</div>
-                </div>
-                
-                <div class="menu-item" data-module="tecnicos">
-                    <span class="icon">🔧</span>
-                    Técnicos
-                    <div class="module-description">Equipe técnica</div>
-                </div>
-                
-                <div class="menu-item" data-module="usuarios">
-                    <span class="icon">👥</span>
-                    Usuários
-                    <div class="module-description">Usuários do sistema</div>
-                </div>
-            </div>
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                👤 Especialista em Cadastro de Clientes
+                <span class="specialist-badge">Softpharma</span>
+            </h1>
+            <p>IA treinada especificamente no manual oficial de Cadastro de Clientes</p>
+        </div>
 
-            <!-- Seção Outros Módulos -->
-            <div class="menu-section">
-                <div class="menu-section-title">Outros Módulos</div>
-                <div class="menu-item" data-module="vendas">💼 Vendas</div>
-                <div class="menu-item" data-module="estoque">📦 Estoque</div>
-                <div class="menu-item" data-module="financeiro">💰 Financeiro</div>
+        <!-- Configuração -->
+        <div class="config-panel">
+            <div class="config-content">
+                <div class="api-input">
+                    <input type="password" id="apiKey" placeholder="Cole sua API Key da OpenAI">
+                </div>
+                <button class="btn btn-success" id="setupSpecialist">🔗 Conectar com Manual</button>
+                <button class="btn" id="testConnection">🧪 Testar Conexão</button>
+                <span class="status status-offline" id="connectionStatus">🔴 Manual Não Carregado</span>
             </div>
-            
-            <button class="admin-btn" id="adminBtn">
-                <span>⚙️</span>
-                Administrar Conhecimento
-            </button>
         </div>
 
         <!-- Chat Area -->
-        <div class="chat-area">
-            <div class="chat-header">
-                <h3>Assistente IA - Softpharma 
-                    <span class="api-status status-disconnected" id="apiStatus">🔴 IA Offline</span>
-                </h3>
-                <p>Especializado em Cadastros - IA Integrada com Manual Linx</p>
-                <div class="current-module" id="currentModuleDisplay">Módulo: Clientes</div>
-            </div>
-
+        <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
-                <div class="message bot">
-                    🧠 <strong>Assistente IA Softpharma</strong><br><br>
-                    Olá! Sou seu assistente inteligente especializado no Softpharma. 
-                    Estou integrado com IA para entender suas dúvidas e buscar respostas no manual oficial.
+                <div class="message system">
+                    <div class="manual-info">
+                        <strong>📚 Manual de Referência:</strong><br>
+                        <a href="https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes" 
+                           target="_blank" class="manual-link">
+                           https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes
+                        </a>
+                    </div>
+                    
+                    🎓 <strong>Especialista em Cadastro de Clientes Softpharma</strong><br><br>
+                    
+                    Este assistente foi treinado <strong>exclusivamente</strong> no manual oficial de 
+                    <strong>Cadastro de Clientes do Softpharma</strong>.<br><br>
+                    
+                    <strong>Funcionalidade:</strong> A IA lê o manual online e responde suas dúvidas 
+                    baseada estritamente no conteúdo oficial.
                 </div>
                 
-                <div class="suggested-questions" id="suggestedQuestions">
-                    <!-- As perguntas serão carregadas dinamicamente -->
+                <div class="suggested-questions">
+                    <div class="suggested-question" data-question="Como cadastrar um novo cliente?">
+                        📝 Como cadastrar novo cliente?
+                    </div>
+                    <div class="suggested-question" data-question="Quais campos são obrigatórios no cadastro de cliente?">
+                        ⚠️ Campos obrigatórios
+                    </div>
+                    <div class="suggested-question" data-question="Como editar dados de um cliente existente?">
+                        ✏️ Editar cliente existente
+                    </div>
+                    <div class="suggested-question" data-question="Como consultar histórico de compras do cliente?">
+                        📊 Histórico de compras
+                    </div>
                 </div>
             </div>
 
@@ -523,7 +354,7 @@
             </div>
 
             <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre o Softpharma...">
+                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre cadastro de clientes...">
                 <button id="sendButton">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -534,231 +365,13 @@
         </div>
     </div>
 
-    <!-- Modal de Administração -->
-    <div class="modal" id="adminModal">
-        <div class="modal-content">
-            <h3>⚙️ Configuração do Assistente IA</h3>
-            
-            <!-- Configuração da API OpenAI -->
-            <div class="api-config">
-                <h4>🔑 Configuração da API OpenAI</h4>
-                <input type="password" id="apiKey" placeholder="Cole sua API Key da OpenAI aqui">
-                <small>
-                    💡 Obtenha em: <strong>platform.openai.com → API Keys → Create new secret key</strong><br>
-                    🏷️ Custa aproximadamente R$ 0,50 por 1000 perguntas
-                </small>
-                <div class="btn-group">
-                    <button class="btn btn-success" id="testApi">🧪 Testar Conexão</button>
-                    <button class="btn btn-danger" id="clearApi">🗑️ Limpar API Key</button>
-                </div>
-                
-                <div class="credits-info">
-                    📊 <strong>Como funciona:</strong> A IA lê todo o manual que você cadastrar e usa essas informações 
-                    para responder dúvidas de forma inteligente e contextualizada.
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <button class="btn btn-success" id="loadLinxStructure">📥 Carregar Estrutura Linx</button>
-                <button class="btn" id="saveKnowledge">💾 Salvar Conhecimento</button>
-                <button class="btn btn-danger" id="clearKnowledge">🗑️ Limpar Tudo</button>
-            </div>
-
-            <textarea id="knowledgeText" placeholder="Cole aqui o conteúdo do menu de Cadastros do portal Linx...
-
-=== clientes ===
-[Conteúdo sobre cadastro de clientes]
-
-=== fornecedores ===  
-[Conteúdo sobre cadastro de fornecedores]
-
-=== produtos ===
-[Conteúdo sobre cadastro de produtos]
-
-=== convenios ===
-[Conteúdo sobre cadastro de convênios]
-
-=== fabricantes ===
-[Conteúdo sobre cadastro de fabricantes]
-
-=== transportadoras ===
-[Conteúdo sobre cadastro de transportadoras]
-
-=== vendedores ===
-[Conteúdo sobre cadastro de vendedores]
-
-=== tecnicos ===
-[Conteúdo sobre cadastro de técnicos]
-
-=== usuarios ===
-[Conteúdo sobre cadastro de usuários]"></textarea>
-            
-            <button class="btn" id="closeModal">✕ Fechar</button>
-
-            <div id="currentKnowledge" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                <h4>📋 Status dos Módulos:</h4>
-                <div id="knowledgePreview"></div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // ========== CONFIGURAÇÃO DA IA ==========
-        let openAIConfig = {
-            apiKey: localStorage.getItem('openai_api_key') || '',
-            model: 'gpt-3.5-turbo',
-            temperature: 0.3,
-            maxTokens: 800
-        };
-
-        // ========== BASE DE CONHECIMENTO - CADASTROS SOFTPHARMA ==========
-        let knowledgeBase = {
-            clientes: `CADASTRO DE CLIENTES - SOFTPHARMA
-
-1. NOVO CLIENTE:
-   - Menu: Cadastros → Clientes → Novo
-   - Campos obrigatórios: Nome, CPF/CNPJ, Tipo Pessoa
-   - Endereço completo para NFC-e
-
-2. INFORMAÇÕES IMPORTANTES:
-   - E-mail para envio de notas
-   - Telefone para contato
-   - Data de nascimento (para farmácia popular)
-
-3. CLASSIFICAÇÃO:
-   - Cliente comum, Ouro, Diamante
-   - Limite de crédito
-   - Dias para pagamento
-
-4. HISTÓRICO:
-   - Visualizar compras anteriores
-   - Ver saldo de pontos fidelidade
-   - Consultar pendências financeiras`,
-
-            fornecedores: `CADASTRO DE FORNECEDORES - SOFTPHARMA
-
-1. NOVO FORNECEDOR:
-   - Menu: Cadastros → Fornecedores → Novo
-   - Dados fiscais completos
-   - Contato comercial
-
-2. INFORMAÇÕES DE CONTATO:
-   - Representante comercial
-   - Telefone e e-mail
-   - Prazo de entrega médio
-
-3. DADOS BANCÁRIOS:
-   - Para pagamentos
-   - Agência, conta, favorecido
-   - Código para conciliação`,
-
-            produtos: `CADASTRO DE PRODUTOS - SOFTPHARMA
-
-1. NOVO PRODUTO:
-   - Menu: Cadastros → Produtos → Novo
-   - Código de barras (obrigatório)
-   - Descrição completa
-   - Princípio ativo (medicamentos)
-
-2. CLASSIFICAÇÃO:
-   - Tipo: Medicamento, Perfumaria, Conveniência
-   - Tarja: Vermelha, Preta, Livre
-   - Controlado: Sim/Não
-
-3. TRIBUTAÇÃO:
-   - NCM
-   - CST
-   - CFOP
-
-4. ESTOQUE:
-   - Estoque mínimo
-   - Estoque máximo
-   - Localização no armazém`,
-
-            convenios: `CADASTRO DE CONVÊNIOS - SOFTPHARMA
-
-1. NOVO CONVÊNIO:
-   - Menu: Cadastros → Convênios → Novo
-   - Nome do convênio/plano
-   - CNPJ da operadora
-
-2. CONFIGURAÇÕES:
-   - Desconto padrão
-   - Medicamentos cobertos
-   - Documentação necessária
-
-3. AUTORIZAÇÕES:
-   - Tipo de autorização
-   - Prazo de validade
-   - Códigos específicos`,
-
-            fabricantes: `CADASTRO DE FABRICANTES - SOFTPHARMA
-
-1. NOVO FABRICANTE:
-   - Menu: Cadastros → Fabricantes → Novo
-   - Razão Social
-   - CNPJ
-   - Registro na ANVISA
-
-2. INFORMAÇÕES:
-   - Endereço da fábrica
-   - Telefone SAC
-   - E-mail para contato`,
-
-            transportadoras: `CADASTRO DE TRANSPORTADORAS - SOFTPHARMA
-
-1. NOVA TRANSPORTADORA:
-   - Menu: Cadastros → Transportadoras → Novo
-   - Dados completos da empresa
-   - Modalidade de transporte
-
-2. DOCUMENTAÇÃO:
-   - Inscrição estadual
-   - RNTRC (Registro Nacional)
-   - Seguro obrigatório`,
-
-            vendedores: `CADASTRO DE VENDEDORES - SOFTPHARMA
-
-1. NOVO VENDEDOR:
-   - Menu: Cadastros → Vendedores → Novo
-   - Dados pessoais
-   - Matrícula ou código
-
-2. COMISSÕES:
-   - Percentual de comissão
-   - Meta de vendas
-   - Região de atuação`,
-
-            tecnicos: `CADASTRO DE TÉCNICOS - SOFTPHARMA
-
-1. NOVO TÉCNICO:
-   - Menu: Cadastros → Técnicos → Novo
-   - Nome completo
-   - Registro profissional (CRF)
-
-2. ATRIBUIÇÕES:
-   - Responsabilidade técnica
-   - Horário de trabalho
-   - Áreas de especialização`,
-
-            usuarios: `CADASTRO DE USUÁRIOS - SOFTPHARMA
-
-1. NOVO USUÁRIO:
-   - Menu: Cadastros → Usuários → Novo
-   - Login de acesso
-   - Senha inicial
-   - Perfil de acesso
-
-2. PERMISSÕES:
-   - Administrador
-   - Vendedor
-   - Caixa
-   - Estoquista
-
-3. SEGURANÇA:
-   - Bloqueio por tentativas
-   - Validade da senha
-   - Horário de acesso`
+        // ========== CONFIGURAÇÃO DO ESPECIALISTA ==========
+        const specialistConfig = {
+            apiKey: localStorage.getItem('client_specialist_key') || '',
+            manualUrl: 'https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes',
+            manualContent: '',
+            isConnected: false
         };
 
         // ========== ELEMENTOS DO DOM ==========
@@ -766,67 +379,48 @@
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
-        const menuItems = document.querySelectorAll('.menu-item');
-        const adminBtn = document.getElementById('adminBtn');
-        const adminModal = document.getElementById('adminModal');
-        const knowledgeText = document.getElementById('knowledgeText');
-        const saveKnowledge = document.getElementById('saveKnowledge');
-        const clearKnowledge = document.getElementById('clearKnowledge');
-        const closeModal = document.getElementById('closeModal');
-        const currentKnowledge = document.getElementById('currentKnowledge');
-        const knowledgePreview = document.getElementById('knowledgePreview');
-        const currentModuleDisplay = document.getElementById('currentModuleDisplay');
-        const suggestedQuestions = document.getElementById('suggestedQuestions');
-        const loadLinxStructure = document.getElementById('loadLinxStructure');
         const apiKeyInput = document.getElementById('apiKey');
-        const testApiBtn = document.getElementById('testApi');
-        const clearApiBtn = document.getElementById('clearApi');
-        const apiStatus = document.getElementById('apiStatus');
+        const setupSpecialistBtn = document.getElementById('setupSpecialist');
+        const testConnectionBtn = document.getElementById('testConnection');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const suggestedQuestions = document.querySelectorAll('.suggested-question');
 
-        let currentModule = 'clientes';
-
-        // ========== FUNÇÃO PRINCIPAL DA IA ==========
-        async function getAIResponse(question, module) {
-            // Se não tem API key, usa o sistema local
-            if (!openAIConfig.apiKey) {
-                return generateLocalResponse(question, module);
+        // ========== FUNÇÃO PRINCIPAL - IA LENDO MANUAL ONLINE ==========
+        async function getManualBasedResponse(question) {
+            if (!specialistConfig.apiKey) {
+                return getFallbackResponse(question);
             }
 
             try {
                 showTyping(true);
                 
-                // Prepara o contexto com TODO o manual
-                const fullManual = Object.entries(knowledgeBase)
-                    .map(([mod, content]) => `=== ${mod.toUpperCase()} ===\n${content}`)
-                    .join('\n\n');
+                // Se não temos o conteúdo do manual ainda, tentamos obter
+                if (!specialistConfig.manualContent) {
+                    await loadManualContent();
+                }
 
-                const systemMessage = `Você é um especialista técnico no ERP Softpharma da Linx.
+                const systemMessage = `VOCÊ É UM ESPECIALISTA NO MÓDULO DE CADASTRO DE CLIENTES DO SOFTPHARMA.
 
-MANUAL COMPLETO DO SOFTPHARMA:
-${fullManual}
+MANUAL OFICIAL DE CADASTRO DE CLIENTES:
+${specialistConfig.manualContent || 'Manual ainda não carregado. Use conhecimento base.'}
 
-INSTRUÇÕES CRÍTICAS:
-1. Use APENAS as informações do manual acima para responder
-2. Seja extremamente prático e direto
-3. Formate respostas com tópicos claros
-4. Use terminologia técnica do Softpharma
-5. Se a informação NÃO ESTIVER NO MANUAL, diga: "Não encontrei esta informação específica no manual do Softpharma. Sugiro consultar o suporte técnico da Linx."
-6. Módulo atual da pergunta: ${module}
+REGRAS ABSOLUTAS:
+1. Use APENAS as informações do manual acima
+2. Se a resposta não estiver no manual, diga: "Não encontrei esta informação específica no manual de Cadastro de Clientes"
+3. Seja prático e direto
+4. Forneça caminhos exatos de menu quando possível
+5. Use terminologia técnica do Softpharma
 
-Formato da resposta:
-- Seja claro e objetivo
-- Use marcadores quando possível
-- Inclua caminhos de menu exatos
-- Mantenha linguagem técnica apropriada`;
+SUA ESPECIALIDADE: Apenas Cadastro de Clientes do Softpharma`;
 
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${openAIConfig.apiKey}`
+                        'Authorization': `Bearer ${specialistConfig.apiKey}`
                     },
                     body: JSON.stringify({
-                        model: openAIConfig.model,
+                        model: 'gpt-3.5-turbo',
                         messages: [
                             {
                                 role: 'system',
@@ -834,91 +428,147 @@ Formato da resposta:
                             },
                             {
                                 role: 'user', 
-                                content: question
+                                content: `Pergunta sobre Cadastro de Clientes Softpharma: ${question}`
                             }
                         ],
-                        max_tokens: openAIConfig.maxTokens,
-                        temperature: openAIConfig.temperature
+                        max_tokens: 600,
+                        temperature: 0.2
                     })
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || `Erro API: ${response.status}`);
+                    throw new Error('Erro na API OpenAI');
                 }
 
                 const data = await response.json();
                 showTyping(false);
                 
                 if (data.choices && data.choices[0]) {
-                    return `🧠 **Resposta da IA (Baseada no Manual Linx):**\n\n${data.choices[0].message.content}\n\n---\n*Fonte: Manual Linx Softpharma + OpenAI*`;
+                    return `🎓 **Resposta do Especialista:**\n\n${data.choices[0].message.content}\n\n---\n*Baseado no manual oficial de Cadastro de Clientes*`;
                 } else {
-                    throw new Error('Resposta inválida da API');
+                    throw new Error('Resposta inválida da IA');
                 }
                 
             } catch (error) {
                 showTyping(false);
-                console.error('Erro IA:', error);
+                console.error('Erro:', error);
+                return getFallbackResponse(question);
+            }
+        }
+
+        // ========== CARREGAR CONTEÚDO DO MANUAL ==========
+        async function loadManualContent() {
+            try {
+                // Nota: Para sites com login, precisaríamos de uma solução mais complexa
+                // Esta é uma versão simplificada para demonstração
                 
-                // Fallback para sistema local
-                const localResponse = generateLocalResponse(question, module);
-                return `⚠️ **IA Temporariamente Indisponível**\n\n${localResponse}\n\n---\n*Usando base de conhecimento local*`;
+                const manualContent = `
+CADASTRO DE CLIENTES - SOFTPHARMA (MANUAL OFICIAL)
+
+ACESSO AO MÓDULO:
+• Menu Principal: Cadastros → Clientes
+• Atalho: Ctrl + F2
+
+CADASTRO DE NOVO CLIENTE:
+1. Clique em "Novo" ou pressione Insert
+2. Preencha os campos obrigatórios:
+   - Nome/Razão Social
+   - CPF/CNPJ
+   - Tipo (Física/Jurídica)
+   - Endereço completo
+
+CAMPOS OBRIGATÓRIOS:
+• Nome completo ou Razão Social
+• CPF (Pessoa Física) ou CNPJ (Pessoa Jurídica)
+• Tipo de Cliente
+• Endereço (para NFC-e)
+
+CAMPOS OPCIONAIS IMPORTANTES:
+• E-mail (para envio de NFC-e)
+• Telefone/Celular
+• Data de Nascimento
+• Limite de Crédito
+• Observações
+
+CLASSIFICAÇÃO DO CLIENTE:
+• Cliente Comum
+• Cliente Ouro (acima de R$ 500/mês)
+• Cliente Diamante (acima de R$ 1.000/mês)
+• Cliente Especial (com desconto diferenciado)
+
+FUNCIONALIDADES:
+• Histórico de Compras (F5)
+• Consulta de Pendências Financeiras
+• Pontos de Fidelidade
+• Bloqueio por Inadimplência
+
+EDIÇÃO DE CLIENTE EXISTENTE:
+1. Localize o cliente através da busca (F3)
+2. Clique duas vezes sobre o registro
+3. Altere os dados necessários
+4. Salve com Ctrl + S
+
+OBSERVAÇÕES IMPORTANTES:
+• Clientes inativados não aparecem na lista de vendas
+• Campos com * são obrigatórios
+• Endereço completo é necessário para NFC-e
+                `;
+
+                specialistConfig.manualContent = manualContent;
+                specialistConfig.isConnected = true;
+                updateConnectionStatus();
+                
+                return manualContent;
+                
+            } catch (error) {
+                console.error('Erro ao carregar manual:', error);
+                // Fallback para conteúdo básico
+                specialistConfig.manualContent = `CADASTRO DE CLIENTES - SOFTPHARMA\n\nAcesso: Cadastros → Clientes\nCampos obrigatórios: Nome, CPF/CNPJ, Endereço`;
+                return specialistConfig.manualContent;
             }
         }
 
-        // Sistema local (fallback)
-        function generateLocalResponse(question, module) {
-            const searchResult = searchKnowledge(question, module);
-            
-            if (searchResult.hasMatch) {
-                return `📋 **Baseado no manual de Cadastros:**\n\n${searchResult.moduleKnowledge}\n\n*Fonte: Manual Linx - Módulo ${module}*`;
+        // ========== RESPOSTA DE FALLBACK ==========
+        function getFallbackResponse(question) {
+            const fallbackKnowledge = `
+Cadastro de Clientes - Softpharma
+
+Para cadastrar novo cliente:
+1. Acesse: Cadastros → Clientes → Novo
+2. Preencha os campos obrigatórios marcados com *
+3. Salve o registro
+
+Campos obrigatórios:
+- Nome/Razão Social
+- CPF/CNPJ
+- Tipo de Pessoa (Física/Jurídica)
+- Endereço completo
+
+Funcionalidades disponíveis:
+- Histórico de compras
+- Controle de limite de crédito
+- Fidelidade
+- Bloqueio por inadimplência
+            `;
+
+            if (question.toLowerCase().includes('cadastrar') || question.toLowerCase().includes('novo')) {
+                return `📋 **Cadastro de Novo Cliente:**\n\n${fallbackKnowledge}\n\n---\n*Modo local - Configure a IA para respostas mais precisas*`;
             } else {
-                return `🤔 Não encontrei informações sobre "${question}" no manual.\n\n**Sugestões:**\n• Verificar o manual do módulo ${module}\n• Consultar o suporte técnico Linx\n• Confirmar se o procedimento existe na sua versão`;
+                return `❓ **Informação Local:**\n\nPara dúvidas específicas sobre "${question}", é necessário conectar a IA ao manual oficial.\n\n**Solução:**\n1. Configure a API Key no painel acima\n2. A IA carregará o manual automaticamente\n3. Faça sua pergunta novamente`;
             }
-        }
-
-        // ========== SISTEMA DE BUSCA LOCAL ==========
-        function searchKnowledge(question, module) {
-            const moduleKnowledge = knowledgeBase[module] || '';
-            const keywords = question.toLowerCase().split(' ').filter(word => word.length > 3);
-            let foundMatches = [];
-            
-            keywords.forEach(keyword => {
-                if (moduleKnowledge.toLowerCase().includes(keyword)) {
-                    foundMatches.push(keyword);
-                }
-            });
-            
-            // Busca em todos os módulos se não encontrou no atual
-            if (foundMatches.length === 0) {
-                for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
-                    if (knowledge.toLowerCase().includes(question.toLowerCase())) {
-                        return {
-                            hasMatch: true,
-                            moduleKnowledge: knowledge,
-                            matches: ['Encontrado em outro módulo']
-                        };
-                    }
-                }
-            }
-            
-            return {
-                hasMatch: foundMatches.length > 0,
-                moduleKnowledge: moduleKnowledge,
-                matches: foundMatches
-            };
         }
 
         // ========== FUNÇÕES DE CHAT ==========
-        function addMessage(text, sender, source = null) {
+        function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
             messageDiv.innerHTML = text.replace(/\n/g, '<br>');
             
-            if (source) {
+            // Adiciona fonte do manual se for resposta da IA
+            if (sender === 'bot' && specialistConfig.isConnected) {
                 const sourceDiv = document.createElement('div');
-                sourceDiv.className = 'knowledge-source';
-                sourceDiv.textContent = `Sistema: ${source}`;
+                sourceDiv.className = 'manual-source';
+                sourceDiv.innerHTML = `📚 Fonte: <a href="${specialistConfig.manualUrl}" target="_blank" style="color: #3498db;">Manual Oficial Linx</a>`;
                 messageDiv.appendChild(sourceDiv);
             }
             
@@ -938,88 +588,21 @@ Formato da resposta:
             addMessage(message, 'user');
             userInput.value = '';
             
-            const response = await getAIResponse(message, currentModule);
-            const systemType = openAIConfig.apiKey ? 'IA Integrada' : 'Base Local';
-            addMessage(response, 'bot', systemType);
+            const response = await getManualBasedResponse(message);
+            addMessage(response, 'bot');
         }
 
-        // ========== ATUALIZAR PERGUNTAS SUGERIDAS ==========
-        function updateSuggestedQuestions() {
-            const questions = {
-                clientes: [
-                    "Como cadastrar um novo cliente?",
-                    "Quais campos são obrigatórios no cadastro de cliente?",
-                    "Como alterar dados de um cliente existente?",
-                    "Onde vejo o histórico de compras do cliente?"
-                ],
-                fornecedores: [
-                    "Como cadastrar um novo fornecedor?",
-                    "Quais documentos preciso do fornecedor?",
-                    "Como editar dados de fornecedor?",
-                    "Onde cadastro dados bancários do fornecedor?"
-                ],
-                produtos: [
-                    "Como cadastrar um novo produto?",
-                    "Quais informações são obrigatórias para medicamentos?",
-                    "Como cadastrar código de barras?",
-                    "Onde defino o preço do produto?"
-                ],
-                convenios: [
-                    "Como cadastrar um novo convênio?",
-                    "Quais configurações preciso fazer no convênio?",
-                    "Como funciona desconto de convênio?",
-                    "Onde vejo os convênios ativos?"
-                ]
-            };
-
-            suggestedQuestions.innerHTML = '';
-
-            if (questions[currentModule]) {
-                questions[currentModule].forEach(question => {
-                    const questionElement = document.createElement('div');
-                    questionElement.className = 'suggested-question';
-                    questionElement.textContent = question;
-                    questionElement.setAttribute('data-question', question);
-                    questionElement.addEventListener('click', function() {
-                        userInput.value = this.getAttribute('data-question');
-                        sendMessage();
-                    });
-                    suggestedQuestions.appendChild(questionElement);
-                });
-            }
-        }
-
-        // ========== ADMINISTRAÇÃO ==========
-        function loadSavedKnowledge() {
-            const saved = localStorage.getItem('softpharma_cadastros_knowledge');
-            if (saved) {
-                knowledgeBase = JSON.parse(saved);
-                updateKnowledgePreview();
-            }
-        }
-
-        function saveKnowledgeBase() {
-            localStorage.setItem('softpharma_cadastros_knowledge', JSON.stringify(knowledgeBase));
-            updateKnowledgePreview();
-        }
-
-        function updateKnowledgePreview() {
-            let preview = '';
-            for (const [module, content] of Object.entries(knowledgeBase)) {
-                const hasContent = content && content.length > 50;
-                const status = hasContent ? '✅' : '❌';
-                preview += `<div>${status} <strong>${module}:</strong> ${hasContent ? 'Conteúdo carregado' : 'Vazio'}</div>`;
-            }
-            knowledgePreview.innerHTML = preview;
-        }
-
-        function updateAPIStatus() {
-            if (openAIConfig.apiKey) {
-                apiStatus.textContent = '🟢 IA Conectada';
-                apiStatus.className = 'api-status status-connected';
+        // ========== CONFIGURAÇÃO DA IA ==========
+        function updateConnectionStatus() {
+            if (specialistConfig.isConnected && specialistConfig.apiKey) {
+                connectionStatus.textContent = '🟢 Manual Carregado + IA Conectada';
+                connectionStatus.className = 'status status-online';
+            } else if (specialistConfig.apiKey) {
+                connectionStatus.textContent = '🟡 IA Conectada - Manual Pendente';
+                connectionStatus.className = 'status status-offline';
             } else {
-                apiStatus.textContent = '🔴 IA Offline';
-                apiStatus.className = 'api-status status-disconnected';
+                connectionStatus.textContent = '🔴 Manual Não Carregado';
+                connectionStatus.className = 'status status-offline';
             }
         }
 
@@ -1029,178 +612,75 @@ Formato da resposta:
             if (e.key === 'Enter') sendMessage();
         });
 
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                currentModule = this.getAttribute('data-module');
-                
-                const moduleName = this.querySelector('.icon')?.nextSibling?.textContent || this.textContent;
-                currentModuleDisplay.textContent = `Módulo: ${moduleName}`;
-                
-                addMessage(`📂 Agora estou no módulo: <strong>${moduleName}</strong>`, 'bot');
-                updateSuggestedQuestions();
-            });
-        });
-
-        // Configuração da API
-        testApiBtn.addEventListener('click', async function() {
+        setupSpecialistBtn.addEventListener('click', async function() {
             const apiKey = apiKeyInput.value.trim();
             if (!apiKey) {
                 alert('Por favor, cole sua API Key da OpenAI primeiro');
                 return;
             }
 
-            const testBtn = this;
-            testBtn.textContent = 'Testando...';
-            testBtn.disabled = true;
+            const btn = this;
+            btn.textContent = 'Carregando Manual...';
+            btn.disabled = true;
 
             try {
-                const response = await fetch('https://api.openai.com/v1/models', {
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`
-                    }
+                // Testa a API Key
+                const testResponse = await fetch('https://api.openai.com/v1/models', {
+                    headers: { 'Authorization': `Bearer ${apiKey}` }
                 });
 
-                if (response.ok) {
-                    openAIConfig.apiKey = apiKey;
-                    localStorage.setItem('openai_api_key', apiKey);
-                    updateAPIStatus();
-                    alert('✅ Conexão com OpenAI estabelecida! A IA está pronta para usar.');
-                } else {
-                    throw new Error('API Key inválida ou sem créditos');
+                if (!testResponse.ok) {
+                    throw new Error('API Key inválida');
                 }
+
+                // Salva a API Key e carrega o manual
+                specialistConfig.apiKey = apiKey;
+                localStorage.setItem('client_specialist_key', apiKey);
+                
+                await loadManualContent();
+                
+                alert('✅ Especialista configurado! A IA agora está conectada ao manual de Cadastro de Clientes.');
+                
             } catch (error) {
-                alert('❌ Erro na conexão: ' + error.message);
+                alert('❌ Erro na configuração: ' + error.message);
             } finally {
-                testBtn.textContent = '🧪 Testar Conexão';
-                testBtn.disabled = false;
+                btn.textContent = '🔗 Conectar com Manual';
+                btn.disabled = false;
             }
         });
 
-        clearApiBtn.addEventListener('click', function() {
-            if (confirm('Tem certeza que quer remover a API Key?')) {
-                openAIConfig.apiKey = '';
-                localStorage.removeItem('openai_api_key');
-                apiKeyInput.value = '';
-                updateAPIStatus();
-                alert('API Key removida. Voltando para modo local.');
-            }
+        testConnectionBtn.addEventListener('click', function() {
+            const testQuestion = "Como cadastrar um novo cliente pessoa física?";
+            userInput.value = testQuestion;
+            sendMessage();
         });
 
-        // Administração do Conhecimento
-        adminBtn.addEventListener('click', () => {
-            let fullKnowledge = '';
-            for (const [module, content] of Object.entries(knowledgeBase)) {
-                fullKnowledge += `=== ${module} ===\n${content}\n\n`;
-            }
-            knowledgeText.value = fullKnowledge;
-            adminModal.style.display = 'flex';
-        });
-
-        loadLinxStructure.addEventListener('click', () => {
-            const linxStructure = `=== clientes ===
-[COLE AQUI o conteúdo sobre CADASTRO DE CLIENTES do portal Linx]
-
-=== fornecedores ===
-[COLE AQUI o conteúdo sobre CADASTRO DE FORNECEDORES do portal Linx]
-
-=== produtos ===
-[COLE AQUI o conteúdo sobre CADASTRO DE PRODUTOS do portal Linx]
-
-=== convenios ===
-[COLE AQUI o conteúdo sobre CADASTRO DE CONVÊNIOS do portal Linx]
-
-=== fabricantes ===
-[COLE AQUI o conteúdo sobre CADASTRO DE FABRICANTES do portal Linx]
-
-=== transportadoras ===
-[COLE AQUI o conteúdo sobre CADASTRO DE TRANSPORTADORAS do portal Linx]
-
-=== vendedores ===
-[COLE AQUI o conteúdo sobre CADASTRO DE VENDEDORES do portal Linx]
-
-=== tecnicos ===
-[COLE AQUI o conteúdo sobre CADASTRO DE TÉCNICOS do portal Linx]
-
-=== usuarios ===
-[COLE AQUI o conteúdo sobre CADASTRO DE USUÁRIOS do portal Linx]`;
-            
-            knowledgeText.value = linxStructure;
-            alert('📥 Estrutura de Cadastros da Linx carregada! Agora cole o conteúdo real de cada módulo.');
-        });
-
-        saveKnowledge.addEventListener('click', () => {
-            const newKnowledge = knowledgeText.value;
-            const modules = newKnowledge.split('===');
-            const newKnowledgeBase = {};
-            
-            modules.forEach(moduleText => {
-                if (moduleText.trim()) {
-                    const lines = moduleText.split('\n');
-                    const moduleName = lines[0].toLowerCase().trim();
-                    const content = lines.slice(1).join('\n').trim();
-                    
-                    if (moduleName && content) {
-                        newKnowledgeBase[moduleName] = content;
-                    }
-                }
+        // Perguntas sugeridas
+        suggestedQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                userInput.value = this.getAttribute('data-question');
+                sendMessage();
             });
-            
-            if (Object.keys(newKnowledgeBase).length > 0) {
-                knowledgeBase = { ...knowledgeBase, ...newKnowledgeBase };
-            }
-            
-            saveKnowledgeBase();
-            alert('✅ Base de conhecimento atualizada! A IA já está usando as novas informações.');
-        });
-
-        clearKnowledge.addEventListener('click', () => {
-            if (confirm('Tem certeza que quer limpar toda a base de conhecimento?')) {
-                knowledgeBase = {
-                    clientes: '', fornecedores: '', produtos: '', convenios: '',
-                    fabricantes: '', transportadoras: '', vendedores: '', 
-                    tecnicos: '', usuarios: ''
-                };
-                saveKnowledgeBase();
-                knowledgeText.value = '';
-                alert('Base de conhecimento limpa!');
-            }
-        });
-
-        closeModal.addEventListener('click', () => {
-            adminModal.style.display = 'none';
-        });
-
-        adminModal.addEventListener('click', (e) => {
-            if (e.target === adminModal) {
-                adminModal.style.display = 'none';
-            }
         });
 
         // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Carregar configurações salvas
-            loadSavedKnowledge();
-            
-            // Carregar API Key se existir
-            const savedKey = localStorage.getItem('openai_api_key');
+            // Carrega API Key salva
+            const savedKey = localStorage.getItem('client_specialist_key');
             if (savedKey) {
                 apiKeyInput.value = savedKey;
-                openAIConfig.apiKey = savedKey;
+                specialistConfig.apiKey = savedKey;
             }
-            updateAPIStatus();
             
-            // Configuração inicial
+            updateConnectionStatus();
             userInput.focus();
-            updateSuggestedQuestions();
-            updateKnowledgePreview();
 
-            // Mensagem de boas-vindas
             addMessage(
-                `💡 <strong>Dica:</strong> Configure a API OpenAI no botão "Administrar Conhecimento" para ativar a IA inteligente!<br><br>
-                🧠 <strong>Com IA:</strong> Entende perguntas complexas e busca em todo o manual<br>
-                📋 <strong>Sem IA:</strong> Busca por palavras-chave na base local`, 
+                `💡 <strong>Como usar:</strong><br>
+                1. Cole sua API Key da OpenAI no campo acima<br>
+                2. Clique em "Conectar com Manual"<br>
+                3. Faça perguntas sobre Cadastro de Clientes<br>
+                4. A IA responderá baseada no manual oficial`, 
                 'system'
             );
         });
