@@ -286,32 +286,28 @@
     </div>
 
     <script>
-        // SISTEMA COMPLETAMENTE REFEITO - Reconhecimento por combinação exata
+        // SISTEMA COMPLETAMENTE REFEITO - Análise de TODAS as palavras
         const knowledgeBase = {
             "bairros": {
-                patterns: [
-                    // Padrões que devem ser verificados PRIMEIRO
-                    "cadastrar bairro",
-                    "cadastro bairro", 
-                    "cadastrar um bairro",
-                    "cadastro de bairros",
-                    "novo bairro",
-                    "adicionar bairro",
-                    "incluir bairro",
-                    "criar bairro",
-                    "como cadastrar bairro",
-                    "quero cadastrar bairro",
-                    "preciso cadastrar bairro",
-                    // Palavras individuais (verificadas por último)
-                    "bairro",
-                    "bairros",
-                    "tele entrega",
-                    "tele-entrega",
-                    "motoqueiro",
-                    "cobrador",
-                    "f6",
-                    "processar lote"
-                ],
+                keywords: {
+                    // Palavras com peso alto (mais específicas)
+                    "bairro": 10,
+                    "bairros": 10,
+                    "tele entrega": 8,
+                    "tele-entrega": 8,
+                    "motoqueiro": 7,
+                    "cobrador": 7,
+                    "f6": 6,
+                    "processar lote": 6,
+                    "taxa entrega": 7,
+                    // Combinações específicas (peso máximo)
+                    "cadastrar bairro": 20,
+                    "cadastro bairro": 20,
+                    "cadastrar um bairro": 20,
+                    "novo bairro": 15,
+                    "adicionar bairro": 15,
+                    "incluir bairro": 15
+                },
                 answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
@@ -370,21 +366,21 @@
             },
 
             "clientes": {
-                patterns: [
-                    // Padrões específicos primeiro
-                    "cadastrar cliente",
-                    "cadastro cliente",
-                    "cadastrar um cliente", 
-                    "cadastro de clientes",
-                    "novo cliente",
-                    "adicionar cliente",
-                    "incluir cliente",
-                    "criar cliente",
-                    "como cadastrar cliente",
-                    // Palavras individuais por último
-                    "cliente",
-                    "clientes"
-                ],
+                keywords: {
+                    // Palavras com peso alto
+                    "cliente": 10,
+                    "clientes": 10,
+                    "cpf": 5,
+                    "cnpj": 5,
+                    "lgpd": 5,
+                    // Combinações específicas
+                    "cadastrar cliente": 20,
+                    "cadastro cliente": 20,
+                    "cadastrar um cliente": 20,
+                    "novo cliente": 15,
+                    "adicionar cliente": 15,
+                    "incluir cliente": 15
+                },
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
@@ -409,7 +405,14 @@
             },
 
             "dependentes": {
-                patterns: ["dependente", "dependentes", "colocar dependente", "incluir dependente"],
+                keywords: {
+                    "dependente": 10,
+                    "dependentes": 10,
+                    "colocar dependente": 15,
+                    "incluir dependente": 15,
+                    "familia": 5,
+                    "familiar": 5
+                },
                 answer: `<strong>Como incluir dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
@@ -425,7 +428,16 @@
             },
 
             "convênios": {
-                patterns: ["convênio", "convenio", "convênios", "convenios", "vincular convênio"],
+                keywords: {
+                    "convênio": 10,
+                    "convenio": 10,
+                    "convênios": 10,
+                    "convenios": 10,
+                    "vincular convênio": 15,
+                    "vincular convenio": 15,
+                    "plano": 5,
+                    "planos": 5
+                },
                 answer: `<strong>Como vincular convênios:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
@@ -442,7 +454,7 @@
             },
 
             "default": {
-                patterns: [],
+                keywords: {},
                 answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
                 
                 <div class="suggested-alternative">
@@ -475,69 +487,50 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA CORRIGIDO - Verifica combinações EXATAS primeiro
+        // SISTEMA DEFINITIVO - Análise de TODAS as palavras com sistema de pesos
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('🔍 Analisando:', normalizedQuestion);
+            console.log('🔍 ANALISANDO TODA A FRASE:', normalizedQuestion);
             
-            // PRIMEIRO: Verifica combinações EXATAS em BAIRROS
-            for (const pattern of knowledgeBase.bairros.patterns) {
-                const normalizedPattern = normalizeText(pattern);
-                // Verifica se o padrão completo está na pergunta
-                if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ ENCONTROU BAIRRO (padrão exato):', normalizedPattern);
-                    return "bairros";
-                }
-            }
+            let scores = {
+                "bairros": 0,
+                "clientes": 0,
+                "dependentes": 0,
+                "convênios": 0
+            };
             
-            // SEGUNDO: Verifica combinações EXATAS em CLIENTES
-            for (const pattern of knowledgeBase.clientes.patterns) {
-                const normalizedPattern = normalizeText(pattern);
-                if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ ENCONTROU CLIENTE (padrão exato):', normalizedPattern);
-                    return "clientes";
-                }
-            }
-            
-            // TERCEIRO: Verifica palavras individuais em BAIRROS
-            const words = normalizedQuestion.split(/\s+/);
-            for (const word of words) {
-                for (const pattern of knowledgeBase.bairros.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    // Verifica se é uma palavra individual (não combinação)
-                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
-                        console.log('✅ ENCONTROU BAIRRO (palavra individual):', word);
-                        return "bairros";
-                    }
-                }
-            }
-            
-            // QUARTO: Verifica palavras individuais em CLIENTES
-            for (const word of words) {
-                for (const pattern of knowledgeBase.clientes.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
-                        console.log('✅ ENCONTROU CLIENTE (palavra individual):', word);
-                        return "clientes";
-                    }
-                }
-            }
-            
-            // QUINTO: Verifica outras categorias
+            // Analisa TODAS as categorias e TODAS as palavras
             for (const [category, data] of Object.entries(knowledgeBase)) {
-                if (category === "bairros" || category === "clientes" || category === "default") continue;
+                if (category === "default") continue;
                 
-                for (const pattern of data.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    if (normalizedQuestion.includes(normalizedPattern)) {
-                        console.log('✅ ENCONTROU', category.toUpperCase(), ':', normalizedPattern);
-                        return category;
+                // Verifica cada palavra-chave da categoria
+                for (const [keyword, weight] of Object.entries(data.keywords)) {
+                    const normalizedKeyword = normalizeText(keyword);
+                    
+                    // Se a palavra-chave está presente na pergunta
+                    if (normalizedQuestion.includes(normalizedKeyword)) {
+                        scores[category] += weight;
+                        console.log(`✅ ${category} +${weight} por: "${keyword}"`);
                     }
                 }
             }
             
-            console.log('❌ Nenhuma correspondência, usando default');
-            return "default";
+            console.log('📊 PONTUAÇÃO FINAL:', scores);
+            
+            // Encontra a categoria com maior pontuação
+            let bestCategory = "default";
+            let highestScore = 0;
+            
+            for (const [category, score] of Object.entries(scores)) {
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestCategory = category;
+                }
+            }
+            
+            console.log(`🎯 MELHOR CATEGORIA: ${bestCategory} com ${highestScore} pontos`);
+            
+            return bestCategory;
         }
 
         // Função para adicionar mensagem no chat
@@ -609,14 +602,14 @@
 
         // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>🎯 SISTEMA CORRIGIDO - Teste estas frases:</strong><br><br>
-            • <strong>"cadastrar bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
-            • <strong>"cadastrar um bairro"</strong> → CADASTRO DE BAIRROS ✅<br>  
-            • <strong>"como cadastrar bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
-            • <strong>"bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
-            • <strong>"cadastrar cliente"</strong> → CADASTRO DE CLIENTES ✅<br>
-            • <strong>"cliente"</strong> → CADASTRO DE CLIENTES ✅<br><br>
-            <em>Agora o reconhecimento funciona corretamente! 🚀</em>`);
+            addMessage(`<strong>🎯 SISTEMA DEFINITIVO - Análise Completa</strong><br><br>
+            <strong>Teste estas frases:</strong><br>
+            • "cadastrar bairro" → <strong>BAIRROS (20 pontos)</strong> ✅<br>
+            • "cadastrar um bairro" → <strong>BAIRROS (20 pontos)</strong> ✅<br>  
+            • "cadastrar cliente" → <strong>CLIENTES (20 pontos)</strong> ✅<br>
+            • "quero cadastrar um bairro novo" → <strong>BAIRROS (35 pontos)</strong> ✅<br>
+            • "bairro" → <strong>BAIRROS (10 pontos)</strong> ✅<br><br>
+            <em>Agora analisa TODAS as palavras e escolhe a melhor correspondência! 🚀</em>`);
         }, 1000);
     </script>
 </body>
