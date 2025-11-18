@@ -298,9 +298,9 @@
             
             <div class="suggested-questions">
                 <div class="suggestion bairro" data-question="cadastrar bairro">Cadastrar bairro</div>
+                <div class="suggestion bairro" data-question="cadastro bairro">Cadastro bairro</div>
                 <div class="suggestion cliente" data-question="cadastrar cliente">Cadastrar cliente</div>
                 <div class="suggestion dependente" data-question="incluir dependente">Incluir dependente</div>
-                <div class="suggestion" data-question="vincular convenio">Vincular convênio</div>
                 <div class="suggestion bairro" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
             </div>
             
@@ -320,7 +320,7 @@
     </div>
 
     <script>
-        // SISTEMA REVOLUCIONÁRIO - Foco na palavra DEPOIS de "cadastrar"
+        // SISTEMA CORRIGIDO - Aceita "cadastrar" e "cadastro"
         const knowledgeBase = {
             "bairros": {
                 targetWords: ["bairro", "bairros", "zona", "zonas", "região", "tele entrega", "motoqueiro", "cobrador", "f6"],
@@ -438,7 +438,7 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA INTELIGENTE - Foco na palavra ALVO depois de "cadastrar"
+        // SISTEMA CORRIGIDO - Aceita "cadastrar" e "cadastro" igualmente
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
             const words = normalizedQuestion.split(/\s+/);
@@ -446,65 +446,69 @@
             console.log('🔍 ANALISANDO FRASE:', normalizedQuestion);
             console.log('📝 PALAVRAS ENCONTRADAS:', words);
             
-            // 1. PROCURA POR PALAVRAS-CHAVE DE CADASTRO
-            const cadastroKeywords = ["cadastrar", "cadastro", "criar", "novo", "adicionar", "incluir", "registrar"];
-            let foundCadastro = false;
-            let targetIndex = -1;
+            // 1. VERIFICA SE TEM "CADASTRAR" OU "CADASTRO" NA FRASE
+            const hasCadastrar = normalizedQuestion.includes('cadastrar');
+            const hasCadastro = normalizedQuestion.includes('cadastro');
             
-            // Encontra a posição da palavra de cadastro
+            console.log(`📊 TEM "CADASTRAR": ${hasCadastrar}`);
+            console.log(`📊 TEM "CADASTRO": ${hasCadastro}`);
+            
+            // 2. PROCURA POR PALAVRAS-ALVO EM TODAS AS POSIÇÕES
             for (let i = 0; i < words.length; i++) {
-                if (cadastroKeywords.includes(words[i])) {
-                    foundCadastro = true;
-                    targetIndex = i;
-                    console.log(`✅ PALAVRA CADASTRO ENCONTRADA: "${words[i]}" na posição ${i}`);
-                    break;
-                }
-            }
-            
-            // 2. SE ENCONTROU "CADASTRAR", PROCURA A PALAVRA ALVO DEPOIS
-            if (foundCadastro && targetIndex < words.length - 1) {
-                const nextWord = words[targetIndex + 1];
-                console.log(`🎯 PALAVRA APÓS "CADASTRAR": "${nextWord}"`);
+                const word = words[i];
                 
-                // Procura em qual módulo está essa palavra
-                for (const [module, data] of Object.entries(knowledgeBase)) {
-                    if (data.targetWords.includes(nextWord)) {
-                        console.log(`✅✅✅ ENCONTRADO NO MÓDULO: ${module.toUpperCase()}`);
-                        return data.answer;
-                    }
-                }
-                
-                // Se não encontrou a próxima palavra, procura qualquer palavra alvo na frase
-                console.log('🔎 PROCURANDO QUALQUER PALAVRA ALVO NA FRASE...');
-                for (const word of words) {
-                    for (const [module, data] of Object.entries(knowledgeBase)) {
-                        if (data.targetWords.includes(word)) {
-                            console.log(`✅✅✅ ENCONTRADO: "${word}" no módulo ${module.toUpperCase()}`);
-                            return data.answer;
-                        }
-                    }
-                }
-            }
-            
-            // 3. SE NÃO ENCONTROU "CADASTRAR", PROCURA DIRETAMENTE POR PALAVRAS ALVO
-            console.log('🔎 PROCURANDO PALAVRAS ALVO DIRETAMENTE...');
-            for (const word of words) {
+                // Verifica se é uma palavra-alvo de algum módulo
                 for (const [module, data] of Object.entries(knowledgeBase)) {
                     if (data.targetWords.includes(word)) {
                         console.log(`✅✅✅ ENCONTRADO: "${word}" no módulo ${module.toUpperCase()}`);
+                        
+                        // Se encontrou uma palavra-alvo, verifica o contexto
+                        if ((hasCadastrar || hasCadastro) && i > 0) {
+                            // Verifica se a palavra anterior é "cadastrar" ou "cadastro"
+                            const previousWord = words[i - 1];
+                            if (previousWord === 'cadastrar' || previousWord === 'cadastro') {
+                                console.log(`🎯 CONTEXTO CORRETO: "${previousWord} ${word}"`);
+                                return data.answer;
+                            }
+                        }
+                        
+                        // Se não encontrou contexto específico, retorna mesmo assim
                         return data.answer;
                     }
                 }
+            }
+            
+            // 3. SE NÃO ENCONTROU PALAVRAS-ALVO, PROCURA POR COMBINAÇÕES ESPECÍFICAS
+            console.log('🔎 PROCURANDO COMBINAÇÕES ESPECÍFICAS...');
+            
+            // Combinações para BAIRROS
+            if ((hasCadastrar || hasCadastro) && normalizedQuestion.includes('bairro')) {
+                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: cadastrar/cadastro + bairro');
+                return knowledgeBase.bairros.answer;
+            }
+            
+            // Combinações para CLIENTES
+            if ((hasCadastrar || hasCadastro) && normalizedQuestion.includes('cliente')) {
+                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: cadastrar/cadastro + cliente');
+                return knowledgeBase.clientes.answer;
+            }
+            
+            // Combinações para DEPENDENTES
+            if ((normalizedQuestion.includes('incluir') || normalizedQuestion.includes('adicionar')) && 
+                normalizedQuestion.includes('dependente')) {
+                console.log('✅✅✅ COMBINAÇÃO ENCONTRADA: incluir/adicionar + dependente');
+                return knowledgeBase.dependentes.answer;
             }
             
             console.log('❌ NENHUMA CORRESPONDÊNCIA ENCONTRADA');
             return `🤔 <strong>Não entendi sua pergunta!</strong><br><br>
                 <div class="suggested-alternative">
-                <strong>Tente ser mais específico:</strong><br><br>
+                <strong>Tente uma destas formas:</strong><br><br>
                 • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('cadastrar bairro')">cadastrar bairro</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('cadastro bairro')">cadastro bairro</strong>"<br>
                 • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cadastrar cliente')">cadastrar cliente</strong>"<br>
                 • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="askQuestion('incluir dependente')">incluir dependente</strong>"<br>
-                <em>Ou digite o nome do que você quer cadastrar!</em>
+                <em>Ambas as formas funcionam agora!</em>
                 </div>`;
         }
 
@@ -571,13 +575,14 @@
 
         // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>🎯 SISTEMA INTELIGENTE ATIVADO</strong><br><br>
-            <strong>Agora o sistema foca na palavra DEPOIS de "cadastrar":</strong><br><br>
-            • "<strong>cadastrar</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
-            • "<strong>cadastrar</strong> <span style="color: var(--cliente-color)">cliente</span>" → Módulo Clientes ✅<br>
-            • "<strong>incluir</strong> <span style="color: var(--dependente-color)">dependente</span>" → Módulo Dependentes ✅<br>
-            • "<strong>vincular</strong> <span style="color: var(--secondary)">convênio</span>" → Módulo Convênios ✅<br><br>
-            <em>Teste agora! O sistema analisa o contexto completo! 🚀</em>`);
+            addMessage(`<strong>🎯 SISTEMA CORRIGIDO - ACEITA AMBAS AS FORMAS</strong><br><br>
+            <strong>Agora funciona com:</strong><br><br>
+            • "<strong>cadastrar bairro</strong>" → Módulo Bairros ✅<br>
+            • "<strong>cadastro bairro</strong>" → Módulo Bairros ✅<br>
+            • "<strong>cadastrar cliente</strong>" → Módulo Clientes ✅<br>
+            • "<strong>cadastro cliente</strong>" → Módulo Clientes ✅<br>
+            • "<strong>incluir dependente</strong>" → Módulo Dependentes ✅<br><br>
+            <em>Ambas as formas "cadastrar" e "cadastro" funcionam perfeitamente! 🚀</em>`);
         }, 1000);
     </script>
 </body>
