@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente Completo Cadastro - Softpharma</title>
+    <title>Assistente Inteligente Cadastro - Softpharma</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -233,9 +233,9 @@
             <div class="suggested-questions">
                 <div class="suggestion" data-question="como cadastrar um cliente novo">Cadastrar cliente</div>
                 <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
-                <div class="suggestion" data-question="vincular convenio">Vincular convênio</div>
-                <div class="suggestion" data-question="consultar cliente">Consultar cliente</div>
-                <div class="suggestion" data-question="configurar desconto">Configurar desconto</div>
+                <div class="suggestion" data-question="como vincular um convenio">Vincular convênio</div>
+                <div class="suggestion" data-question="como consultar cliente">Consultar cliente</div>
+                <div class="suggestion" data-question="como configurar desconto">Configurar desconto</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -247,50 +247,17 @@
             </div>
             
             <div class="chat-input">
-                <input type="text" id="user-input" placeholder="Ex: como adicionar um dependente no sistema...">
+                <input type="text" id="user-input" placeholder="Ex: como vincular um convênio no sistema...">
                 <button id="send-btn">Enviar</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Sistema de sinônimos e correspondência fuzzy
-        const synonymDictionary = {
-            // Sinônimos para "cadastrar"
-            "cadastrar": ["cadastro", "cadastra", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro"],
-            
-            // Sinônimos para "cliente"
-            "cliente": ["clientes", "pessoa", "usuário", "consumidor", "comprador"],
-            
-            // Sinônimos para "dependente"
-            "dependente": ["dependentes", "familia", "familiar", "parente", "filho", "filha", "cônjuge", "marido", "esposa"],
-            
-            // Sinônimos para "convênio"
-            "convênio": ["convenio", "convênios", "convenios", "plano", "planos", "vínculo", "vinculo", "acordo", "contrato"],
-            
-            // Sinônimos para "consultar"
-            "consultar": ["consulta", "consultar", "buscar", "procurar", "pesquisar", "localizar", "encontrar"],
-            
-            // Sinônimos para "editar"
-            "editar": ["editar", "alterar", "modificar", "mudar", "atualizar", "corrigir"],
-            
-            // Sinônimos para "excluir"
-            "excluir": ["excluir", "deletar", "apagar", "remover", "eliminar", "inativar"],
-            
-            // Sinônimos para "desconto"
-            "desconto": ["descontos", "desconta", "promoção", "promocao", "redução", "reducao", "abatimento"],
-            
-            // Sinônimos para "relatório"
-            "relatório": ["relatorio", "relatorios", "relatórios", "ficha", "lista", "listagem", "impressão", "imprimir"]
-        };
-
-        // Base de conhecimento COMPLETA com múltiplas variações
+        // Sistema SIMPLES e EFETIVO de reconhecimento
         const knowledgeBase = {
             "cadastrar": {
-                patterns: [
-                    "cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", 
-                    "registrar", "abrir cadastro", "fazer cadastro", "como cadastra"
-                ],
+                keywords: ["cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro", "fazer cadastro"],
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
@@ -315,11 +282,7 @@
             },
 
             "dependentes": {
-                patterns: [
-                    "dependente", "dependentes", "familia", "familiar", "parente", 
-                    "filho", "filha", "cônjuge", "marido", "esposa", "como colocar dependente",
-                    "adicionar dependente", "incluir familiar"
-                ],
+                keywords: ["dependente", "dependentes", "familia", "familiar", "parente", "filho", "filha", "cônjuge", "marido", "esposa", "colocar dependente"],
                 answer: `<strong>Como incluir dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
@@ -340,11 +303,7 @@
             },
 
             "convênios": {
-                patterns: [
-                    "convênio", "convenio", "convênios", "convenios", "plano", "planos",
-                    "vínculo", "vinculo", "acordo", "contrato", "vincular", "ligar",
-                    "associar", "como vincular", "colocar no convênio"
-                ],
+                keywords: ["convênio", "convenio", "convênios", "convenios", "plano", "planos", "vínculo", "vinculo", "acordo", "contrato", "vincular", "ligar", "associar"],
                 answer: `<strong>Como vincular convênios:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
@@ -367,11 +326,7 @@
             },
 
             "consultar": {
-                patterns: [
-                    "consultar", "consulta", "buscar", "procurar", "pesquisar", 
-                    "localizar", "encontrar", "achar", "como achar cliente",
-                    "procurar cliente", "buscar pessoa"
-                ],
+                keywords: ["consultar", "consulta", "buscar", "procurar", "pesquisar", "localizar", "encontrar", "achar"],
                 answer: `<strong>Como consultar clientes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Consulta</div><br>
@@ -388,11 +343,7 @@
             },
 
             "descontos": {
-                patterns: [
-                    "desconto", "descontos", "promoção", "promocao", "redução", 
-                    "reducao", "abatimento", "configurar desconto", "aplicar desconto",
-                    "como desconta", "fazer desconto"
-                ],
+                keywords: ["desconto", "descontos", "promoção", "promocao", "redução", "reducao", "abatimento"],
                 answer: `<strong>Como configurar descontos:</strong><br><br>
                 
                 <strong>Localização:</strong><br>
@@ -413,7 +364,7 @@
             },
 
             "default": {
-                patterns: [],
+                keywords: [],
                 answer: `🤔 <strong>Entendi que você quer ajuda com cadastro!</strong><br><br>
                 
                 <div class="suggested-alternative">
@@ -421,9 +372,9 @@
                 
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar um cliente novo')">Como cadastrar um novo cliente</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('vincular convenio')">Como vincular convênios</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('consultar cliente')">Como consultar clientes</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar desconto')">Como configurar descontos</strong><br><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como consultar cliente')">Como consultar clientes</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como configurar desconto')">Como configurar descontos</strong><br><br>
                 
                 <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
                 </div>`
@@ -446,34 +397,26 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // Função para encontrar correspondência inteligente
+        // Função SIMPLES e EFETIVA para encontrar correspondência
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
+            console.log('Pergunta normalizada:', normalizedQuestion); // Debug
             
-            // Verifica cada categoria de conhecimento
+            // Verifica cada categoria
             for (const [category, data] of Object.entries(knowledgeBase)) {
-                for (const pattern of data.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
+                for (const keyword of data.keywords) {
+                    const normalizedKeyword = normalizeText(keyword);
+                    console.log('Verificando keyword:', normalizedKeyword); // Debug
                     
-                    // Verifica se o padrão está contido na pergunta
-                    if (normalizedQuestion.includes(normalizedPattern)) {
-                        return category;
-                    }
-                    
-                    // Verifica correspondência de palavras-chave
-                    const questionWords = normalizedQuestion.split(' ');
-                    const patternWords = normalizedPattern.split(' ');
-                    
-                    const matchingWords = questionWords.filter(word => 
-                        patternWords.includes(word) && word.length > 2
-                    );
-                    
-                    if (matchingWords.length >= 2) {
+                    // Verifica se a keyword está na pergunta
+                    if (normalizedQuestion.includes(normalizedKeyword)) {
+                        console.log('✅ ENCONTROU correspondência:', category); // Debug
                         return category;
                     }
                 }
             }
             
+            console.log('❌ NÃO encontrou correspondência, usando default'); // Debug
             return "default";
         }
 
@@ -527,7 +470,7 @@
                 hideTyping();
                 const answer = processQuestion(question);
                 addMessage(answer);
-            }, 1000);
+            }, 800);
         }
 
         // Event listeners
@@ -549,15 +492,19 @@
 
         // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>Fale comigo naturalmente! 😊</strong><br><br>
-            Entendo várias formas de perguntar:<br><br>
-            • "como cadastrar um cliente"<br>
-            • "quero adicionar um dependente"<br>
-            • "preciso vincular um convênio"<br>
-            • "como consultar um cliente"<br>
-            • "configurar desconto para cliente"<br><br>
-            <em>Experimente fazer uma pergunta do seu jeito!</em>`);
+            addMessage(`<strong>Teste agora! Digite:</strong><br><br>
+            • <strong>"como vincular um convênio"</strong><br>
+            • <strong>"vincular convenio"</strong><br>
+            • <strong>"como colocar um dependente"</strong><br>
+            • <strong>"cadastrar cliente novo"</strong><br><br>
+            <em>O sistema agora reconhece linguagem natural! 🎉</em>`);
         }, 1000);
+
+        // Debug: mostra no console as keywords disponíveis
+        console.log('=== KEYWORDS DISPONÍVEIS ===');
+        for (const [category, data] of Object.entries(knowledgeBase)) {
+            console.log(category + ':', data.keywords);
+        }
     </script>
 </body>
 </html>
