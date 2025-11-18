@@ -286,17 +286,31 @@
     </div>
 
     <script>
-        // SISTEMA CORRIGIDO - Reconhecimento por palavras-chave específicas
+        // SISTEMA COMPLETAMENTE REFEITO - Reconhecimento por combinação exata
         const knowledgeBase = {
             "bairros": {
-                keywords: [
-                    "bairro", "bairros", "cadastrar bairro", "cadastro bairro", 
-                    "cadastro de bairros", "novo bairro", "adicionar bairro",
-                    "incluir bairro", "criar bairro", "tele entrega", "tele-entrega",
-                    "taxa entrega", "comissão motoqueiro", "motoqueiro", "cobrador",
-                    "taxa tele entrega", "processar lote", "f6", "bairro farma",
-                    "bairro linx", "como cadastrar bairro", "quero cadastrar bairro",
-                    "preciso cadastrar bairro", "cadastrar zona", "zona entrega"
+                patterns: [
+                    // Padrões que devem ser verificados PRIMEIRO
+                    "cadastrar bairro",
+                    "cadastro bairro", 
+                    "cadastrar um bairro",
+                    "cadastro de bairros",
+                    "novo bairro",
+                    "adicionar bairro",
+                    "incluir bairro",
+                    "criar bairro",
+                    "como cadastrar bairro",
+                    "quero cadastrar bairro",
+                    "preciso cadastrar bairro",
+                    // Palavras individuais (verificadas por último)
+                    "bairro",
+                    "bairros",
+                    "tele entrega",
+                    "tele-entrega",
+                    "motoqueiro",
+                    "cobrador",
+                    "f6",
+                    "processar lote"
                 ],
                 answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
                 
@@ -356,11 +370,20 @@
             },
 
             "clientes": {
-                keywords: [
-                    "cliente", "clientes", "cadastrar cliente", "cadastro cliente",
-                    "cadastro de clientes", "novo cliente", "adicionar cliente",
-                    "incluir cliente", "criar cliente", "como cadastrar cliente",
-                    "quero cadastrar cliente", "preciso cadastrar cliente"
+                patterns: [
+                    // Padrões específicos primeiro
+                    "cadastrar cliente",
+                    "cadastro cliente",
+                    "cadastrar um cliente", 
+                    "cadastro de clientes",
+                    "novo cliente",
+                    "adicionar cliente",
+                    "incluir cliente",
+                    "criar cliente",
+                    "como cadastrar cliente",
+                    // Palavras individuais por último
+                    "cliente",
+                    "clientes"
                 ],
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
@@ -386,10 +409,7 @@
             },
 
             "dependentes": {
-                keywords: [
-                    "dependente", "dependentes", "colocar dependente", "incluir dependente",
-                    "adicionar dependente", "familia", "familiar", "parente", "filho", "filha"
-                ],
+                patterns: ["dependente", "dependentes", "colocar dependente", "incluir dependente"],
                 answer: `<strong>Como incluir dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
@@ -401,19 +421,11 @@
                 • Data de nascimento<br>
                 • Situação (ativo/inativo)<br><br>
                 
-                <strong>Controle por senha/biometria:</strong><br>
-                • <strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos<br>
-                • <strong>Cadastrar biometria</strong> - Até 5 digitais<br>
-                • Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)<br><br>
-                
                 <div class="warning-box"><strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.</div>`
             },
 
             "convênios": {
-                keywords: [
-                    "convênio", "convenio", "convênios", "convenios", "vincular convênio",
-                    "vincular convenio", "plano", "planos", "acordo", "contrato"
-                ],
+                patterns: ["convênio", "convenio", "convênios", "convenios", "vincular convênio"],
                 answer: `<strong>Como vincular convênios:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
@@ -426,17 +438,11 @@
                 5. Defina <strong>limite de crédito</strong> se necessário<br>
                 6. Clique em <strong>"Aplicar"</strong> para salvar<br><br>
                 
-                <strong>Abas de configuração disponíveis:</strong><br>
-                • Geral - Dados básicos do vínculo<br>
-                • Descontos e Bloqueios - Regras específicas<br>
-                • Dependentes - Autorizar compras<br>
-                • Informações Adicionais - Trabalho e bancos<br><br>
-                
                 <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
             },
 
             "default": {
-                keywords: [],
+                patterns: [],
                 answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
                 
                 <div class="suggested-alternative">
@@ -460,7 +466,7 @@
         const typingIndicator = document.getElementById('typing-indicator');
         const suggestions = document.querySelectorAll('.suggestion');
 
-        // Função para normalizar texto (remove acentos, lowercase)
+        // Função para normalizar texto
         function normalizeText(text) {
             return text
                 .toLowerCase()
@@ -469,34 +475,68 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA SIMPLIFICADO E EFETIVO
+        // SISTEMA CORRIGIDO - Verifica combinações EXATAS primeiro
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('🔍 Procurando correspondência para:', normalizedQuestion);
+            console.log('🔍 Analisando:', normalizedQuestion);
             
-            // Verifica PRIMEIRO por bairros (prioridade máxima)
-            for (const keyword of knowledgeBase.bairros.keywords) {
-                const normalizedKeyword = normalizeText(keyword);
-                if (normalizedQuestion.includes(normalizedKeyword)) {
-                    console.log('✅ ENCONTROU BAIRRO com keyword:', normalizedKeyword);
+            // PRIMEIRO: Verifica combinações EXATAS em BAIRROS
+            for (const pattern of knowledgeBase.bairros.patterns) {
+                const normalizedPattern = normalizeText(pattern);
+                // Verifica se o padrão completo está na pergunta
+                if (normalizedQuestion.includes(normalizedPattern)) {
+                    console.log('✅ ENCONTROU BAIRRO (padrão exato):', normalizedPattern);
                     return "bairros";
                 }
             }
             
-            // Depois verifica outras categorias
+            // SEGUNDO: Verifica combinações EXATAS em CLIENTES
+            for (const pattern of knowledgeBase.clientes.patterns) {
+                const normalizedPattern = normalizeText(pattern);
+                if (normalizedQuestion.includes(normalizedPattern)) {
+                    console.log('✅ ENCONTROU CLIENTE (padrão exato):', normalizedPattern);
+                    return "clientes";
+                }
+            }
+            
+            // TERCEIRO: Verifica palavras individuais em BAIRROS
+            const words = normalizedQuestion.split(/\s+/);
+            for (const word of words) {
+                for (const pattern of knowledgeBase.bairros.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    // Verifica se é uma palavra individual (não combinação)
+                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
+                        console.log('✅ ENCONTROU BAIRRO (palavra individual):', word);
+                        return "bairros";
+                    }
+                }
+            }
+            
+            // QUARTO: Verifica palavras individuais em CLIENTES
+            for (const word of words) {
+                for (const pattern of knowledgeBase.clientes.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
+                        console.log('✅ ENCONTROU CLIENTE (palavra individual):', word);
+                        return "clientes";
+                    }
+                }
+            }
+            
+            // QUINTO: Verifica outras categorias
             for (const [category, data] of Object.entries(knowledgeBase)) {
-                if (category === "bairros" || category === "default") continue;
+                if (category === "bairros" || category === "clientes" || category === "default") continue;
                 
-                for (const keyword of data.keywords) {
-                    const normalizedKeyword = normalizeText(keyword);
-                    if (normalizedQuestion.includes(normalizedKeyword)) {
-                        console.log('✅ ENCONTROU', category, 'com keyword:', normalizedKeyword);
+                for (const pattern of data.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    if (normalizedQuestion.includes(normalizedPattern)) {
+                        console.log('✅ ENCONTROU', category.toUpperCase(), ':', normalizedPattern);
                         return category;
                     }
                 }
             }
             
-            console.log('❌ Nenhuma correspondência encontrada, usando default');
+            console.log('❌ Nenhuma correspondência, usando default');
             return "default";
         }
 
@@ -527,7 +567,7 @@
             return knowledgeBase[bestMatch].answer;
         }
 
-        // Função global para fazer perguntas (usada nos links)
+        // Função global para fazer perguntas
         window.askQuestion = function(question) {
             userInput.value = question;
             sendMessage();
@@ -538,14 +578,11 @@
             const question = userInput.value.trim();
             if (question === '') return;
             
-            // Adiciona pergunta do usuário
             addMessage(question, true);
             userInput.value = '';
             
-            // Mostra indicador de digitação
             showTyping();
             
-            // Simula tempo de processamento
             setTimeout(() => {
                 hideTyping();
                 const answer = processQuestion(question);
@@ -572,17 +609,15 @@
 
         // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>✅ SISTEMA CORRIGIDO - Teste agora:</strong><br><br>
-            • <strong>"como cadastrar bairro"</strong> → Mostra <strong>CADASTRO DE BAIRROS</strong><br>
-            • <strong>"cadastrar bairro"</strong> → Mostra <strong>CADASTRO DE BAIRROS</strong><br>
-            • <strong>"bairro"</strong> → Mostra <strong>CADASTRO DE BAIRROS</strong><br>
-            • <strong>"cadastrar cliente"</strong> → Mostra <strong>CADASTRO DE CLIENTES</strong><br><br>
-            <em>Problema resolvido! Agora funciona corretamente! 🎉</em>`);
+            addMessage(`<strong>🎯 SISTEMA CORRIGIDO - Teste estas frases:</strong><br><br>
+            • <strong>"cadastrar bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
+            • <strong>"cadastrar um bairro"</strong> → CADASTRO DE BAIRROS ✅<br>  
+            • <strong>"como cadastrar bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
+            • <strong>"bairro"</strong> → CADASTRO DE BAIRROS ✅<br>
+            • <strong>"cadastrar cliente"</strong> → CADASTRO DE CLIENTES ✅<br>
+            • <strong>"cliente"</strong> → CADASTRO DE CLIENTES ✅<br><br>
+            <em>Agora o reconhecimento funciona corretamente! 🚀</em>`);
         }, 1000);
-
-        // Debug no console
-        console.log('=== KEYWORDS BAIRROS ===');
-        console.log(knowledgeBase.bairros.keywords);
     </script>
 </body>
 </html>
