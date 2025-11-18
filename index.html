@@ -204,30 +204,38 @@
             border-radius: 0 4px 4px 0;
             font-size: 0.9rem;
         }
+
+        .suggested-alternative {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💊 Assistente Completo Cadastro - Softpharma</h1>
-            <p>IA especializada com conhecimento integral do cadastro de clientes</p>
+            <h1>💊 Assistente Inteligente Cadastro - Softpharma</h1>
+            <p>IA com reconhecimento de linguagem natural para cadastro de clientes</p>
         </div>
         
         <div class="chat-container">
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    Olá! Sou seu assistente especializado em Cadastro de Clientes do Softpharma. 
-                    Agora com conhecimento completo de todos os módulos: Dados Básicos, Dependentes, Convênios, Consulta, Informações Adicionais e Relatórios!
+                    Olá! Sou seu assistente inteligente para Cadastro de Clientes do Softpharma. 
+                    Fale comigo naturalmente - entendo perguntas informais! 😊
                 </div>
             </div>
             
             <div class="suggested-questions">
-                <div class="suggestion" data-question="Como acessar o cadastro de clientes?">Acessar cadastro</div>
-                <div class="suggestion" data-question="Como cadastrar um novo cliente?">Novo cliente</div>
-                <div class="suggestion" data-question="Como incluir dependentes?">Incluir dependentes</div>
-                <div class="suggestion" data-question="Como vincular convênios?">Vincular convênios</div>
-                <div class="suggestion" data-question="Como consultar clientes?">Consultar clientes</div>
-                <div class="suggestion" data-question="Como configurar descontos?">Configurar descontos</div>
+                <div class="suggestion" data-question="como cadastrar um cliente novo">Cadastrar cliente</div>
+                <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
+                <div class="suggestion" data-question="vincular convenio">Vincular convênio</div>
+                <div class="suggestion" data-question="consultar cliente">Consultar cliente</div>
+                <div class="suggestion" data-question="configurar desconto">Configurar desconto</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -239,34 +247,51 @@
             </div>
             
             <div class="chat-input">
-                <input type="text" id="user-input" placeholder="Digite sua pergunta sobre cadastro...">
+                <input type="text" id="user-input" placeholder="Ex: como adicionar um dependente no sistema...">
                 <button id="send-btn">Enviar</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Base de conhecimento COMPLETA baseada em todos os manuais
-        const knowledgeBase = {
-            "acessar": {
-                question: "Como acessar o cadastro de clientes?",
-                answer: `<strong>Caminho para acessar o Cadastro de Clientes:</strong><br><br>
-                <div class="path-highlight">Menu > Cadastros > Clientes</div><br>
-                
-                <strong>Estrutura completa do cadastro:</strong><br>
-                • <strong>Dados Básicos</strong> - Informações fundamentais do cliente<br>
-                • <strong>Dependentes</strong> - Cadastro de familiares<br>
-                • <strong>Informações Adicionais</strong> - Dados complementares<br>
-                • <strong>Convênios</strong> - Vínculos com planos<br>
-                • <strong>Consulta</strong> - Busca e filtros<br>
-                • <strong>Relatórios</strong> - Fichas e listagens<br><br>
-                
-                <em>Use F2 para consultar clientes existentes rapidamente.</em>`
-            },
+        // Sistema de sinônimos e correspondência fuzzy
+        const synonymDictionary = {
+            // Sinônimos para "cadastrar"
+            "cadastrar": ["cadastro", "cadastra", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro"],
+            
+            // Sinônimos para "cliente"
+            "cliente": ["clientes", "pessoa", "usuário", "consumidor", "comprador"],
+            
+            // Sinônimos para "dependente"
+            "dependente": ["dependentes", "familia", "familiar", "parente", "filho", "filha", "cônjuge", "marido", "esposa"],
+            
+            // Sinônimos para "convênio"
+            "convênio": ["convenio", "convênios", "convenios", "plano", "planos", "vínculo", "vinculo", "acordo", "contrato"],
+            
+            // Sinônimos para "consultar"
+            "consultar": ["consulta", "consultar", "buscar", "procurar", "pesquisar", "localizar", "encontrar"],
+            
+            // Sinônimos para "editar"
+            "editar": ["editar", "alterar", "modificar", "mudar", "atualizar", "corrigir"],
+            
+            // Sinônimos para "excluir"
+            "excluir": ["excluir", "deletar", "apagar", "remover", "eliminar", "inativar"],
+            
+            // Sinônimos para "desconto"
+            "desconto": ["descontos", "desconta", "promoção", "promocao", "redução", "reducao", "abatimento"],
+            
+            // Sinônimos para "relatório"
+            "relatório": ["relatorio", "relatorios", "relatórios", "ficha", "lista", "listagem", "impressão", "imprimir"]
+        };
 
+        // Base de conhecimento COMPLETA com múltiplas variações
+        const knowledgeBase = {
             "cadastrar": {
-                question: "Como cadastrar um novo cliente?",
-                answer: `<strong>Passo a passo COMPLETO para cadastrar novo cliente:</strong><br><br>
+                patterns: [
+                    "cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", 
+                    "registrar", "abrir cadastro", "fazer cadastro", "como cadastra"
+                ],
+                answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
                 
@@ -290,8 +315,12 @@
             },
 
             "dependentes": {
-                question: "Como incluir dependentes?",
-                answer: `<strong>Cadastro COMPLETO de dependentes:</strong><br><br>
+                patterns: [
+                    "dependente", "dependentes", "familia", "familiar", "parente", 
+                    "filho", "filha", "cônjuge", "marido", "esposa", "como colocar dependente",
+                    "adicionar dependente", "incluir familiar"
+                ],
+                answer: `<strong>Como incluir dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
                 
@@ -311,55 +340,63 @@
             },
 
             "convênios": {
-                question: "Como vincular convênios?",
-                answer: `<strong>Vínculo COMPLETO com convênios:</strong><br><br>
+                patterns: [
+                    "convênio", "convenio", "convênios", "convenios", "plano", "planos",
+                    "vínculo", "vinculo", "acordo", "contrato", "vincular", "ligar",
+                    "associar", "como vincular", "colocar no convênio"
+                ],
+                answer: `<strong>Como vincular convênios:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
                 
-                <strong>Abas de configuração:</strong><br>
-                • <strong>Geral</strong> - Matrícula, situação, limite crédito<br>
-                • <strong>Descontos e Bloqueios</strong> - Regras específicas<br>
-                • <strong>Observação e Mensagem</strong> - Alertas na venda<br>
-                • <strong>Dependentes</strong> - Autorizar compras<br>
-                • <strong>Informações Adicionais</strong> - Trabalho e bancos<br>
-                • <strong>Limites Cheque</strong> - Configurações específicas<br><br>
+                <strong>Passo a passo:</strong><br>
+                1. Clique em <strong>"Novo"</strong> na guia Convênios<br>
+                2. Informe o código do convênio ou use F2 para consultar<br>
+                3. Preencha a <strong>matrícula</strong> (ou deixe gerar automaticamente)<br>
+                4. Configure a <strong>situação</strong> do vínculo<br>
+                5. Defina <strong>limite de crédito</strong> se necessário<br>
+                6. Clique em <strong>"Aplicar"</strong> para salvar<br><br>
                 
-                <strong>Configurações principais:</strong><br>
-                • Matrícula automática: Código Cliente + Código Convênio<br>
-                • Limite de crédito por convênio<br>
-                • Dias prazo ou data vencimento<br>
-                • Carência (Particular, VIP I, VIP II)<br>
-                • Bloquear fidelidade se necessário<br><br>
+                <strong>Abas de configuração disponíveis:</strong><br>
+                • Geral - Dados básicos do vínculo<br>
+                • Descontos e Bloqueios - Regras específicas<br>
+                • Dependentes - Autorizar compras<br>
+                • Informações Adicionais - Trabalho e bancos<br><br>
                 
-                <div class="info-box"><strong>Lembrete:</strong> Cliente precisa de pelo menos 1 convênio vinculado.</div>`
+                <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
             },
 
             "consultar": {
-                question: "Como consultar clientes?",
-                answer: `<strong>Sistema COMPLETO de consulta:</strong><br><br>
+                patterns: [
+                    "consultar", "consulta", "buscar", "procurar", "pesquisar", 
+                    "localizar", "encontrar", "achar", "como achar cliente",
+                    "procurar cliente", "buscar pessoa"
+                ],
+                answer: `<strong>Como consultar clientes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Consulta</div><br>
                 
-                <strong>Tipos de busca:</strong><br>
-                • <strong>Por Nome</strong> - Nome completo ou iniciais<br>
+                <strong>Tipos de busca disponíveis:</strong><br>
+                • <strong>Por Nome</strong> - Digite o nome ou parte (%Silva)<br>
+                • <strong>Por CPF</strong> - Busca direta por CPF<br>
+                • <strong>Por Telefone</strong> - Busca por número<br>
                 • <strong>Por Convênio</strong> - Filtro por convênio específico<br>
                 • <strong>Por Cartão</strong> - Número do cartão fidelidade<br>
-                • <strong>Inativos</strong> - Apenas vínculos inativos<br>
-                • <strong>Por CPF</strong> - Busca direta por CPF<br>
-                • <strong>Por Telefone</strong> - Busca por contato<br><br>
+                • <strong>Inativos</strong> - Apenas vínculos inativos<br><br>
                 
-                <strong>Funcionalidades avançadas:</strong><br>
-                • <strong>Agrupar Convênios</strong> - Mostra cliente uma vez<br>
-                • <strong>%Silva</strong> - Busca por parte do nome<br>
-                • <strong>Ícone vermelho</strong> - Vínculo bloqueado<br>
-                • <strong>Ícone preto</strong> - Vínculo suspenso<br><br>
-                
-                <div class="info-box"><strong>Dica:</strong> Use F2 para consulta rápida em qualquer campo.</div>`
+                <strong>Dica rápida:</strong> Use <strong>F2</strong> em qualquer campo para consulta rápida!`
             },
 
             "descontos": {
-                question: "Como configurar descontos?",
-                answer: `<strong>Sistema COMPLETO de descontos:</strong><br><br>
+                patterns: [
+                    "desconto", "descontos", "promoção", "promocao", "redução", 
+                    "reducao", "abatimento", "configurar desconto", "aplicar desconto",
+                    "como desconta", "fazer desconto"
+                ],
+                answer: `<strong>Como configurar descontos:</strong><br><br>
+                
+                <strong>Localização:</strong><br>
+                <div class="path-highlight">Cadastro Clientes > Convênios > Aba "Descontos e Bloqueios"</div><br>
                 
                 <strong>Hierarquia de descontos (ordem de aplicação):</strong><br>
                 1º <strong>Desconto por Produto</strong><br>
@@ -372,167 +409,24 @@
                 • <strong>Desconto por Faixa</strong> - Por intervalo de valores<br>
                 • <strong>Desconto por Condição</strong> - Por condição pagamento<br><br>
                 
-                <strong>Localização:</strong><br>
-                <div class="path-highlight">Cadastro Clientes > Convênios > Aba Descontos e Bloqueios</div><br>
-                <strong>OU</strong><br>
-                <div class="path-highlight">Programa Liberar/Retirar Descontos</div><br>
-                
                 <div class="warning-box"><strong>Importante:</strong> Descontos do cliente são validados ANTES dos descontos do convênio.</div>`
             },
 
-            "informações adicionais": {
-                question: "Como preencher informações adicionais?",
-                answer: `<strong>Guia Informações Adicionais - Dados COMPLETOS:</strong><br><br>
-                
-                <strong>Dados Pessoais:</strong><br>
-                • Estado civil<br>
-                • Nome e nascimento do cônjuge<br>
-                • Nome dos pais<br>
-                • Renda familiar<br>
-                • Tempo de residência<br>
-                • Tipo de moradia (própria/alugada)<br><br>
-                
-                <strong>Controles Especiais:</strong><br>
-                • <strong>Não ligar em Pós Vendas</strong> - Opt-out<br>
-                • <strong>SPC</strong> - Alerta na venda<br>
-                • <strong>Pontuação fidelidade</strong> - Visualização<br>
-                • <strong>Benefício aposentado</strong> - Número cartão<br>
-                • <strong>Controle vendedor</strong> - Código 4 dígitos<br><br>
-                
-                <strong>Senha/Biometria:</strong><br>
-                • Senha única pessoal<br>
-                • Gerar senha padrão (6 dígitos)<br>
-                • Cadastrar até 5 biometrias<br><br>
-                
-                <strong>Dados Fiscais:</strong><br>
-                • Tipo de contribuinte<br>
-                • Inscrição Estadual (IE)<br>
-                • SUFRAMA (9 caracteres)<br>
-                • Conta contábil<br><br>
-                
-                <strong>Referências:</strong><br>
-                • Até 4 referências pessoais</div>`
-            },
-
-            "relatórios": {
-                question: "Quais relatórios estão disponíveis?",
-                answer: `<strong>Relatórios COMPLETOS do cadastro:</strong><br><br>
-                
-                <strong>1. FICHA DO CLIENTE (F5 ou ALT+1):</strong><br>
-                • Todas as informações do cliente<br>
-                • Opção imprimir informações fidelidade<br>
-                • Lista todos os convênios vinculados<br><br>
-                
-                <strong>2. MENSAGENS DOS CLIENTES (F6):</strong><br>
-                • Listagem de clientes com mensagens<br>
-                • Código, nome e mensagem cadastrada<br>
-                • Filtro por convênio<br><br>
-                
-                <strong>3. E-MAIL DOS CLIENTES (F8):</strong><br>
-                • Lista de e-mails para mala direta<br>
-                • Filtro por convênio e situação<br>
-                • Gera arquivo texto com e-mails<br><br>
-                
-                <div class="info-box"><strong>Uso:</strong> Ideal para promoções, comunicados e arquivo físico.</div>`
-            },
-
-            "editar": {
-                question: "Como editar dados do cliente?",
-                answer: `<strong>Edição COMPLETA de cliente:</strong><br><br>
-                
-                <div class="path-highlight">Menu > Cadastros > Clientes > [Selecionar Cliente] > Editar</div><br>
-                
-                <strong>Procedimento:</strong><br>
-                1. Localizar cliente (F2 - Consultar)<br>
-                2. Selecionar e clicar "Editar"<br>
-                3. Navegar pelas guias:<br>
-                   - Dados Básicos<br>
-                   - Dependentes<br>
-                   - Informações Adicionais<br>
-                   - Convênios<br>
-                4. Fazer alterações<br>
-                5. Salvar modificações<br><br>
-                
-                <div class="warning-box"><strong>Atenção:</strong> Alterações em dados básicos afetam relatórios fiscais e correspondências.</div>`
-            },
-
-            "excluir": {
-                question: "Como excluir um cliente?",
-                answer: `<strong>Prática RECOMENDADA - Inativar vs Excluir:</strong><br><br>
-                
-                <strong>INATIVAR (Recomendado):</strong><br>
-                1. Acessar cadastro do cliente<br>
-                2. Editar cadastro<br>
-                3. Alterar situação para "Inativo"<br>
-                4. Salvar alterações<br><br>
-                
-                <strong>Vantagens da inativação:</strong><br>
-                • Mantém histórico completo<br>
-                • Preserva vendas anteriores<br>
-                • Permite reativação futura<br>
-                • Atende requirements fiscais<br><br>
-                
-                <strong>EXCLUIR (Apenas casos específicos):</strong><br>
-                • Verificar ausência de vendas vinculadas<br>
-                • Consultar suporte técnico<br>
-                • Pode exigir acesso ao banco de dados<br><br>
-                
-                <div class="warning-box"><strong>Importante:</strong> Cliente só é considerado inativo quando TODOS os vínculos com convênios estiverem inativos.</div>`
-            },
-
-            "código": {
-                question: "Como funciona o código do cliente?",
-                answer: `<strong>Sistema de Código Automático:</strong><br><br>
-                
-                <strong>Lógica de geração:</strong><br>
-                • <strong>Cálculo:</strong> (Filial × 10.000) + Sequência<br><br>
-                
-                <strong>Exemplo Prático:</strong><br>
-                • Filial: 2<br>
-                • Sequência: 100<br>
-                • Cálculo: (2 × 10.000) + 100<br>
-                • <strong>Código Gerado: 20000100</strong><br><br>
-                
-                <strong>Características:</strong><br>
-                • Gerado automaticamente pelo sistema<br>
-                • Primeiro dígito identifica a filial<br>
-                • Sequência única por filial<br>
-                • Não editável após criação<br><br>
-                
-                <div class="info-box"><strong>Observação:</strong> O código é único e permanente para cada cliente.</div>`
-            },
-
-            "menu": {
-                question: "Onde fica o cadastro de clientes no menu?",
-                answer: `<strong>Localização COMPLETA no Menu:</strong><br><br>
-                
-                <div class="path-highlight">MENU PRINCIPAL > CADASTROS > CLIENTES</div><br>
-                
-                <strong>Módulos disponíveis:</strong><br>
-                • <strong>Cadastro Completo</strong> - Dados, dependentes, convênios<br>
-                • <strong>Consulta Avançada</strong> - Múltiplos filtros<br>
-                • <strong>Relatórios</strong> - Fichas, mensagens, e-mails<br>
-                • <strong>Configurações</strong> - Por usuário<br><br>
-                
-                <strong>Atalhos disponíveis:</strong><br>
-                • F2 - Consultar clientes<br>
-                • F5 - Ficha do cliente<br>
-                • F6 - Mensagens dos clientes<br>
-                • F8 - E-mail dos clientes<br><br>
-                
-                <em>Use os atalhos para agilizar o trabalho diário.</em>`
-            },
-
             "default": {
-                question: "Outras dúvidas",
-                answer: `Não encontrei uma resposta específica. Tente estas opções:<br><br>
-                • "Como cadastrar um novo cliente?"<br>
-                • "Como incluir dependentes?"<br>
-                • "Como vincular convênios?"<br>
-                • "Como consultar clientes?"<br>
-                • "Como configurar descontos?"<br>
-                • "Quais relatórios disponíveis?"<br><br>
-                <em>Base completo nos manuais oficiais do Softpharma - Cadastro de Clientes.</em>`
+                patterns: [],
+                answer: `🤔 <strong>Entendi que você quer ajuda com cadastro!</strong><br><br>
+                
+                <div class="suggested-alternative">
+                <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
+                
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar um cliente novo')">Como cadastrar um novo cliente</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('vincular convenio')">Como vincular convênios</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('consultar cliente')">Como consultar clientes</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar desconto')">Como configurar descontos</strong><br><br>
+                
+                <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
+                </div>`
             }
         };
 
@@ -542,6 +436,46 @@
         const sendBtn = document.getElementById('send-btn');
         const typingIndicator = document.getElementById('typing-indicator');
         const suggestions = document.querySelectorAll('.suggestion');
+
+        // Função para normalizar texto (remove acentos, lowercase)
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^\w\s]/gi, ' ');
+        }
+
+        // Função para encontrar correspondência inteligente
+        function findBestMatch(question) {
+            const normalizedQuestion = normalizeText(question);
+            
+            // Verifica cada categoria de conhecimento
+            for (const [category, data] of Object.entries(knowledgeBase)) {
+                for (const pattern of data.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    
+                    // Verifica se o padrão está contido na pergunta
+                    if (normalizedQuestion.includes(normalizedPattern)) {
+                        return category;
+                    }
+                    
+                    // Verifica correspondência de palavras-chave
+                    const questionWords = normalizedQuestion.split(' ');
+                    const patternWords = normalizedPattern.split(' ');
+                    
+                    const matchingWords = questionWords.filter(word => 
+                        patternWords.includes(word) && word.length > 2
+                    );
+                    
+                    if (matchingWords.length >= 2) {
+                        return category;
+                    }
+                }
+            }
+            
+            return "default";
+        }
 
         // Função para adicionar mensagem no chat
         function addMessage(message, isUser = false) {
@@ -566,19 +500,15 @@
 
         // Função para processar a pergunta do usuário
         function processQuestion(question) {
-            const lowerQuestion = question.toLowerCase();
-            let response = knowledgeBase.default;
-            
-            // Verifica correspondência com as perguntas conhecidas
-            for (const key in knowledgeBase) {
-                if (lowerQuestion.includes(key)) {
-                    response = knowledgeBase[key];
-                    break;
-                }
-            }
-            
-            return response.answer;
+            const bestMatch = findBestMatch(question);
+            return knowledgeBase[bestMatch].answer;
         }
+
+        // Função global para fazer perguntas (usada nos links)
+        window.askQuestion = function(question) {
+            userInput.value = question;
+            sendMessage();
+        };
 
         // Função para enviar mensagem
         function sendMessage() {
@@ -617,18 +547,16 @@
             });
         });
 
-        // Mensagem de boas-vindas com sugestões
+        // Mensagem de boas-vindas
         setTimeout(() => {
-            addMessage(`<strong>Agora com conhecimento COMPLETO do cadastro de clientes!</strong><br><br>
-            <strong>Módulos que domino:</strong><br>
-            • ✅ <strong>Dados Básicos</strong> - Informações fundamentais<br>
-            • ✅ <strong>Dependentes</strong> - Cadastro familiar completo<br>
-            • ✅ <strong>Informações Adicionais</strong> - Dados complementares<br>
-            • ✅ <strong>Convênios</strong> - Vínculos e configurações<br>
-            • ✅ <strong>Consulta</strong> - Sistema de busca avançada<br>
-            • ✅ <strong>Relatórios</strong> - Fichas e listagens<br>
-            • ✅ <strong>Descontos</strong> - Hierarquia e configurações<br><br>
-            <em>Clique nas sugestões ou digite sua pergunta!</em>`);
+            addMessage(`<strong>Fale comigo naturalmente! 😊</strong><br><br>
+            Entendo várias formas de perguntar:<br><br>
+            • "como cadastrar um cliente"<br>
+            • "quero adicionar um dependente"<br>
+            • "preciso vincular um convênio"<br>
+            • "como consultar um cliente"<br>
+            • "configurar desconto para cliente"<br><br>
+            <em>Experimente fazer uma pergunta do seu jeito!</em>`);
         }, 1000);
     </script>
 </body>
