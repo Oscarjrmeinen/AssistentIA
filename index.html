@@ -1,4 +1,4 @@
-<!DOCTYPE html>https://share.linx.com.br/display/FARMA/Menu+Cadastros
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -27,13 +27,13 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 1000px;
-            height: 90vh;
+            max-width: 1100px;
+            height: 95vh;
             display: flex;
         }
 
         .sidebar {
-            width: 250px;
+            width: 280px;
             background: #2c3e50;
             color: white;
             padding: 20px;
@@ -43,17 +43,33 @@
 
         .sidebar h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid #34495e;
         }
 
+        .menu-section {
+            margin-bottom: 20px;
+        }
+
+        .menu-section-title {
+            font-size: 14px;
+            color: #bbb;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            text-transform: uppercase;
+        }
+
         .menu-item {
-            padding: 12px 15px;
-            margin: 5px 0;
-            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 3px 0;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .menu-item:hover {
@@ -62,17 +78,27 @@
 
         .menu-item.active {
             background: #3498db;
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            width: 20px;
+            text-align: center;
         }
 
         .admin-btn {
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             cursor: pointer;
             margin-top: auto;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .admin-btn:hover {
@@ -89,8 +115,25 @@
         .chat-header {
             background: #34495e;
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 15px 20px;
+        }
+
+        .chat-header h3 {
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .current-module {
+            background: #2980b9;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px;
         }
 
         .chat-messages {
@@ -101,11 +144,11 @@
         }
 
         .message {
-            max-width: 80%;
+            max-width: 85%;
             padding: 12px 16px;
             margin: 10px 0;
             border-radius: 18px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .message.bot {
@@ -130,6 +173,7 @@
             max-width: 90%;
             font-size: 14px;
             text-align: center;
+            color: #856404;
         }
 
         .chat-input {
@@ -209,9 +253,15 @@
         .knowledge-source {
             font-size: 12px;
             color: #666;
-            margin-top: 5px;
-            padding-top: 5px;
+            margin-top: 8px;
+            padding-top: 8px;
             border-top: 1px dashed #ddd;
+        }
+
+        .sub-modules {
+            margin-left: 20px;
+            border-left: 2px solid #34495e;
+            padding-left: 10px;
         }
 
         /* Modal de Administração */
@@ -233,7 +283,7 @@
             padding: 30px;
             border-radius: 15px;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -241,25 +291,21 @@
         .modal h3 {
             margin-bottom: 20px;
             color: #2c3e50;
-        }
-
-        .knowledge-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
 
         textarea {
             width: 100%;
-            height: 120px;
-            padding: 12px;
+            height: 300px;
+            padding: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            margin: 10px 0;
-            font-family: monospace;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
             resize: vertical;
+            font-size: 13px;
+            line-height: 1.4;
         }
 
         .btn {
@@ -270,58 +316,132 @@
             border-radius: 6px;
             cursor: pointer;
             margin: 5px;
+            font-size: 14px;
+        }
+
+        .btn-success {
+            background: #28a745;
         }
 
         .btn-danger {
             background: #e74c3c;
         }
 
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-5px); }
+        }
+
+        .module-description {
+            font-size: 12px;
+            color: #bbb;
+            margin-top: 3px;
+            padding-left: 28px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
+        <!-- Sidebar com Menu de Cadastros -->
         <div class="sidebar">
             <h2>🧪 Softpharma</h2>
-            <div class="menu-item active" data-module="vendas">💼 Módulo de Vendas</div>
-            <div class="menu-item" data-module="estoque">📦 Controle de Estoque</div>
-            <div class="menu-item" data-module="financeiro">💰 Financeiro</div>
-            <div class="menu-item" data-module="clientes">👥 Cadastro de Clientes</div>
-            <div class="menu-item" data-module="produtos">💊 Cadastro de Produtos</div>
-            <div class="menu-item" data-module="relatorios">📊 Relatórios</div>
             
-          <button class="btn" id="importLinx" style="background: #28a745;">
-    📥 Importar da Linx (Estrutura Básica)
-</button>
+            <!-- Seção Cadastros -->
+            <div class="menu-section">
+                <div class="menu-section-title">Cadastros</div>
+                
+                <div class="menu-item active" data-module="clientes">
+                    <span class="icon">👤</span>
+                    Clientes
+                    <div class="module-description">Cadastro e gestão de clientes</div>
+                </div>
+                
+                <div class="menu-item" data-module="fornecedores">
+                    <span class="icon">🏢</span>
+                    Fornecedores
+                    <div class="module-description">Cadastro de fornecedores</div>
+                </div>
+                
+                <div class="menu-item" data-module="produtos">
+                    <span class="icon">💊</span>
+                    Produtos
+                    <div class="module-description">Medicamentos e produtos</div>
+                </div>
+                
+                <div class="menu-item" data-module="convenios">
+                    <span class="icon">🏥</span>
+                    Convênios
+                    <div class="module-description">Planos de saúde e convênios</div>
+                </div>
+                
+                <div class="menu-item" data-module="fabricantes">
+                    <span class="icon">🏭</span>
+                    Fabricantes
+                    <div class="module-description">Laboratórios e fabricantes</div>
+                </div>
+                
+                <div class="menu-item" data-module="transportadoras">
+                    <span class="icon">🚚</span>
+                    Transportadoras
+                    <div class="module-description">Empresas de transporte</div>
+                </div>
+                
+                <div class="menu-item" data-module="vendedores">
+                    <span class="icon">👨‍💼</span>
+                    Vendedores
+                    <div class="module-description">Equipe de vendas</div>
+                </div>
+                
+                <div class="menu-item" data-module="tecnicos">
+                    <span class="icon">🔧</span>
+                    Técnicos
+                    <div class="module-description">Equipe técnica</div>
+                </div>
+                
+                <div class="menu-item" data-module="usuarios">
+                    <span class="icon">👥</span>
+                    Usuários
+                    <div class="module-description">Usuários do sistema</div>
+                </div>
+            </div>
+
+            <!-- Seção Outros Módulos -->
+            <div class="menu-section">
+                <div class="menu-section-title">Outros Módulos</div>
+                <div class="menu-item" data-module="vendas">💼 Vendas</div>
+                <div class="menu-item" data-module="estoque">📦 Estoque</div>
+                <div class="menu-item" data-module="financeiro">💰 Financeiro</div>
+            </div>
+            
+            <button class="admin-btn" id="adminBtn">
+                <span>⚙️</span>
+                Administrar Conhecimento
+            </button>
         </div>
 
         <!-- Chat Area -->
         <div class="chat-area">
             <div class="chat-header">
                 <h3>Assistente IA - Softpharma</h3>
-                <p>Baseado no manual oficial do sistema</p>
+                <p>Especializado em Cadastros - Baseado no Manual Linx</p>
+                <div class="current-module" id="currentModuleDisplay">Módulo: Clientes</div>
             </div>
 
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
-                    👋 Olá! Sou seu assistente especializado no Softpharma. 
-                    Posso tirar dúvidas baseadas no manual oficial do sistema.
+                    👋 Olá! Sou seu assistente especializado em <strong>Cadastros do Softpharma</strong>. 
+                    Posso ajudar com dúvidas sobre clientes, produtos, fornecedores e outros cadastros.
                 </div>
                 
-                <div class="suggested-questions">
-                    <div class="suggested-question" data-question="Como aplicar desconto em uma venda?">
-                        💰 Como aplicar desconto em uma venda?
-                    </div>
-                    <div class="suggested-question" data-question="Como cadastrar um novo produto?">
-                        💊 Como cadastrar um novo produto?
-                    </div>
-                    <div class="suggested-question" data-question="Como consultar estoque?">
-                        📦 Como consultar estoque?
-                    </div>
+                <div class="suggested-questions" id="suggestedQuestions">
+                    <!-- As perguntas serão carregadas dinamicamente -->
                 </div>
             </div>
 
@@ -336,7 +456,7 @@
             </div>
 
             <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre o Softpharma...">
+                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre cadastros no Softpharma...">
                 <button id="sendButton">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -350,124 +470,186 @@
     <!-- Modal de Administração -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
-            <h3>📚 Base de Conhecimento - Softpharma</h3>
+            <h3>📚 Base de Conhecimento - Cadastros Softpharma</h3>
             
-            <div class="knowledge-item">
-                <strong>Como adicionar conhecimento:</strong>
-                <p>Cole trechos do manual do Softpharma abaixo. O assistente usará estas informações para responder dúvidas.</p>
+            <div class="btn-group">
+                <button class="btn btn-success" id="loadLinxStructure">📥 Carregar Estrutura Linx</button>
+                <button class="btn" id="saveKnowledge">💾 Salvar Conhecimento</button>
+                <button class="btn btn-danger" id="clearKnowledge">🗑️ Limpar Tudo</button>
             </div>
 
-            <textarea id="knowledgeText" placeholder="Cole aqui o conteúdo do manual do Softpharma...
+            <textarea id="knowledgeText" placeholder="Cole aqui o conteúdo do menu de Cadastros do portal Linx...
 
-Exemplo:
-MÓDULO VENDAS
-- Para aplicar desconto: Vá em Vendas → Nova Venda → Clique em 'Desconto' → Informe o percentual
-- Para consultar histórico: Relatórios → Vendas → Histórico por Período
+FORMATO RECOMENDADO:
+=== clientes ===
+[Conteúdo sobre cadastro de clientes]
 
-MÓDULO ESTOQUE
-- Cadastrar produto: Estoque → Produtos → Novo → Preencha dados obrigatórios
-- Consultar estoque: Estoque → Consulta → Filtre por produto ou categoria"></textarea>
+=== fornecedores ===  
+[Conteúdo sobre cadastro de fornecedores]
+
+=== produtos ===
+[Conteúdo sobre cadastro de produtos]
+
+... e assim por diante para cada módulo de cadastro"></textarea>
             
-            <button class="btn" id="saveKnowledge">💾 Salvar Conhecimento</button>
-            <button class="btn btn-danger" id="clearKnowledge">🗑️ Limpar Tudo</button>
             <button class="btn" id="closeModal">✕ Fechar</button>
 
-            <div id="currentKnowledge" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none;">
-                <h4>Conhecimento Atual Salvo:</h4>
+            <div id="currentKnowledge" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <h4>📋 Módulos de Cadastro Configurados:</h4>
                 <div id="knowledgePreview"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // ========== BASE DE CONHECENDO DO SOFTPHARMA ==========
+        // ========== BASE DE CONHECIMENTO - CADASTROS SOFTPHARMA ==========
         let knowledgeBase = {
-            vendas: https://share.linx.com.br/display/FARMA/Menu+Cadastrosestoque: `
-MÓDULO DE ESTOQUE - SOFTPHARMA
-1. CADASTRAR PRODUTO:
-   - Estoque → Produtos → Novo Produto
-   - Preencha: Código, Descrição, Princípio Ativo
-   - Informe: Preço de Venda, Estoque Mínimo
+            clientes: `CADASTRO DE CLIENTES - SOFTPHARMA
 
-2. CONTROLE DE ESTOQUE:
-   - Estoque → Movimentação → Entrada/Saída
-   - Para entrada: informe lote, validade, quantidade
-   - Sistema controla automaticamente saldo
-
-3. INVENTÁRIO:
-   - Estoque → Inventário → Novo
-   - Conte os produtos físicos
-   - Sistema reconcilia diferenças
-
-4. ALERTAS:
-   - Produtos com estoque baixo aparecem em vermelho
-   - Validades próximas geram alertas amarelos
-            `,
-            financeiro: `
-MÓDULO FINANCEIRO - SOFTPHARMA
-1. CONTAS A RECEBER:
-   - Financeiro → Contas a Receber → Nova
-   - Informe: Cliente, Valor, Vencimento
-   - Sistema gera parcelas automaticamente
-
-2. FLUXO DE CAIXA:
-   - Relatórios → Financeiro → Fluxo de Caixa
-   - Mostra entradas e saídas diárias
-   - Filtre por período específico
-
-3. CONCILIAÇÃO BANCÁRIA:
-   - Financeiro → Conciliação → Nova
-   - Importe extrato ou digite manualmente
-   - Marque lançamentos conciliados
-            `,
-            clientes: `
-CADASTRO DE CLIENTES - SOFTPHARMA
 1. NOVO CLIENTE:
-   - Cadastro → Clientes → Novo
-   - Informe: Nome, CPF/CNPJ, Telefone
-   - Endereço para emissão de NFC-e
+   - Menu: Cadastros → Clientes → Novo
+   - Campos obrigatórios: Nome, CPF/CNPJ, Tipo Pessoa
+   - Endereço completo para NFC-e
 
-2. HISTÓRICO DO CLIENTE:
-   - Clique no cliente → Aba "Histórico"
-   - Veja compras anteriores, crédito, etc.
+2. INFORMAÇÕES IMPORTANTES:
+   - E-mail para envio de notas
+   - Telefone para contato
+   - Data de nascimento (para farmácia popular)
 
-3. FIDELIDADE:
-   - Sistema calcula pontos automaticamente
-   - Configure regras em "Configurações"
-            `,
-            produtos: `
-CADASTRO DE PRODUTOS - SOFTPHARMA
-1. MEDICAMENTOS:
-   - Informe: Princípio Ativo, Concentração
+3. CLASSIFICAÇÃO:
+   - Cliente comum, Ouro, Diamante
+   - Limite de crédito
+   - Dias para pagamento
+
+4. HISTÓRICO:
+   - Visualizar compras anteriores
+   - Ver saldo de pontos fidelidade
+   - Consultar pendências financeiras`,
+
+            fornecedores: `CADASTRO DE FORNECEDORES - SOFTPHARMA
+
+1. NOVO FORNECEDOR:
+   - Menu: Cadastros → Fornecedores → Novo
+   - Dados fiscais completos
+   - Contato comercial
+
+2. INFORMAÇÕES DE CONTATO:
+   - Representante comercial
+   - Telefone e e-mail
+   - Prazo de entrega médio
+
+3. DADOS BANCÁRIOS:
+   - Para pagamentos
+   - Agência, conta, favorecido
+   - Código para conciliação`,
+
+            produtos: `CADASTRO DE PRODUTOS - SOFTPHARMA
+
+1. NOVO PRODUTO:
+   - Menu: Cadastros → Produtos → Novo
+   - Código de barras (obrigatório)
+   - Descrição completa
+   - Princípio ativo (medicamentos)
+
+2. CLASSIFICAÇÃO:
+   - Tipo: Medicamento, Perfumaria, Conveniência
    - Tarja: Vermelha, Preta, Livre
-   - Número de registro ANVISA
+   - Controlado: Sim/Não
 
-2. PREÇOS:
-   - Preço de Custo, Preço de Venda
-   - Margem de lucro calculada automaticamente
-   - Promoções com datas específicas
+3. TRIBUTAÇÃO:
+   - NCM
+   - CST
+   - CFOP
 
-3. CONTROLE ESPECIAL:
-   - Medicamentos controlados exigem receita
-   - Sistema bloqueia venda sem receita válida
-            `,
-            relatorios: `
-RELATÓRIOS - SOFTPHARMA
-1. VENDAS:
-   - Relatório de Vendas por Período
-   - Vendas por Vendedor
-   - Produtos Mais Vendidos
+4. ESTOQUE:
+   - Estoque mínimo
+   - Estoque máximo
+   - Localização no armazém`,
 
-2. ESTOQUE:
-   - Posição de Estoque
-   - Produtos em Falta
-   - Validades Próximas
+            convenios: `CADASTRO DE CONVÊNIOS - SOFTPHARMA
 
-3. FINANCEIRO:
-   - Fluxo de Caixa
-   - Contas a Pagar/Receber
-   - Resultado Mensal
-            `
+1. NOVO CONVÊNIO:
+   - Menu: Cadastros → Convênios → Novo
+   - Nome do convênio/plano
+   - CNPJ da operadora
+
+2. CONFIGURAÇÕES:
+   - Desconto padrão
+   - Medicamentos cobertos
+   - Documentação necessária
+
+3. AUTORIZAÇÕES:
+   - Tipo de autorização
+   - Prazo de validade
+   - Códigos específicos`,
+
+            fabricantes: `CADASTRO DE FABRICANTES - SOFTPHARMA
+
+1. NOVO FABRICANTE:
+   - Menu: Cadastros → Fabricantes → Novo
+   - Razão Social
+   - CNPJ
+   - Registro na ANVISA
+
+2. INFORMAÇÕES:
+   - Endereço da fábrica
+   - Telefone SAC
+   - E-mail para contato`,
+
+            transportadoras: `CADASTRO DE TRANSPORTADORAS - SOFTPHARMA
+
+1. NOVA TRANSPORTADORA:
+   - Menu: Cadastros → Transportadoras → Novo
+   - Dados completos da empresa
+   - Modalidade de transporte
+
+2. DOCUMENTAÇÃO:
+   - Inscrição estadual
+   - RNTRC (Registro Nacional)
+   - Seguro obrigatório`,
+
+            vendedores: `CADASTRO DE VENDEDORES - SOFTPHARMA
+
+1. NOVO VENDEDOR:
+   - Menu: Cadastros → Vendedores → Novo
+   - Dados pessoais
+   - Matrícula ou código
+
+2. COMISSÕES:
+   - Percentual de comissão
+   - Meta de vendas
+   - Região de atuação`,
+
+            tecnicos: `CADASTRO DE TÉCNICOS - SOFTPHARMA
+
+1. NOVO TÉCNICO:
+   - Menu: Cadastros → Técnicos → Novo
+   - Nome completo
+   - Registro profissional (CRF)
+
+2. ATRIBUIÇÕES:
+   - Responsabilidade técnica
+   - Horário de trabalho
+   - Áreas de especialização`,
+
+            usuarios: `CADASTRO DE USUÁRIOS - SOFTPHARMA
+
+1. NOVO USUÁRIO:
+   - Menu: Cadastros → Usuários → Novo
+   - Login de acesso
+   - Senha inicial
+   - Perfil de acesso
+
+2. PERMISSÕES:
+   - Administrador
+   - Vendedor
+   - Caixa
+   - Estoquista
+
+3. SEGURANÇA:
+   - Bloqueio por tentativas
+   - Validade da senha
+   - Horário de acesso`
         };
 
         // ========== ELEMENTOS DO DOM ==========
@@ -484,8 +666,11 @@ RELATÓRIOS - SOFTPHARMA
         const closeModal = document.getElementById('closeModal');
         const currentKnowledge = document.getElementById('currentKnowledge');
         const knowledgePreview = document.getElementById('knowledgePreview');
+        const currentModuleDisplay = document.getElementById('currentModuleDisplay');
+        const suggestedQuestions = document.getElementById('suggestedQuestions');
+        const loadLinxStructure = document.getElementById('loadLinxStructure');
 
-        let currentModule = 'vendas';
+        let currentModule = 'clientes';
 
         // ========== FUNÇÕES PRINCIPAIS ==========
 
@@ -494,26 +679,24 @@ RELATÓRIOS - SOFTPHARMA
             const moduleKnowledge = knowledgeBase[module] || '';
             const allKnowledge = Object.values(knowledgeBase).join('\n');
             
-            // Busca por palavras-chave na pergunta
-            const keywords = question.toLowerCase().split(' ');
+            // Busca por palavras-chave
+            const keywords = question.toLowerCase().split(' ').filter(word => word.length > 3);
             let foundMatches = [];
             
-            // Procura no módulo atual primeiro
+            // Procura no módulo atual
             keywords.forEach(keyword => {
-                if (keyword.length > 3 && moduleKnowledge.toLowerCase().includes(keyword)) {
+                if (moduleKnowledge.toLowerCase().includes(keyword)) {
                     foundMatches.push(`Encontrado em ${module}: "${keyword}"`);
                 }
             });
             
-            // Se não encontrou no módulo atual, procura em toda base
+            // Se não encontrou, procura em toda base
             if (foundMatches.length === 0) {
                 keywords.forEach(keyword => {
-                    if (keyword.length > 3) {
-                        for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
-                            if (knowledge.toLowerCase().includes(keyword)) {
-                                foundMatches.push(`Encontrado em ${mod}: "${keyword}"`);
-                                break;
-                            }
+                    for (const [mod, knowledge] of Object.entries(knowledgeBase)) {
+                        if (knowledge.toLowerCase().includes(keyword)) {
+                            foundMatches.push(`Encontrado em ${mod}: "${keyword}"`);
+                            break;
                         }
                     }
                 });
@@ -527,25 +710,25 @@ RELATÓRIOS - SOFTPHARMA
             };
         }
 
-        // Função para gerar resposta baseada no conhecimento
+        // Função para gerar resposta
         function generateResponse(question, module) {
             const searchResult = searchKnowledge(question, module);
             
             if (searchResult.hasMatch) {
-                return `Baseado no manual do Softpharma:
+                return `📋 **Baseado no manual de Cadastros do Softpharma:**
 
 ${searchResult.moduleKnowledge}
 
-Se precisar de mais detalhes, consulte o capítulo específico no manual ou entre em contato com o suporte.`;
+*Fonte: Manual Linx - Módulo ${module.charAt(0).toUpperCase() + module.slice(1)}*`;
             } else {
-                return `Não encontrei informações específicas sobre "${question}" na base de conhecimento do Softpharma.
+                return `🤔 Não encontrei informações específicas sobre "${question}" na base de conhecimento de cadastros.
 
-Sugiro:
-1. Consultar o manual do módulo ${module}
-2. Entrar em contato com o suporte técnico
-3. Verificar se a funcionalidade está disponível na sua versão
+**Sugestões:**
+• Verifique o manual do módulo ${module}
+• Consulte o suporte técnico Linx
+• Confirme se o cadastro existe no menu Cadastros
 
-Posso ajudar com outras dúvidas sobre o sistema!`;
+Posso ajudar com outros tipos de cadastro!`;
             }
         }
 
@@ -553,7 +736,7 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
         function addMessage(text, sender, source = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.textContent = text;
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
             
             if (source) {
                 const sourceDiv = document.createElement('div');
@@ -577,64 +760,77 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
             const message = userInput.value.trim();
             if (!message) return;
 
-            // Adiciona mensagem do usuário
             addMessage(message, 'user');
             userInput.value = '';
-
-            // Mostra typing indicator
             showTyping(true);
 
-            // Simula processamento
             setTimeout(() => {
                 showTyping(false);
                 const response = generateResponse(message, currentModule);
-                addMessage(response, 'bot', `Base de Conhecimento Softpharma - Módulo ${currentModule}`);
+                addMessage(response, 'bot', `Cadastros Softpharma - ${currentModule}`);
             }, 1500);
         }
 
         // Atualizar perguntas sugeridas
         function updateSuggestedQuestions() {
             const questions = {
-                vendas: [
-                    "Como aplicar desconto em uma venda?",
-                    "Como finalizar uma venda?",
-                    "Como consultar histórico de vendas?",
-                    "Como emitir NFC-e?"
-                ],
-                estoque: [
-                    "Como cadastrar um novo produto?",
-                    "Onde vejo o estoque de medicamentos?",
-                    "Como atualizar estoque?",
-                    "Como fazer inventário?"
-                ],
-                financeiro: [
-                    "Como registrar contas a receber?",
-                    "Onde vejo o fluxo de caixa?",
-                    "Como emitir relatório financeiro?",
-                    "Como conciliar extrato?"
-                ],
                 clientes: [
-                    "Como cadastrar novo cliente?",
-                    "Como editar dados do cliente?",
-                    "Onde vejo histórico do cliente?",
-                    "Como funciona fidelidade?"
+                    "Como cadastrar um novo cliente?",
+                    "Quais campos são obrigatórios no cadastro de cliente?",
+                    "Como alterar dados de um cliente?",
+                    "Onde vejo o histórico de compras do cliente?"
+                ],
+                fornecedores: [
+                    "Como cadastrar um novo fornecedor?",
+                    "Quais documentos preciso do fornecedor?",
+                    "Como editar dados de fornecedor?",
+                    "Onde cadastro dados bancários do fornecedor?"
                 ],
                 produtos: [
-                    "Como cadastrar novo medicamento?",
-                    "Como definir preço de venda?",
-                    "Onde cadastro informações técnicas?",
-                    "Como controlar medicamentos controlados?"
+                    "Como cadastrar um novo produto?",
+                    "Quais informações são obrigatórias para medicamentos?",
+                    "Como cadastrar código de barras?",
+                    "Onde defino o preço do produto?"
                 ],
-                relatorios: [
-                    "Como gerar relatório de vendas?",
-                    "Quais relatórios são mais usados?",
-                    "Como exportar relatórios para Excel?",
-                    "Como ver produtos mais vendidos?"
+                convenios: [
+                    "Como cadastrar um novo convênio?",
+                    "Quais configurações preciso fazer no convênio?",
+                    "Como funciona desconto de convênio?",
+                    "Onde vejo os convênios ativos?"
+                ],
+                fabricantes: [
+                    "Como cadastrar um novo fabricante?",
+                    "Preciso do registro ANVISA do fabricante?",
+                    "Onde cadastro o telefone do SAC?",
+                    "Como editar dados do fabricante?"
+                ],
+                transportadoras: [
+                    "Como cadastrar uma transportadora?",
+                    "Quais documentos da transportadora são necessários?",
+                    "Onde cadastro o RNTRC?",
+                    "Como definir a transportadora padrão?"
+                ],
+                vendedores: [
+                    "Como cadastrar um novo vendedor?",
+                    "Onde defino a comissão do vendedor?",
+                    "Como bloquear acesso de vendedor?",
+                    "Onde vejo o desempenho do vendedor?"
+                ],
+                tecnicos: [
+                    "Como cadastrar um técnico?",
+                    "Preciso do CRF do técnico?",
+                    "Onde defino as responsabilidades?",
+                    "Como inativar um técnico?"
+                ],
+                usuarios: [
+                    "Como criar um novo usuário?",
+                    "Quais perfis de acesso existem?",
+                    "Como redefinir senha de usuário?",
+                    "Onde vejo o log de acesso?"
                 ]
             };
 
-            const suggestedContainer = document.querySelector('.suggested-questions');
-            suggestedContainer.innerHTML = '';
+            suggestedQuestions.innerHTML = '';
 
             if (questions[currentModule]) {
                 questions[currentModule].forEach(question => {
@@ -646,74 +842,100 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
                         userInput.value = this.getAttribute('data-question');
                         sendMessage();
                     });
-                    suggestedContainer.appendChild(questionElement);
+                    suggestedQuestions.appendChild(questionElement);
                 });
             }
         }
 
-        // ========== ADMINISTRAÇÃO DA BASE DE CONHECIMENTO ==========
+        // ========== ADMINISTRAÇÃO ==========
 
-        // Carregar conhecimento salvo no localStorage
         function loadSavedKnowledge() {
-            const saved = localStorage.getItem('softpharma_knowledge');
+            const saved = localStorage.getItem('softpharma_cadastros_knowledge');
             if (saved) {
                 knowledgeBase = JSON.parse(saved);
                 updateKnowledgePreview();
             }
         }
 
-        // Salvar conhecimento no localStorage
         function saveKnowledgeBase() {
-            localStorage.setItem('softpharma_knowledge', JSON.stringify(knowledgeBase));
+            localStorage.setItem('softpharma_cadastros_knowledge', JSON.stringify(knowledgeBase));
             updateKnowledgePreview();
         }
 
-        // Atualizar preview do conhecimento
         function updateKnowledgePreview() {
             let preview = '';
             for (const [module, content] of Object.entries(knowledgeBase)) {
-                const lines = content.split('\n').slice(0, 3); // Mostra apenas 3 primeiras linhas
-                preview += `<strong>${module.toUpperCase()}:</strong> ${lines.join(' ').substring(0, 100)}...<br>`;
+                const hasContent = content && content.length > 50;
+                const status = hasContent ? '✅' : '❌';
+                preview += `<div>${status} <strong>${module}:</strong> ${hasContent ? 'Conteúdo carregado' : 'Vazio'}</div>`;
             }
             knowledgePreview.innerHTML = preview;
-            currentKnowledge.style.display = 'block';
         }
 
         // ========== EVENT LISTENERS ==========
 
-        // Chat
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
 
-        // Navegação do menu
         menuItems.forEach(item => {
             item.addEventListener('click', function() {
                 menuItems.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
                 currentModule = this.getAttribute('data-module');
                 
-                addMessage(`Agora estou no módulo: ${this.textContent.replace(/[^\w\s]/gi, '')}`, 'bot');
+                const moduleName = this.querySelector('.icon')?.nextSibling?.textContent || this.textContent;
+                currentModuleDisplay.textContent = `Módulo: ${moduleName}`;
+                
+                addMessage(`📂 Agora estou no módulo: <strong>${moduleName}</strong>`, 'bot');
                 updateSuggestedQuestions();
             });
         });
 
-        // Administração
         adminBtn.addEventListener('click', () => {
-            // Preenche o textarea com o conhecimento atual
             let fullKnowledge = '';
             for (const [module, content] of Object.entries(knowledgeBase)) {
-                fullKnowledge += `=== ${module.toUpperCase()} ===\n${content}\n\n`;
+                fullKnowledge += `=== ${module} ===\n${content}\n\n`;
             }
             knowledgeText.value = fullKnowledge;
             adminModal.style.display = 'flex';
         });
 
+        loadLinxStructure.addEventListener('click', () => {
+            const linxStructure = `=== clientes ===
+[COLE AQUI o conteúdo sobre CADASTRO DE CLIENTES do portal Linx]
+
+=== fornecedores ===
+[COLE AQUI o conteúdo sobre CADASTRO DE FORNECEDORES do portal Linx]
+
+=== produtos ===
+[COLE AQUI o conteúdo sobre CADASTRO DE PRODUTOS do portal Linx]
+
+=== convenios ===
+[COLE AQUI o conteúdo sobre CADASTRO DE CONVÊNIOS do portal Linx]
+
+=== fabricantes ===
+[COLE AQUI o conteúdo sobre CADASTRO DE FABRICANTES do portal Linx]
+
+=== transportadoras ===
+[COLE AQUI o conteúdo sobre CADASTRO DE TRANSPORTADORAS do portal Linx]
+
+=== vendedores ===
+[COLE AQUI o conteúdo sobre CADASTRO DE VENDEDORES do portal Linx]
+
+=== tecnicos ===
+[COLE AQUI o conteúdo sobre CADASTRO DE TÉCNICOS do portal Linx]
+
+=== usuarios ===
+[COLE AQUI o conteúdo sobre CADASTRO DE USUÁRIOS do portal Linx]`;
+            
+            knowledgeText.value = linxStructure;
+            alert('📥 Estrutura de Cadastros da Linx carregada! Agora cole o conteúdo real de cada módulo.');
+        });
+
         saveKnowledge.addEventListener('click', () => {
             const newKnowledge = knowledgeText.value;
-            
-            // Processa o texto para separar por módulos
             const modules = newKnowledge.split('===');
             const newKnowledgeBase = {};
             
@@ -729,23 +951,20 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
                 }
             });
             
-            // Mantém a estrutura original se não encontrou módulos
             if (Object.keys(newKnowledgeBase).length > 0) {
-                knowledgeBase = newKnowledgeBase;
-            } else {
-                // Se não separou por módulos, coloca tudo em "geral"
-                knowledgeBase.geral = newKnowledge;
+                knowledgeBase = { ...knowledgeBase, ...newKnowledgeBase };
             }
             
             saveKnowledgeBase();
-            alert('✅ Base de conhecimento atualizada!');
+            alert('✅ Base de conhecimento atualizada! O assistente já está usando as novas informações.');
         });
 
         clearKnowledge.addEventListener('click', () => {
             if (confirm('Tem certeza que quer limpar toda a base de conhecimento?')) {
                 knowledgeBase = {
-                    vendas: '', estoque: '', financeiro: '', 
-                    clientes: '', produtos: '', relatorios: ''
+                    clientes: '', fornecedores: '', produtos: '', convenios: '',
+                    fabricantes: '', transportadoras: '', vendedores: '', 
+                    tecnicos: '', usuarios: ''
                 };
                 saveKnowledgeBase();
                 knowledgeText.value = '';
@@ -757,7 +976,6 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
             adminModal.style.display = 'none';
         });
 
-        // Fechar modal clicando fora
         adminModal.addEventListener('click', (e) => {
             if (e.target === adminModal) {
                 adminModal.style.display = 'none';
@@ -766,24 +984,12 @@ Posso ajudar com outras dúvidas sobre o sistema!`;
 
         // ========== INICIALIZAÇÃO ==========
         
-        // Carregar conhecimento salvo
         loadSavedKnowledge();
-        
-        // Focar no input automaticamente
         userInput.focus();
+        updateSuggestedQuestions();
+        updateKnowledgePreview();
 
-        // Perguntas sugeridas iniciais
-        const suggestedQuestions = document.querySelectorAll('.suggested-question');
-        suggestedQuestions.forEach(question => {
-            question.addEventListener('click', function() {
-                userInput.value = this.getAttribute('data-question');
-                sendMessage();
-            });
-        });
-
-        // Mostrar mensagem de boas-vindas
-        addMessage('💡 Dica: Use o botão "Administrar Conhecimento" para adicionar informações do manual do Softpharma!', 'system');
+        addMessage('💡 <strong>Dica:</strong> Use o botão "Administrar Conhecimento" para adicionar o conteúdo real do portal Linx!', 'system');
     </script>
 </body>
 </html>
-
