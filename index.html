@@ -38,6 +38,7 @@
             color: white;
             padding: 20px;
             text-align: center;
+            flex-shrink: 0; /* Impede que o header encolha */
         }
 
         .header h1 {
@@ -65,13 +66,35 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            min-height: 0; /* Importante para flexbox com scroll */
         }
 
         .chat-messages {
             flex: 1;
             padding: 20px;
-            overflow-y: auto;
+            overflow-y: auto; /* Agora deve mostrar a barra de rolagem */
             background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilo personalizado para a barra de rolagem */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
 
         .message {
@@ -80,6 +103,7 @@
             margin: 10px 0;
             border-radius: 18px;
             line-height: 1.5;
+            word-wrap: break-word;
         }
 
         .message.bot {
@@ -123,6 +147,7 @@
             border-top: 1px solid #eee;
             display: flex;
             gap: 10px;
+            flex-shrink: 0; /* Impede que o input encolha */
         }
 
         .chat-input input {
@@ -197,6 +222,7 @@
             background: #e8f4fd;
             padding: 15px 20px;
             border-bottom: 1px solid #3498db;
+            flex-shrink: 0; /* Impede que o config panel encolha */
         }
 
         .config-content {
@@ -228,6 +254,7 @@
             cursor: pointer;
             font-size: 12px;
             transition: background 0.3s;
+            white-space: nowrap;
         }
 
         .btn:hover {
@@ -247,6 +274,7 @@
             border-radius: 15px;
             font-size: 11px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .status-online {
@@ -280,6 +308,11 @@
 
         .manual-link:hover {
             text-decoration: underline;
+        }
+
+        /* Garantir que o container principal não tenha overflow */
+        .container > * {
+            min-height: 0; /* Importante para flexbox */
         }
     </style>
 </head>
@@ -573,12 +606,16 @@ Funcionalidades disponíveis:
             }
             
             chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function showTyping(show) {
             typingIndicator.style.display = show ? 'block' : 'none';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            scrollToBottom();
         }
 
         async function sendMessage() {
