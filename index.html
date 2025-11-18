@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Especialista em Cadastro - Softpharma</title>
+    <title>Assistente Cadastro - Softpharma</title>
     <style>
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
-            --accent: #e74c3c;
             --light: #ecf0f1;
             --dark: #2c3e50;
-            --success: #2ecc71;
         }
         
         * {
@@ -22,102 +20,49 @@
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .logo-icon {
-            font-size: 1.8rem;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        
-        nav a:hover, nav a.active {
-            background: rgba(255,255,255,0.2);
+            padding: 20px;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
-        .main-content {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 2rem;
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
         }
         
         .chat-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            height: 500px;
             display: flex;
             flex-direction: column;
-            height: 600px;
-        }
-        
-        .chat-header {
-            background: var(--primary);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chat-header h3 {
-            font-weight: 500;
         }
         
         .chat-messages {
             flex: 1;
-            padding: 1rem;
+            padding: 1.5rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -125,37 +70,69 @@
         }
         
         .message {
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            max-width: 85%;
+            padding: 1rem;
+            border-radius: 15px;
+            max-width: 80%;
             line-height: 1.4;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .user-message {
             background: var(--secondary);
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 5px;
         }
         
         .bot-message {
             background: var(--light);
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .suggested-questions {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .suggestion {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
         }
         
         .chat-input {
             display: flex;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             border-top: 1px solid #eee;
+            background: #f8f9fa;
         }
         
         .chat-input input {
             flex: 1;
             padding: 0.8rem 1rem;
             border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
+            border-radius: 25px;
             outline: none;
+            font-size: 0.9rem;
         }
         
         .chat-input button {
@@ -163,278 +140,75 @@
             color: white;
             border: none;
             padding: 0 1.5rem;
-            border-radius: 0 4px 4px 0;
+            border-radius: 25px;
             cursor: pointer;
             transition: background 0.3s;
+            margin-left: 0.5rem;
         }
         
         .chat-input button:hover {
             background: #2980b9;
         }
         
-        h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--light);
-        }
-        
-        h3 {
-            color: var(--secondary);
-            margin: 1.5rem 0 0.8rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-        }
-        
-        ul, ol {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .card h3 {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card-icon {
-            color: var(--secondary);
-        }
-        
-        .info-box {
-            background: #e1f5fe;
-            border-left: 4px solid var(--secondary);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .warning-box {
-            background: #ffecb3;
-            border-left: 4px solid #ffc107;
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .tab-container {
-            margin-top: 2rem;
-        }
-        
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 1.5rem;
-        }
-        
-        .tab {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tab.active {
-            border-bottom: 3px solid var(--secondary);
-            color: var(--secondary);
-            font-weight: 500;
-        }
-        
-        .tab-content {
+        .typing-indicator {
             display: none;
+            padding: 1rem;
+            align-self: flex-start;
         }
         
-        .tab-content.active {
-            display: block;
+        .typing-dots {
+            display: flex;
+            gap: 3px;
         }
         
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
         }
         
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">💊</span>
-                <h1>Especialista em Cadastro - Softpharma</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active" data-tab="home">Início</a></li>
-                    <li><a href="#" data-tab="manual">Manual</a></li>
-                    <li><a href="#" data-tab="contact">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
     <div class="container">
-        <div class="main-content">
-            <div id="home" class="tab-content active">
-                <h2>Bem-vindo ao Especialista em Cadastro de Clientes</h2>
-                <p>Este sistema foi desenvolvido para auxiliar usuários do Softpharma no cadastro e gerenciamento de clientes, com base nos manuais oficiais da Linx.</p>
-                
-                <div class="card">
-                    <h3><span class="card-icon">📋</span> O que você encontra aqui:</h3>
-                    <ul>
-                        <li>Manual completo de cadastro de clientes</li>
-                        <li>Instruções detalhadas para inclusão de dependentes</li>
-                        <li>Informações sobre dados básicos e configurações</li>
-                        <li>Assistente virtual para tirar dúvidas específicas</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3><span class="card-icon">🚀</span> Como usar:</h3>
-                    <ol>
-                        <li>Navegue pelas abas para encontrar informações específicas</li>
-                        <li>Use o chat para fazer perguntas sobre cadastro de clientes</li>
-                        <li>Consulte as seções do manual para procedimentos passo a passo</li>
-                    </ol>
-                </div>
-                
-                <div class="info-box">
-                    <strong>Dica:</strong> Para dúvidas específicas sobre como incluir dependentes ou qualquer outro procedimento, use o chat ao lado!
-                </div>
-            </div>
-            
-            <div id="manual" class="tab-content">
-                <h2>Manual de Cadastro de Clientes</h2>
-                
-                <div class="card">
-                    <h3><span class="card-icon">👤</span> Cadastro de Clientes</h3>
-                    <p>Este programa é utilizado para realizar o cadastro de clientes e vincular todos os convênios aos quais o cliente pertence.</p>
-                    
-                    <h4>Estrutura do Código do Cliente:</h4>
-                    <ul>
-                        <li><strong>Filial 2 – Farmácia Ltda.</strong></li>
-                        <li>Código da Filial: 2</li>
-                        <li>Sequência da filial: 100</li>
-                        <li>Cálculo: (2 x 10.000) + 100</li>
-                        <li><strong>Código do Cliente: 20000100</strong></li>
-                    </ul>
-                    
-                    <div class="info-box">
-                        <strong>Observação:</strong> O CPF/CNPJ não é obrigatório, exceto quando configurado no convênio para "Exigir CPF/CNPJ para clientes deste convênio".
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <h3><span class="card-icon">📝</span> Dados Básicos</h3>
-                    <p>A guia Dados Básicos agrupa as informações fundamentais para o cadastro do cliente:</p>
-                    
-                    <ul>
-                        <li><strong>Endereço:</strong> CEP, endereço, número, complemento, próximo, cidade, bairro</li>
-                        <li><strong>Contato:</strong> Telefone, celular e e-mail (até 5 e-mails)</li>
-                        <li><strong>Documentos:</strong> Tipo, órgão expedidor, número e UF</li>
-                        <li><strong>Outros:</strong> Sexo, data de nascimento, naturalidade</li>
-                        <li><strong>LGPD:</strong> Termo de Consentimento Assinado</li>
-                    </ul>
-                    
-                    <div class="warning-box">
-                        <strong>Importante:</strong> É fundamental que os dados de endereço estejam corretos, pois são utilizados para envio de correspondências e relatórios fiscais.
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <h3><span class="card-icon">👨‍👩‍👧‍👦</span> Dependentes</h3>
-                    <p>Na guia Dependente é realizado o cadastro dos dependentes do cliente, contemplando:</p>
-                    
-                    <ul>
-                        <li>Nome completo</li>
-                        <li>Grau de parentesco</li>
-                        <li>Telefone de contato</li>
-                        <li>Data de nascimento</li>
-                        <li>Situação (ativo/inativo)</li>
-                    </ul>
-                    
-                    <div class="info-box">
-                        <strong>Observação:</strong> Ao alterar a situação do dependente para INATIVO, o sistema apresentará uma mensagem de confirmação e, se confirmado, desfará automaticamente o vínculo com convênios.
-                    </div>
-                    
-                    <h4>Controle por Senha/Biometria:</h4>
-                    <ul>
-                        <li><strong>Gerar Senha Padrão:</strong> Sistema gera senha com até 6 dígitos</li>
-                        <li><strong>Alterar Senha/Biometria:</strong> Permite cadastrar até 5 biometrias</li>
-                        <li>A senha pode ser visualizada na "Ficha de Cliente" (F8 ou ALT+1)</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div id="contact" class="tab-content">
-                <h2>Contato e Suporte</h2>
-                
-                <div class="card">
-                    <h3><span class="card-icon">📞</span> Canais de Atendimento</h3>
-                    <p>Para suporte técnico adicional ou problemas específicos no sistema:</p>
-                    
-                    <ul>
-                        <li><strong>Suporte Linx:</strong> (XX) XXXX-XXXX</li>
-                        <li><strong>Email:</strong> suporte@linx.com.br</li>
-                        <li><strong>Portal:</strong> <a href="https://share.linx.com.br" target="_blank">share.linx.com.br</a></li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3><span class="card-icon">🔧</span> Recursos Adicionais</h3>
-                    <p>Além deste assistente, você pode consultar:</p>
-                    
-                    <ul>
-                        <li>Manuais complementares no Portal Linx Share</li>
-                        <li>Perguntas frequentes na base de conhecimento</li>
-                        <li>Treinamentos e vídeos explicativos</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="header">
+            <h1>💊 Assistente Cadastro - Softpharma</h1>
+            <p>IA especializada no sistema de cadastro de clientes</p>
         </div>
         
         <div class="chat-container">
-            <div class="chat-header">
-                <span>💬</span>
-                <h3>Assistente Virtual</h3>
-            </div>
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    Olá! Sou seu assistente especializado em Cadastro de Clientes do Softpharma. Como posso ajudar você hoje?
+                    Olá! Sou seu assistente especializado em Cadastro de Clientes do Softpharma. 
+                    Posso ajudar com dúvidas sobre cadastro, dependentes, edição e exclusão de clientes.
                 </div>
             </div>
+            
+            <div class="suggested-questions">
+                <div class="suggestion" data-question="Como cadastrar um novo cliente?">Cadastrar novo cliente</div>
+                <div class="suggestion" data-question="Como incluir dependentes?">Incluir dependentes</div>
+                <div class="suggestion" data-question="Como editar dados do cliente?">Editar cliente</div>
+                <div class="suggestion" data-question="Como excluir um cliente?">Excluir cliente</div>
+                <div class="suggestion" data-question="Quais dados básicos são obrigatórios?">Dados obrigatórios</div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
             <div class="chat-input">
                 <input type="text" id="user-input" placeholder="Digite sua pergunta sobre cadastro...">
                 <button id="send-btn">Enviar</button>
@@ -442,67 +216,141 @@
         </div>
     </div>
 
-    <footer>
-        <p>Especialista em Cadastro de Clientes - Baseado nos manuais oficiais da Linx Softpharma</p>
-        <p>© 2023 - Desenvolvido para auxiliar usuários do sistema</p>
-    </footer>
-
     <script>
-        // Navegação por abas
-        document.querySelectorAll('nav a').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove classe active de todas as abas e conteúdos
-                document.querySelectorAll('nav a').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Adiciona classe active na aba clicada
-                tab.classList.add('active');
-                
-                // Mostra o conteúdo correspondente
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // Sistema de Chat
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-        
-        // Base de conhecimento baseada nos manuais
+        // Base de conhecimento expandida baseada nos manuais
         const knowledgeBase = {
+            "cadastrar": {
+                question: "Como cadastrar um novo cliente?",
+                answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
+                1. <strong>Acesse o programa Cadastro de Clientes</strong><br>
+                2. <strong>Preencha os dados básicos:</strong><br>
+                   - Código (gerado automaticamente)<br>
+                   - Nome completo<br>
+                   - CPF/CNPJ (quando exigido pelo convênio)<br>
+                3. <strong>Guia Dados Básicos:</strong><br>
+                   - Endereço completo (CEP, rua, número, complemento)<br>
+                   - Contatos (telefone, celular, e-mail)<br>
+                   - Documentos oficiais<br>
+                   - Data de nascimento e naturalidade<br>
+                4. <strong>Termo LGPD:</strong> Informe se o consentimento foi assinado<br>
+                5. <strong>Salve o cadastro</strong><br><br>
+                <em>O código do cliente é gerado automaticamente: (Filial × 10.000) + Sequência</em>`
+            },
             "dependentes": {
                 question: "Como incluir dependentes?",
-                answer: "Para incluir dependentes no cadastro de clientes:<br><br>1. Acesse a guia <strong>Dependentes</strong> no cadastro do cliente<br>2. Preencha os dados: <strong>nome, grau de parentesco, telefone, data de nascimento e situação</strong><br>3. Para clientes com controle por senha, você pode:<br>   - <strong>Gerar Senha Padrão</strong> (sistema gera senha de até 6 dígitos)<br>   - <strong>Cadastrar biometria</strong> (até 5 digitais)<br><br>Observação: Ao inativar um dependente, o sistema remove automaticamente o vínculo com convênios."
+                answer: `<strong>Incluindo dependentes:</strong><br><br>
+                1. No cadastro do cliente, acesse a guia <strong>"Dependentes"</strong><br>
+                2. Clique para adicionar novo dependente<br>
+                3. Preencha os dados:<br>
+                   - Nome completo<br>
+                   - Grau de parentesco<br>
+                   - Telefone de contato<br>
+                   - Data de nascimento<br>
+                   - Situação (ativo/inativo)<br>
+                4. Para controle por senha:<br>
+                   - <strong>Gerar Senha Padrão</strong> (até 6 dígitos)<br>
+                   - <strong>Cadastrar biometria</strong> (até 5 digitais)<br>
+                5. <strong>Salve</strong> o dependente<br><br>
+                <em>Ao inativar um dependente, o sistema remove automaticamente os vínculos com convênios.</em>`
             },
-            "dados basicos": {
-                question: "Quais dados básicos são necessários?",
-                answer: "Na guia <strong>Dados Básicos</strong> são solicitados:<br><br>- <strong>Endereço completo</strong> (CEP, logradouro, número, complemento, cidade, UF, bairro)<br>- <strong>Contatos</strong> (telefone, celular, e-mail - até 5 e-mails)<br>- <strong>Documentos</strong> (tipo, órgão expedidor, número, UF)<br>- <strong>Dados pessoais</strong> (sexo, data nascimento, naturalidade)<br>- <strong>Termo LGPD</strong> (consentimento assinado)<br><br>Dica: Ao preencher o CEP, o sistema completa automaticamente o endereço."
+            "editar": {
+                question: "Como editar dados do cliente?",
+                answer: `<strong>Editando dados do cliente:</strong><br><br>
+                1. <strong>Localize o cliente</strong> usando F2 - Consultar<br>
+                2. Acesse o cadastro do cliente<br>
+                3. Navegue pelas guias:<br>
+                   - <strong>Dados Básicos:</strong> Endereço, contatos, documentos<br>
+                   - <strong>Dependentes:</strong> Adicionar/editar dependentes<br>
+                   - <strong>Convênios:</strong> Vincular/desvincular convênios<br>
+                4. Faça as alterações necessárias<br>
+                5. <strong>Salve</strong> as modificações<br><br>
+                <em>Alterações em dados básicos afetam relatórios fiscais e correspondências.</em>`
             },
-            "código cliente": {
-                question: "Como é gerado o código do cliente?",
-                answer: "O código do cliente é gerado automaticamente pelo sistema com a seguinte lógica:<br><br><strong>Exemplo:</strong><br>- Código da Filial: 2<br>- Sequência da filial: 100<br>- Cálculo: (2 × 10.000) + 100<br>- <strong>Código do Cliente: 20000100</strong><br><br>O primeiro dígito representa a filial e os demais a sequência numérica."
+            "excluir": {
+                question: "Como excluir um cliente?",
+                answer: `<strong>Observação importante:</strong><br><br>
+                No Softpharma, a prática recomendada é <strong>inativar</strong> clientes em vez de excluí-los, para manter o histórico.<br><br>
+                <strong>Para inativar:</strong><br>
+                1. Localize o cliente<br>
+                2. Edite o cadastro<br>
+                3. Altere a situação para "Inativo"<br>
+                4. Salve as alterações<br><br>
+                <strong>Se necessário excluir:</strong><br>
+                - Verifique se não existem vendas ou movimentações vinculadas<br>
+                - Consulte o manual específico ou suporte técnico<br>
+                - Em alguns casos, pode ser necessário via banco de dados (com supervisão)`
             },
-            "cpf": {
-                question: "O CPF é obrigatório?",
-                answer: "O CPF/CNPJ <strong>não é obrigatório</strong>, exceto quando:<br><br>1. Estiver configurado no convênio para 'Exigir CPF/CNPJ para clientes deste convênio'<br>2. Para clientes estrangeiros (UF = EX), o CPF não é obrigatório<br><br>Quando informado, o sistema valida se é um CPF ou CNPJ válido."
+            "dados básicos": {
+                question: "Quais dados básicos são obrigatórios?",
+                answer: `<strong>Dados Básicos Obrigatórios:</strong><br><br>
+                • <strong>Identificação:</strong><br>
+                  - Nome completo<br>
+                  - Código (automático)<br>
+                • <strong>Endereço:</strong><br>
+                  - CEP (completa automaticamente)<br>
+                  - Logradouro e número<br>
+                  - Cidade, UF e Bairro<br>
+                • <strong>Contato:</strong> Pelo menos um telefone<br>
+                • <strong>CPF/CNPJ:</strong> Obrigatório apenas se exigido pelo convênio<br><br>
+                <strong>Dados Adicionais Importantes:</strong><br>
+                • E-mail (para NF-e/NFC-e)<br>
+                • Data de nascimento<br>
+                • Documentos oficiais<br>
+                • Termo LGPD assinado`
+            },
+            "código": {
+                question: "Como funciona o código do cliente?",
+                answer: `<strong>Sistema de Código do Cliente:</strong><br><br>
+                O código é gerado automaticamente seguindo esta lógica:<br><br>
+                <strong>Exemplo Prático:</strong><br>
+                • Filial: 2<br>
+                • Sequência: 100<br>
+                • Cálculo: (2 × 10.000) + 100<br>
+                • <strong>Código Gerado: 20000100</strong><br><br>
+                <em>O primeiro dígito identifica a filial e os demais a sequência numérica única.</em>`
             },
             "senha": {
                 question: "Como funciona o controle por senha?",
-                answer: "Para farmácias que trabalham com controle por senha:<br><br>- <strong>Gerar Senha Padrão</strong>: Sistema cria senha com até 6 dígitos<br>- <strong>Alterar Senha/Biometria</strong>: Permite cadastrar até 5 biometrias<br>- A senha pode ser visualizada na <strong>Ficha de Cliente</strong> (F8 ou ALT+1)<br>- Na primeira compra, o dependente deve alterar a senha padrão"
+                answer: `<strong>Controle por Senha/Biometria:</strong><br><br>
+                <strong>Para clientes/dependentes:</strong><br>
+                1. <strong>Gerar Senha Padrão:</strong> Sistema cria senha com 6 dígitos<br>
+                2. <strong>Alterar Senha:</strong> Cliente altera na primeira compra<br>
+                3. <strong>Biometria:</strong> Cadastro de até 5 digitais<br><br>
+                <strong>Visualizar Senha:</strong><br>
+                • Acesse a <strong>Ficha de Cliente</strong> (F8 ou ALT+1)<br>
+                • Senha padrão aparece temporariamente<br><br>
+                <em>A senha é necessária para compras com controle de acesso.</em>`
             },
-            "inativar dependente": {
-                question: "Como inativar um dependente?",
-                answer: "Para inativar um dependente:<br><br>1. Altere a situação do dependente para <strong>INATIVO</strong><br>2. O sistema mostrará a mensagem: <em>'O dependente está autorizado no convênio, ao inativar o dependente o vínculo será desfeito. Deseja Continuar?'</em><br>3. Se confirmar [Sim], o sistema:<br>   - Desfaz automaticamente os vínculos com convênios<br>   - Altera a situação para inativo"
+            "convênio": {
+                question: "Como vincular convênios?",
+                answer: `<strong>Vinculando Convênios:</strong><br><br>
+                1. No cadastro do cliente, acesse a guia <strong>"Convênios"</strong><br>
+                2. Clique para adicionar novo vínculo<br>
+                3. Selecione o convênio na lista<br>
+                4. Configure as permissões específicas<br>
+                5. Para dependentes: marque "autorizado a comprar"<br>
+                6. <strong>Salve</strong> o vínculo<br><br>
+                <em>Um cliente pode ter múltiplos convênios vinculados.</em>`
             },
             "default": {
                 question: "Outras dúvidas",
-                answer: "Desculpe, não entendi completamente sua pergunta. Poderia reformular?<br><br>Estou preparado para ajudar com:<br>- Cadastro de dependentes<br>- Dados básicos do cliente<br>- Geração de código<br>- Controle por senha<br>- Inativação de dependentes<br><br>Use palavras-chave como 'dependentes', 'dados básicos' ou 'senha' para respostas mais precisas."
+                answer: `Não encontrei uma resposta específica para sua pergunta. Tente reformular ou use uma destas opções:<br><br>
+                • "Como cadastrar um novo cliente?"<br>
+                • "Como incluir dependentes?"<br>
+                • "Como editar dados do cliente?"<br>
+                • "Quais dados básicos são obrigatórios?"<br>
+                • "Como funciona o controle por senha?"<br><br>
+                <em>Estou baseado nos manuais oficiais do Softpharma.</em>`
             }
         };
-        
+
+        // Elementos do DOM
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const suggestions = document.querySelectorAll('.suggestion');
+
         // Função para adicionar mensagem no chat
         function addMessage(message, isUser = false) {
             const messageDiv = document.createElement('div');
@@ -512,7 +360,18 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
+
+        // Função para mostrar indicador de digitação
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para esconder indicador de digitação
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
         // Função para processar a pergunta do usuário
         function processQuestion(question) {
             const lowerQuestion = question.toLowerCase();
@@ -528,8 +387,8 @@
             
             return response.answer;
         }
-        
-        // Evento de enviar mensagem
+
+        // Função para enviar mensagem
         function sendMessage() {
             const question = userInput.value.trim();
             if (question === '') return;
@@ -538,13 +397,17 @@
             addMessage(question, true);
             userInput.value = '';
             
+            // Mostra indicador de digitação
+            showTyping();
+            
             // Simula tempo de processamento
             setTimeout(() => {
+                hideTyping();
                 const answer = processQuestion(question);
                 addMessage(answer);
-            }, 800);
+            }, 1500);
         }
-        
+
         // Event listeners
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
@@ -552,11 +415,27 @@
                 sendMessage();
             }
         });
-        
-        // Perguntas sugeridas (para facilitar o uso)
+
+        // Sugestões de perguntas
+        suggestions.forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                const question = suggestion.getAttribute('data-question');
+                userInput.value = question;
+                sendMessage();
+            });
+        });
+
+        // Mensagem de boas-vindas com sugestões
         setTimeout(() => {
-            addMessage("<strong>Perguntas que posso responder:</strong><br>• 'Como incluir dependentes?'<br>• 'Quais dados básicos são necessários?'<br>• 'Como funciona o controle por senha?'");
-        }, 2000);
+            addMessage(`<strong>Posso ajudar com:</strong><br>
+            • Cadastro de novos clientes<br>
+            • Inclusão de dependentes<br>
+            • Edição de dados<br>
+            • Dados obrigatórios<br>
+            • Controle por senha<br>
+            • Vinculação de convênios<br><br>
+            <em>Clique nas sugestões abaixo ou digite sua pergunta!</em>`);
+        }, 1000);
     </script>
 </body>
 </html>
