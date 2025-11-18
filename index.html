@@ -10,6 +10,7 @@
             --secondary: #3498db;
             --light: #ecf0f1;
             --dark: #2c3e50;
+            --success: #27ae60;
         }
         
         * {
@@ -207,11 +208,42 @@
 
         .suggested-alternative {
             background: #e8f5e8;
-            border-left: 4px solid #4caf50;
+            border-left: 4px solid var(--success);
             padding: 0.8rem 1rem;
             margin: 0.5rem 0;
             border-radius: 0 4px 4px 0;
             font-size: 0.9rem;
+        }
+
+        .shortcut-key {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            margin: 0 3px;
+            font-family: monospace;
+        }
+
+        .commission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .commission-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .commission-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -219,13 +251,13 @@
     <div class="container">
         <div class="header">
             <h1>💊 Assistente Inteligente Cadastro - Softpharma</h1>
-            <p>IA com reconhecimento de linguagem natural para cadastro de clientes</p>
+            <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
         </div>
         
         <div class="chat-container">
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    Olá! Sou seu assistente inteligente para Cadastro de Clientes do Softpharma. 
+                    Olá! Sou seu assistente inteligente para Cadastros do Softpharma. 
                     Fale comigo naturalmente - entendo perguntas informais! 😊
                 </div>
             </div>
@@ -234,8 +266,8 @@
                 <div class="suggestion" data-question="como cadastrar um cliente novo">Cadastrar cliente</div>
                 <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
                 <div class="suggestion" data-question="como vincular um convenio">Vincular convênio</div>
-                <div class="suggestion" data-question="como consultar cliente">Consultar cliente</div>
-                <div class="suggestion" data-question="como configurar desconto">Configurar desconto</div>
+                <div class="suggestion" data-question="como cadastrar bairro">Cadastrar bairro</div>
+                <div class="suggestion" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -247,7 +279,7 @@
             </div>
             
             <div class="chat-input">
-                <input type="text" id="user-input" placeholder="Ex: como vincular um convênio no sistema...">
+                <input type="text" id="user-input" placeholder="Ex: como cadastrar um bairro no sistema...">
                 <button id="send-btn">Enviar</button>
             </div>
         </div>
@@ -325,6 +357,65 @@
                 <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
             },
 
+            "bairros": {
+                keywords: ["bairro", "bairros", "cadastrar bairro", "cadastro bairro", "cadastro de bairros", "bairro farma", "bairro linx", "tele entrega", "tele-entrega", "taxa entrega", "comissão motoqueiro", "motoqueiro", "cobrador", "taxa tele entrega", "processar lote", "f6"],
+                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
+                
+                <strong>📋 DADOS DO BAIRRO (Obrigatórios):</strong><br>
+                • Cidade<br>
+                • Estado (UF)<br>
+                • Bairro<br>
+                • Região (padrão: GERAL)<br>
+                • Situação (ativo/inativo)<br><br>
+                
+                <strong>🚀 ACESSO RÁPIDO:</strong><br>
+                • <span class="shortcut-key">F2</span> Consulta por nome<br>
+                • <span class="shortcut-key">F3</span> ou <span class="shortcut-key">ALT+N</span> Novo cadastro<br>
+                • <span class="shortcut-key">F4</span> ou <span class="shortcut-key">ALT+G</span> Salvar alterações<br>
+                • <span class="shortcut-key">F5</span> ou <span class="shortcut-key">ALT+I</span> Listagem de bairros<br>
+                • <span class="shortcut-key">F6</span> Processar em lote<br>
+                • <span class="shortcut-key">F9</span> ou <span class="shortcut-key">ALT+E</span> Excluir cadastro<br><br>
+                
+                <strong>🏍️ CONFIGURAÇÃO DE COMISSÕES - MOTOQUEIRO:</strong><br>
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <strong>% Comissão sobre venda</strong><br>
+                        Percentual pago sobre cada venda entregue
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo na entrega</strong><br>
+                        Valor fixo pago por cada entrega (R$)
+                    </div>
+                    <div class="commission-item">
+                        <strong>% Comissão transferência</strong><br>
+                        Percentual sobre transferências entre filiais
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo transferência</strong><br>
+                        Valor fixo para entregas de transferência (R$)
+                    </div>
+                </div><br>
+                
+                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
+                • % Comissão sobre recebimento<br>
+                • Valor fixo por título recebido<br><br>
+                
+                <strong>📦 TELE ENTREGA:</strong><br>
+                • <strong>Valor único:</strong> Taxa fixa por venda<br>
+                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
+                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
+                
+                <div class="info-box">
+                    <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
+                </div>`
+            },
+
             "consultar": {
                 keywords: ["consultar", "consulta", "buscar", "procurar", "pesquisar", "localizar", "encontrar", "achar"],
                 answer: `<strong>Como consultar clientes:</strong><br><br>
@@ -365,7 +456,7 @@
 
             "default": {
                 keywords: [],
-                answer: `🤔 <strong>Entendi que você quer ajuda com cadastro!</strong><br><br>
+                answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
                 
                 <div class="suggested-alternative">
                 <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
@@ -373,8 +464,8 @@
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar um cliente novo')">Como cadastrar um novo cliente</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como consultar cliente')">Como consultar clientes</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como configurar desconto')">Como configurar descontos</strong><br><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar bairro')">Como cadastrar bairros</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar comissao motoqueiro')">Como configurar comissões</strong><br><br>
                 
                 <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
                 </div>`
@@ -493,11 +584,11 @@
         // Mensagem de boas-vindas
         setTimeout(() => {
             addMessage(`<strong>Teste agora! Digite:</strong><br><br>
-            • <strong>"como vincular um convênio"</strong><br>
-            • <strong>"vincular convenio"</strong><br>
-            • <strong>"como colocar um dependente"</strong><br>
-            • <strong>"cadastrar cliente novo"</strong><br><br>
-            <em>O sistema agora reconhece linguagem natural! 🎉</em>`);
+            • <strong>"como cadastrar um bairro"</strong><br>
+            • <strong>"configurar comissão do motoqueiro"</strong><br>
+            • <strong>"tele entrega bairro"</strong><br>
+            • <strong>"processar em lote f6"</strong><br><br>
+            <em>O sistema agora inclui Cadastro de Bairros! 🎉</em>`);
         }, 1000);
 
         // Debug: mostra no console as keywords disponíveis
