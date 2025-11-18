@@ -3,724 +3,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Especialista - Cadastro de Clientes Softpharma</title>
+    <title>Especialista em Cadastro - Softpharma</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
         }
-
-        .container {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 900px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            background: #2c3e50;
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 20px;
-            text-align: center;
-            flex-shrink: 0; /* Impede que o header encolha */
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .header h1 {
-            margin-bottom: 5px;
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
         }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 14px;
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
-
-        .specialist-badge {
-            background: #27ae60;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 10px;
+        
+        .logo-icon {
+            font-size: 1.8rem;
         }
-
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
         .chat-container {
-            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            min-height: 0; /* Importante para flexbox com scroll */
+            height: 600px;
         }
-
+        
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-header h3 {
+            font-weight: 500;
+        }
+        
         .chat-messages {
             flex: 1;
-            padding: 20px;
-            overflow-y: auto; /* Agora deve mostrar a barra de rolagem */
-            background: #f8f9fa;
+            padding: 1rem;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
+            gap: 1rem;
         }
-
-        /* Estilo personalizado para a barra de rolagem */
-        .chat-messages::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
+        
         .message {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
             max-width: 85%;
-            padding: 12px 16px;
-            margin: 10px 0;
-            border-radius: 18px;
-            line-height: 1.5;
-            word-wrap: break-word;
+            line-height: 1.4;
         }
-
-        .message.bot {
-            background: white;
-            border: 1px solid #ddd;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .message.user {
-            background: #3498db;
+        
+        .user-message {
+            background: var(--secondary);
             color: white;
             align-self: flex-end;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
+            border-bottom-right-radius: 2px;
         }
-
-        .message.system {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            align-self: center;
-            max-width: 90%;
-            font-size: 14px;
-            text-align: center;
-            color: #856404;
-            padding: 15px;
-            border-radius: 10px;
+        
+        .bot-message {
+            background: var(--light);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
         }
-
-        .manual-source {
-            font-size: 11px;
-            color: #666;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px dashed #ddd;
-        }
-
+        
         .chat-input {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #eee;
             display: flex;
-            gap: 10px;
-            flex-shrink: 0; /* Impede que o input encolha */
+            padding: 1rem;
+            border-top: 1px solid #eee;
         }
-
+        
         .chat-input input {
             flex: 1;
-            padding: 12px 15px;
+            padding: 0.8rem 1rem;
             border: 1px solid #ddd;
-            border-radius: 24px;
+            border-radius: 4px 0 0 4px;
             outline: none;
-            font-size: 14px;
         }
-
+        
         .chat-input button {
-            background: #3498db;
+            background: var(--secondary);
             color: white;
             border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            padding: 0 1.5rem;
+            border-radius: 0 4px 4px 0;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .suggested-questions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .suggested-question {
-            background: white;
-            padding: 12px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 13px;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .suggested-question:hover {
-            background: #3498db;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 12px 16px;
-            margin: 10px 0;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .typing-dots span {
-            width: 8px;
-            height: 8px;
-            background: #999;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        .config-panel {
-            background: #e8f4fd;
-            padding: 15px 20px;
-            border-bottom: 1px solid #3498db;
-            flex-shrink: 0; /* Impede que o config panel encolha */
-        }
-
-        .config-content {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .api-input {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .api-input input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #3498db;
-            border-radius: 6px;
-            font-size: 12px;
-        }
-
-        .btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
             transition: background 0.3s;
-            white-space: nowrap;
         }
-
-        .btn:hover {
+        
+        .chat-input button:hover {
             background: #2980b9;
         }
-
-        .btn-success {
-            background: #27ae60;
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
         }
-
-        .btn-success:hover {
-            background: #219653;
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 0.8rem;
         }
-
-        .status {
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-            white-space: nowrap;
+        
+        p {
+            margin-bottom: 1rem;
         }
-
-        .status-online {
-            background: #d4edda;
-            color: #155724;
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
         }
-
-        .status-offline {
-            background: #f8d7da;
-            color: #721c24;
+        
+        li {
+            margin-bottom: 0.5rem;
         }
-
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-
-        .manual-info {
-            background: #e8f4fd;
-            padding: 10px 15px;
+        
+        .card {
+            background: white;
             border-radius: 8px;
-            margin: 10px 0;
-            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
-
-        .manual-link {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
+        
+        .card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        .manual-link:hover {
-            text-decoration: underline;
+        
+        .card-icon {
+            color: var(--secondary);
         }
-
-        /* Garantir que o container principal não tenha overflow */
-        .container > * {
-            min-height: 0; /* Importante para flexbox */
+        
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning-box {
+            background: #ffecb3;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>
-                👤 Especialista em Cadastro de Clientes
-                <span class="specialist-badge">Softpharma</span>
-            </h1>
-            <p>IA treinada especificamente no manual oficial de Cadastro de Clientes</p>
-        </div>
-
-        <!-- Configuração -->
-        <div class="config-panel">
-            <div class="config-content">
-                <div class="api-input">
-                    <input type="password" id="apiKey" placeholder="Cole sua API Key da OpenAI">
-                </div>
-                <button class="btn btn-success" id="setupSpecialist">🔗 Conectar com Manual</button>
-                <button class="btn" id="testConnection">🧪 Testar Conexão</button>
-                <span class="status status-offline" id="connectionStatus">🔴 Manual Não Carregado</span>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">💊</span>
+                <h1>Especialista em Cadastro - Softpharma</h1>
             </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" data-tab="home">Início</a></li>
+                    <li><a href="#" data-tab="manual">Manual</a></li>
+                    <li><a href="#" data-tab="contact">Contato</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <!-- Chat Area -->
-        <div class="chat-container">
-            <div class="chat-messages" id="chatMessages">
-                <div class="message system">
-                    <div class="manual-info">
-                        <strong>📚 Manual de Referência:</strong><br>
-                        <a href="https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes" 
-                           target="_blank" class="manual-link">
-                           https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes
-                        </a>
-                    </div>
-                    
-                    🎓 <strong>Especialista em Cadastro de Clientes Softpharma</strong><br><br>
-                    
-                    Este assistente foi treinado <strong>exclusivamente</strong> no manual oficial de 
-                    <strong>Cadastro de Clientes do Softpharma</strong>.<br><br>
-                    
-                    <strong>Funcionalidade:</strong> A IA lê o manual online e responde suas dúvidas 
-                    baseada estritamente no conteúdo oficial.
+    <div class="container">
+        <div class="main-content">
+            <div id="home" class="tab-content active">
+                <h2>Bem-vindo ao Especialista em Cadastro de Clientes</h2>
+                <p>Este sistema foi desenvolvido para auxiliar usuários do Softpharma no cadastro e gerenciamento de clientes, com base nos manuais oficiais da Linx.</p>
+                
+                <div class="card">
+                    <h3><span class="card-icon">📋</span> O que você encontra aqui:</h3>
+                    <ul>
+                        <li>Manual completo de cadastro de clientes</li>
+                        <li>Instruções detalhadas para inclusão de dependentes</li>
+                        <li>Informações sobre dados básicos e configurações</li>
+                        <li>Assistente virtual para tirar dúvidas específicas</li>
+                    </ul>
                 </div>
                 
-                <div class="suggested-questions">
-                    <div class="suggested-question" data-question="Como cadastrar um novo cliente?">
-                        📝 Como cadastrar novo cliente?
-                    </div>
-                    <div class="suggested-question" data-question="Quais campos são obrigatórios no cadastro de cliente?">
-                        ⚠️ Campos obrigatórios
-                    </div>
-                    <div class="suggested-question" data-question="Como editar dados de um cliente existente?">
-                        ✏️ Editar cliente existente
-                    </div>
-                    <div class="suggested-question" data-question="Como consultar histórico de compras do cliente?">
-                        📊 Histórico de compras
-                    </div>
+                <div class="card">
+                    <h3><span class="card-icon">🚀</span> Como usar:</h3>
+                    <ol>
+                        <li>Navegue pelas abas para encontrar informações específicas</li>
+                        <li>Use o chat para fazer perguntas sobre cadastro de clientes</li>
+                        <li>Consulte as seções do manual para procedimentos passo a passo</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Dica:</strong> Para dúvidas específicas sobre como incluir dependentes ou qualquer outro procedimento, use o chat ao lado!
                 </div>
             </div>
-
-            <div class="typing-indicator" id="typingIndicator">
-                <div class="message bot">
-                    <div class="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+            
+            <div id="manual" class="tab-content">
+                <h2>Manual de Cadastro de Clientes</h2>
+                
+                <div class="card">
+                    <h3><span class="card-icon">👤</span> Cadastro de Clientes</h3>
+                    <p>Este programa é utilizado para realizar o cadastro de clientes e vincular todos os convênios aos quais o cliente pertence.</p>
+                    
+                    <h4>Estrutura do Código do Cliente:</h4>
+                    <ul>
+                        <li><strong>Filial 2 – Farmácia Ltda.</strong></li>
+                        <li>Código da Filial: 2</li>
+                        <li>Sequência da filial: 100</li>
+                        <li>Cálculo: (2 x 10.000) + 100</li>
+                        <li><strong>Código do Cliente: 20000100</strong></li>
+                    </ul>
+                    
+                    <div class="info-box">
+                        <strong>Observação:</strong> O CPF/CNPJ não é obrigatório, exceto quando configurado no convênio para "Exigir CPF/CNPJ para clientes deste convênio".
                     </div>
                 </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">📝</span> Dados Básicos</h3>
+                    <p>A guia Dados Básicos agrupa as informações fundamentais para o cadastro do cliente:</p>
+                    
+                    <ul>
+                        <li><strong>Endereço:</strong> CEP, endereço, número, complemento, próximo, cidade, bairro</li>
+                        <li><strong>Contato:</strong> Telefone, celular e e-mail (até 5 e-mails)</li>
+                        <li><strong>Documentos:</strong> Tipo, órgão expedidor, número e UF</li>
+                        <li><strong>Outros:</strong> Sexo, data de nascimento, naturalidade</li>
+                        <li><strong>LGPD:</strong> Termo de Consentimento Assinado</li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>Importante:</strong> É fundamental que os dados de endereço estejam corretos, pois são utilizados para envio de correspondências e relatórios fiscais.
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">👨‍👩‍👧‍👦</span> Dependentes</h3>
+                    <p>Na guia Dependente é realizado o cadastro dos dependentes do cliente, contemplando:</p>
+                    
+                    <ul>
+                        <li>Nome completo</li>
+                        <li>Grau de parentesco</li>
+                        <li>Telefone de contato</li>
+                        <li>Data de nascimento</li>
+                        <li>Situação (ativo/inativo)</li>
+                    </ul>
+                    
+                    <div class="info-box">
+                        <strong>Observação:</strong> Ao alterar a situação do dependente para INATIVO, o sistema apresentará uma mensagem de confirmação e, se confirmado, desfará automaticamente o vínculo com convênios.
+                    </div>
+                    
+                    <h4>Controle por Senha/Biometria:</h4>
+                    <ul>
+                        <li><strong>Gerar Senha Padrão:</strong> Sistema gera senha com até 6 dígitos</li>
+                        <li><strong>Alterar Senha/Biometria:</strong> Permite cadastrar até 5 biometrias</li>
+                        <li>A senha pode ser visualizada na "Ficha de Cliente" (F8 ou ALT+1)</li>
+                    </ul>
+                </div>
             </div>
-
+            
+            <div id="contact" class="tab-content">
+                <h2>Contato e Suporte</h2>
+                
+                <div class="card">
+                    <h3><span class="card-icon">📞</span> Canais de Atendimento</h3>
+                    <p>Para suporte técnico adicional ou problemas específicos no sistema:</p>
+                    
+                    <ul>
+                        <li><strong>Suporte Linx:</strong> (XX) XXXX-XXXX</li>
+                        <li><strong>Email:</strong> suporte@linx.com.br</li>
+                        <li><strong>Portal:</strong> <a href="https://share.linx.com.br" target="_blank">share.linx.com.br</a></li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🔧</span> Recursos Adicionais</h3>
+                    <p>Além deste assistente, você pode consultar:</p>
+                    
+                    <ul>
+                        <li>Manuais complementares no Portal Linx Share</li>
+                        <li>Perguntas frequentes na base de conhecimento</li>
+                        <li>Treinamentos e vídeos explicativos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                <span>💬</span>
+                <h3>Assistente Virtual</h3>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Olá! Sou seu assistente especializado em Cadastro de Clientes do Softpharma. Como posso ajudar você hoje?
+                </div>
+            </div>
             <div class="chat-input">
-                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre cadastro de clientes...">
-                <button id="sendButton">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                <input type="text" id="user-input" placeholder="Digite sua pergunta sobre cadastro...">
+                <button id="send-btn">Enviar</button>
             </div>
         </div>
     </div>
 
+    <footer>
+        <p>Especialista em Cadastro de Clientes - Baseado nos manuais oficiais da Linx Softpharma</p>
+        <p>© 2023 - Desenvolvido para auxiliar usuários do sistema</p>
+    </footer>
+
     <script>
-        // ========== CONFIGURAÇÃO DO ESPECIALISTA ==========
-        const specialistConfig = {
-            apiKey: localStorage.getItem('client_specialist_key') || '',
-            manualUrl: 'https://share.linx.com.br/display/FARMA/Cadastros+de+Clientes',
-            manualContent: '',
-            isConnected: false
-        };
-
-        // ========== ELEMENTOS DO DOM ==========
-        const chatMessages = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
-        const sendButton = document.getElementById('sendButton');
-        const typingIndicator = document.getElementById('typingIndicator');
-        const apiKeyInput = document.getElementById('apiKey');
-        const setupSpecialistBtn = document.getElementById('setupSpecialist');
-        const testConnectionBtn = document.getElementById('testConnection');
-        const connectionStatus = document.getElementById('connectionStatus');
-        const suggestedQuestions = document.querySelectorAll('.suggested-question');
-
-        // ========== FUNÇÃO PRINCIPAL - IA LENDO MANUAL ONLINE ==========
-        async function getManualBasedResponse(question) {
-            if (!specialistConfig.apiKey) {
-                return getFallbackResponse(question);
-            }
-
-            try {
-                showTyping(true);
+        // Navegação por abas
+        document.querySelectorAll('nav a').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
                 
-                // Se não temos o conteúdo do manual ainda, tentamos obter
-                if (!specialistConfig.manualContent) {
-                    await loadManualContent();
-                }
-
-                const systemMessage = `VOCÊ É UM ESPECIALISTA NO MÓDULO DE CADASTRO DE CLIENTES DO SOFTPHARMA.
-
-MANUAL OFICIAL DE CADASTRO DE CLIENTES:
-${specialistConfig.manualContent || 'Manual ainda não carregado. Use conhecimento base.'}
-
-REGRAS ABSOLUTAS:
-1. Use APENAS as informações do manual acima
-2. Se a resposta não estiver no manual, diga: "Não encontrei esta informação específica no manual de Cadastro de Clientes"
-3. Seja prático e direto
-4. Forneça caminhos exatos de menu quando possível
-5. Use terminologia técnica do Softpharma
-
-SUA ESPECIALIDADE: Apenas Cadastro de Clientes do Softpharma`;
-
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${specialistConfig.apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: systemMessage
-                            },
-                            {
-                                role: 'user', 
-                                content: `Pergunta sobre Cadastro de Clientes Softpharma: ${question}`
-                            }
-                        ],
-                        max_tokens: 600,
-                        temperature: 0.2
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro na API OpenAI');
-                }
-
-                const data = await response.json();
-                showTyping(false);
+                // Remove classe active de todas as abas e conteúdos
+                document.querySelectorAll('nav a').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 
-                if (data.choices && data.choices[0]) {
-                    return `🎓 **Resposta do Especialista:**\n\n${data.choices[0].message.content}\n\n---\n*Baseado no manual oficial de Cadastro de Clientes*`;
-                } else {
-                    throw new Error('Resposta inválida da IA');
-                }
+                // Adiciona classe active na aba clicada
+                tab.classList.add('active');
                 
-            } catch (error) {
-                showTyping(false);
-                console.error('Erro:', error);
-                return getFallbackResponse(question);
-            }
-        }
-
-        // ========== CARREGAR CONTEÚDO DO MANUAL ==========
-        async function loadManualContent() {
-            try {
-                // Nota: Para sites com login, precisaríamos de uma solução mais complexa
-                // Esta é uma versão simplificada para demonstração
-                
-                const manualContent = `
-CADASTRO DE CLIENTES - SOFTPHARMA (MANUAL OFICIAL)
-
-ACESSO AO MÓDULO:
-• Menu Principal: Cadastros → Clientes
-• Atalho: Ctrl + F2
-
-CADASTRO DE NOVO CLIENTE:
-1. Clique em "Novo" ou pressione Insert
-2. Preencha os campos obrigatórios:
-   - Nome/Razão Social
-   - CPF/CNPJ
-   - Tipo (Física/Jurídica)
-   - Endereço completo
-
-CAMPOS OBRIGATÓRIOS:
-• Nome completo ou Razão Social
-• CPF (Pessoa Física) ou CNPJ (Pessoa Jurídica)
-• Tipo de Cliente
-• Endereço (para NFC-e)
-
-CAMPOS OPCIONAIS IMPORTANTES:
-• E-mail (para envio de NFC-e)
-• Telefone/Celular
-• Data de Nascimento
-• Limite de Crédito
-• Observações
-
-CLASSIFICAÇÃO DO CLIENTE:
-• Cliente Comum
-• Cliente Ouro (acima de R$ 500/mês)
-• Cliente Diamante (acima de R$ 1.000/mês)
-• Cliente Especial (com desconto diferenciado)
-
-FUNCIONALIDADES:
-• Histórico de Compras (F5)
-• Consulta de Pendências Financeiras
-• Pontos de Fidelidade
-• Bloqueio por Inadimplência
-
-EDIÇÃO DE CLIENTE EXISTENTE:
-1. Localize o cliente através da busca (F3)
-2. Clique duas vezes sobre o registro
-3. Altere os dados necessários
-4. Salve com Ctrl + S
-
-OBSERVAÇÕES IMPORTANTES:
-• Clientes inativados não aparecem na lista de vendas
-• Campos com * são obrigatórios
-• Endereço completo é necessário para NFC-e
-                `;
-
-                specialistConfig.manualContent = manualContent;
-                specialistConfig.isConnected = true;
-                updateConnectionStatus();
-                
-                return manualContent;
-                
-            } catch (error) {
-                console.error('Erro ao carregar manual:', error);
-                // Fallback para conteúdo básico
-                specialistConfig.manualContent = `CADASTRO DE CLIENTES - SOFTPHARMA\n\nAcesso: Cadastros → Clientes\nCampos obrigatórios: Nome, CPF/CNPJ, Endereço`;
-                return specialistConfig.manualContent;
-            }
-        }
-
-        // ========== RESPOSTA DE FALLBACK ==========
-        function getFallbackResponse(question) {
-            const fallbackKnowledge = `
-Cadastro de Clientes - Softpharma
-
-Para cadastrar novo cliente:
-1. Acesse: Cadastros → Clientes → Novo
-2. Preencha os campos obrigatórios marcados com *
-3. Salve o registro
-
-Campos obrigatórios:
-- Nome/Razão Social
-- CPF/CNPJ
-- Tipo de Pessoa (Física/Jurídica)
-- Endereço completo
-
-Funcionalidades disponíveis:
-- Histórico de compras
-- Controle de limite de crédito
-- Fidelidade
-- Bloqueio por inadimplência
-            `;
-
-            if (question.toLowerCase().includes('cadastrar') || question.toLowerCase().includes('novo')) {
-                return `📋 **Cadastro de Novo Cliente:**\n\n${fallbackKnowledge}\n\n---\n*Modo local - Configure a IA para respostas mais precisas*`;
-            } else {
-                return `❓ **Informação Local:**\n\nPara dúvidas específicas sobre "${question}", é necessário conectar a IA ao manual oficial.\n\n**Solução:**\n1. Configure a API Key no painel acima\n2. A IA carregará o manual automaticamente\n3. Faça sua pergunta novamente`;
-            }
-        }
-
-        // ========== FUNÇÕES DE CHAT ==========
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
-            
-            // Adiciona fonte do manual se for resposta da IA
-            if (sender === 'bot' && specialistConfig.isConnected) {
-                const sourceDiv = document.createElement('div');
-                sourceDiv.className = 'manual-source';
-                sourceDiv.innerHTML = `📚 Fonte: <a href="${specialistConfig.manualUrl}" target="_blank" style="color: #3498db;">Manual Oficial Linx</a>`;
-                messageDiv.appendChild(sourceDiv);
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            scrollToBottom();
-        }
-
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function showTyping(show) {
-            typingIndicator.style.display = show ? 'block' : 'none';
-            scrollToBottom();
-        }
-
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            userInput.value = '';
-            
-            const response = await getManualBasedResponse(message);
-            addMessage(response, 'bot');
-        }
-
-        // ========== CONFIGURAÇÃO DA IA ==========
-        function updateConnectionStatus() {
-            if (specialistConfig.isConnected && specialistConfig.apiKey) {
-                connectionStatus.textContent = '🟢 Manual Carregado + IA Conectada';
-                connectionStatus.className = 'status status-online';
-            } else if (specialistConfig.apiKey) {
-                connectionStatus.textContent = '🟡 IA Conectada - Manual Pendente';
-                connectionStatus.className = 'status status-offline';
-            } else {
-                connectionStatus.textContent = '🔴 Manual Não Carregado';
-                connectionStatus.className = 'status status-offline';
-            }
-        }
-
-        // ========== EVENT LISTENERS ==========
-        sendButton.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-
-        setupSpecialistBtn.addEventListener('click', async function() {
-            const apiKey = apiKeyInput.value.trim();
-            if (!apiKey) {
-                alert('Por favor, cole sua API Key da OpenAI primeiro');
-                return;
-            }
-
-            const btn = this;
-            btn.textContent = 'Carregando Manual...';
-            btn.disabled = true;
-
-            try {
-                // Testa a API Key
-                const testResponse = await fetch('https://api.openai.com/v1/models', {
-                    headers: { 'Authorization': `Bearer ${apiKey}` }
-                });
-
-                if (!testResponse.ok) {
-                    throw new Error('API Key inválida');
-                }
-
-                // Salva a API Key e carrega o manual
-                specialistConfig.apiKey = apiKey;
-                localStorage.setItem('client_specialist_key', apiKey);
-                
-                await loadManualContent();
-                
-                alert('✅ Especialista configurado! A IA agora está conectada ao manual de Cadastro de Clientes.');
-                
-            } catch (error) {
-                alert('❌ Erro na configuração: ' + error.message);
-            } finally {
-                btn.textContent = '🔗 Conectar com Manual';
-                btn.disabled = false;
-            }
-        });
-
-        testConnectionBtn.addEventListener('click', function() {
-            const testQuestion = "Como cadastrar um novo cliente pessoa física?";
-            userInput.value = testQuestion;
-            sendMessage();
-        });
-
-        // Perguntas sugeridas
-        suggestedQuestions.forEach(question => {
-            question.addEventListener('click', function() {
-                userInput.value = this.getAttribute('data-question');
-                sendMessage();
+                // Mostra o conteúdo correspondente
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
             });
         });
-
-        // ========== INICIALIZAÇÃO ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // Carrega API Key salva
-            const savedKey = localStorage.getItem('client_specialist_key');
-            if (savedKey) {
-                apiKeyInput.value = savedKey;
-                specialistConfig.apiKey = savedKey;
+        
+        // Sistema de Chat
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        
+        // Base de conhecimento baseada nos manuais
+        const knowledgeBase = {
+            "dependentes": {
+                question: "Como incluir dependentes?",
+                answer: "Para incluir dependentes no cadastro de clientes:<br><br>1. Acesse a guia <strong>Dependentes</strong> no cadastro do cliente<br>2. Preencha os dados: <strong>nome, grau de parentesco, telefone, data de nascimento e situação</strong><br>3. Para clientes com controle por senha, você pode:<br>   - <strong>Gerar Senha Padrão</strong> (sistema gera senha de até 6 dígitos)<br>   - <strong>Cadastrar biometria</strong> (até 5 digitais)<br><br>Observação: Ao inativar um dependente, o sistema remove automaticamente o vínculo com convênios."
+            },
+            "dados basicos": {
+                question: "Quais dados básicos são necessários?",
+                answer: "Na guia <strong>Dados Básicos</strong> são solicitados:<br><br>- <strong>Endereço completo</strong> (CEP, logradouro, número, complemento, cidade, UF, bairro)<br>- <strong>Contatos</strong> (telefone, celular, e-mail - até 5 e-mails)<br>- <strong>Documentos</strong> (tipo, órgão expedidor, número, UF)<br>- <strong>Dados pessoais</strong> (sexo, data nascimento, naturalidade)<br>- <strong>Termo LGPD</strong> (consentimento assinado)<br><br>Dica: Ao preencher o CEP, o sistema completa automaticamente o endereço."
+            },
+            "código cliente": {
+                question: "Como é gerado o código do cliente?",
+                answer: "O código do cliente é gerado automaticamente pelo sistema com a seguinte lógica:<br><br><strong>Exemplo:</strong><br>- Código da Filial: 2<br>- Sequência da filial: 100<br>- Cálculo: (2 × 10.000) + 100<br>- <strong>Código do Cliente: 20000100</strong><br><br>O primeiro dígito representa a filial e os demais a sequência numérica."
+            },
+            "cpf": {
+                question: "O CPF é obrigatório?",
+                answer: "O CPF/CNPJ <strong>não é obrigatório</strong>, exceto quando:<br><br>1. Estiver configurado no convênio para 'Exigir CPF/CNPJ para clientes deste convênio'<br>2. Para clientes estrangeiros (UF = EX), o CPF não é obrigatório<br><br>Quando informado, o sistema valida se é um CPF ou CNPJ válido."
+            },
+            "senha": {
+                question: "Como funciona o controle por senha?",
+                answer: "Para farmácias que trabalham com controle por senha:<br><br>- <strong>Gerar Senha Padrão</strong>: Sistema cria senha com até 6 dígitos<br>- <strong>Alterar Senha/Biometria</strong>: Permite cadastrar até 5 biometrias<br>- A senha pode ser visualizada na <strong>Ficha de Cliente</strong> (F8 ou ALT+1)<br>- Na primeira compra, o dependente deve alterar a senha padrão"
+            },
+            "inativar dependente": {
+                question: "Como inativar um dependente?",
+                answer: "Para inativar um dependente:<br><br>1. Altere a situação do dependente para <strong>INATIVO</strong><br>2. O sistema mostrará a mensagem: <em>'O dependente está autorizado no convênio, ao inativar o dependente o vínculo será desfeito. Deseja Continuar?'</em><br>3. Se confirmar [Sim], o sistema:<br>   - Desfaz automaticamente os vínculos com convênios<br>   - Altera a situação para inativo"
+            },
+            "default": {
+                question: "Outras dúvidas",
+                answer: "Desculpe, não entendi completamente sua pergunta. Poderia reformular?<br><br>Estou preparado para ajudar com:<br>- Cadastro de dependentes<br>- Dados básicos do cliente<br>- Geração de código<br>- Controle por senha<br>- Inativação de dependentes<br><br>Use palavras-chave como 'dependentes', 'dados básicos' ou 'senha' para respostas mais precisas."
+            }
+        };
+        
+        // Função para adicionar mensagem no chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.innerHTML = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Função para processar a pergunta do usuário
+        function processQuestion(question) {
+            const lowerQuestion = question.toLowerCase();
+            let response = knowledgeBase.default;
+            
+            // Verifica correspondência com as perguntas conhecidas
+            for (const key in knowledgeBase) {
+                if (lowerQuestion.includes(key)) {
+                    response = knowledgeBase[key];
+                    break;
+                }
             }
             
-            updateConnectionStatus();
-            userInput.focus();
-
-            addMessage(
-                `💡 <strong>Como usar:</strong><br>
-                1. Cole sua API Key da OpenAI no campo acima<br>
-                2. Clique em "Conectar com Manual"<br>
-                3. Faça perguntas sobre Cadastro de Clientes<br>
-                4. A IA responderá baseada no manual oficial`, 
-                'system'
-            );
+            return response.answer;
+        }
+        
+        // Evento de enviar mensagem
+        function sendMessage() {
+            const question = userInput.value.trim();
+            if (question === '') return;
+            
+            // Adiciona pergunta do usuário
+            addMessage(question, true);
+            userInput.value = '';
+            
+            // Simula tempo de processamento
+            setTimeout(() => {
+                const answer = processQuestion(question);
+                addMessage(answer);
+            }, 800);
+        }
+        
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
+        
+        // Perguntas sugeridas (para facilitar o uso)
+        setTimeout(() => {
+            addMessage("<strong>Perguntas que posso responder:</strong><br>• 'Como incluir dependentes?'<br>• 'Quais dados básicos são necessários?'<br>• 'Como funciona o controle por senha?'");
+        }, 2000);
     </script>
 </body>
 </html>
