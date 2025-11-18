@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente IA</title>
+    <title>Assistente IA - Softpharma</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
@@ -20,77 +20,397 @@
             align-items: center;
             padding: 20px;
         }
-        
+
         .container {
             background: white;
             border-radius: 15px;
-            padding: 40px;
+            overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 500px;
             width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            display: flex;
         }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-        
-        p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .success {
-            background: #4CAF50;
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
             color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-size: 1.2em;
-        }
-        
-        .next-steps {
-            background: #f8f9fa;
             padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #34495e;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .menu-item:hover {
+            background: #34495e;
+        }
+
+        .menu-item.active {
+            background: #3498db;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .message.bot {
+            background: white;
+            border: 1px solid #ddd;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            background: #3498db;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            background: #3498db;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .suggested-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .suggested-question {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 13px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .suggested-question:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            margin: 10px 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎉 Assistente IA </h1>
-        
-        <div class="success">
-            ✅ SITE FUNCIONANDO PERFEITAMENTE!
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>🧪 Softpharma</h2>
+            <div class="menu-item active" data-module="vendas">💼 Módulo de Vendas</div>
+            <div class="menu-item" data-module="estoque">📦 Controle de Estoque</div>
+            <div class="menu-item" data-module="financeiro">💰 Financeiro</div>
+            <div class="menu-item" data-module="clientes">👥 Cadastro de Clientes</div>
+            <div class="menu-item" data-module="produtos">💊 Cadastro de Produtos</div>
+            <div class="menu-item" data-module="relatorios">📊 Relatórios</div>
         </div>
-        
-        <p>Parabéns! Seu assistente está no ar e pronto para evoluir.</p>
-        
-        <div class="next-steps">
-            <h3>Próximos passos:</h3>
-            <ol>
-                <li>✅ Site hospedado com sucesso</li>
-                <li>➡️ Adicionar sistema de chat</li>
-                <li>➡️ Conectar com IA</li>
-                <li>➡️ Personalizar para sua farmácia</li>
-            </ol>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <h3>Assistente IA - Softpharma</h3>
+                <p>Como posso ajudar você hoje?</p>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    👋 Olá! Sou seu assistente do Softpharma. 
+                    Estou aqui para tirar dúvidas sobre o sistema.
+                </div>
+                
+                <div class="suggested-questions">
+                    <div class="suggested-question" data-question="Como aplicar desconto em uma venda?">
+                        💰 Como aplicar desconto em uma venda?
+                    </div>
+                    <div class="suggested-question" data-question="Como cadastrar um novo produto?">
+                        💊 Como cadastrar um novo produto?
+                    </div>
+                    <div class="suggested-question" data-question="Onde vejo o estoque de medicamentos?">
+                        📦 Onde vejo o estoque de medicamentos?
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Digite sua dúvida sobre o Softpharma...">
+                <button id="sendButton">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        
-        <p><strong>URL do seu site:</strong><br>
-        <span id="current-url" style="color: #667eea; font-weight: bold;"></span></p>
     </div>
 
     <script>
-        // Mostra a URL atual
-        document.getElementById('current-url').textContent = window.location.href;
-        
-        console.log('✅ Site do Assistente IA carregado com sucesso!');
+        // Elementos do DOM
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const menuItems = document.querySelectorAll('.menu-item');
+        const suggestedQuestions = document.querySelectorAll('.suggested-question');
+
+        // Módulo atual
+        let currentModule = 'vendas';
+
+        // Função para adicionar mensagem ao chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para mostrar/ocultar typing indicator
+        function showTyping(show) {
+            typingIndicator.style.display = show ? 'block' : 'none';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Respostas baseadas no manual do Softpharma
+        function getAIResponse(question, module) {
+            const responses = {
+                vendas: {
+                    "Como aplicar desconto em uma venda?": "No módulo de vendas, localize o campo 'Desconto (%)'. Digite o percentual desejado. Para descontos acima de 20%, o sistema pode solicitar senha de supervisor.",
+                    "Como finalizar uma venda?": "Após adicionar todos os produtos, clique em 'Finalizar Venda'. O sistema gerará NFC-e automaticamente se configurado.",
+                    "Como consultar histórico de vendas?": "Acesse Relatórios > Vendas > Histórico. Você pode filtrar por data, vendedor ou cliente."
+                },
+                estoque: {
+                    "Como cadastrar um novo produto?": "Vá em Cadastro > Produtos > Novo. Preencha código, nome, princípio ativo, tarja e preço. Medicamentos exigem informações específicas da ANVISA.",
+                    "Onde vejo o estoque de medicamentos?": "No módulo Estoque > Consulta, você vê quantidade atual, estoque mínimo e validade dos produtos.",
+                    "Como atualizar estoque?": "Em Estoque > Movimentação > Entrada, informe produto, lote, validade e quantidade."
+                },
+                financeiro: {
+                    "Como registrar contas a receber?": "Financeiro > Contas a Receber > Nova. Informe cliente, valor, vencimento e forma de pagamento.",
+                    "Onde vejo o fluxo de caixa?": "Relatórios > Financeiro > Fluxo de Caixa mostra entradas e saídas por período."
+                }
+            };
+
+            // Busca resposta específica
+            if (responses[module] && responses[module][question]) {
+                return responses[module][question];
+            }
+
+            // Resposta genérica
+            const genericResponses = [
+                "Entendi sua dúvida sobre " + module + ". No manual do Softpharma, esta funcionalidade está detalhada no capítulo específico deste módulo.",
+                "Para " + question.toLowerCase() + ", consulte a seção do módulo " + module + " no manual do sistema.",
+                "Esta é uma ótima pergunta sobre " + module + ". Recomendo verificar o tutorial específico no menu Ajuda do Softpharma."
+            ];
+
+            return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+        }
+
+        // Enviar mensagem
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Adiciona mensagem do usuário
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            // Mostra typing indicator
+            showTyping(true);
+
+            // Simula resposta da IA
+            setTimeout(() => {
+                showTyping(false);
+                const response = getAIResponse(message, currentModule);
+                addMessage(response, 'bot');
+
+                // Atualiza perguntas sugeridas
+                updateSuggestedQuestions();
+            }, 1500);
+        }
+
+        // Atualizar perguntas sugeridas
+        function updateSuggestedQuestions() {
+            const questions = {
+                vendas: [
+                    "Como aplicar desconto em uma venda?",
+                    "Como finalizar uma venda?",
+                    "Como consultar histórico de vendas?"
+                ],
+                estoque: [
+                    "Como cadastrar um novo produto?",
+                    "Onde vejo o estoque de medicamentos?",
+                    "Como atualizar estoque?"
+                ],
+                financeiro: [
+                    "Como registrar contas a receber?",
+                    "Onde vejo o fluxo de caixa?",
+                    "Como emitir relatório financeiro?"
+                ],
+                clientes: [
+                    "Como cadastrar novo cliente?",
+                    "Como editar dados do cliente?",
+                    "Onde vejo histórico do cliente?"
+                ],
+                produtos: [
+                    "Como cadastrar novo medicamento?",
+                    "Como definir preço de venda?",
+                    "Onde cadastro informações técnicas?"
+                ],
+                relatorios: [
+                    "Como gerar relatório de vendas?",
+                    "Quais relatórios são mais usados?",
+                    "Como exportar relatórios para Excel?"
+                ]
+            };
+
+            const suggestedContainer = document.querySelector('.suggested-questions');
+            suggestedContainer.innerHTML = '';
+
+            questions[currentModule].forEach(question => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'suggested-question';
+                questionElement.textContent = question;
+                questionElement.setAttribute('data-question', question);
+                questionElement.addEventListener('click', function() {
+                    userInput.value = this.getAttribute('data-question');
+                    sendMessage();
+                });
+                suggestedContainer.appendChild(questionElement);
+            });
+        }
+
+        // Event Listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Navegação do menu
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                currentModule = this.getAttribute('data-module');
+                
+                addMessage(`Agora estou no módulo: ${this.textContent.replace(/[^\w\s]/gi, '')}`, 'bot');
+                updateSuggestedQuestions();
+            });
+        });
+
+        // Perguntas sugeridas
+        suggestedQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                userInput.value = this.getAttribute('data-question');
+                sendMessage();
+            });
+        });
+
+        // Focar no input automaticamente
+        userInput.focus();
     </script>
 </body>
-
 </html>
