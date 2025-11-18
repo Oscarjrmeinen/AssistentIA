@@ -286,10 +286,69 @@
     </div>
 
     <script>
-        // Sistema SIMPLES e EFETIVO de reconhecimento
+        // Sistema CORRIGIDO de reconhecimento - Ordem de prioridade corrigida
         const knowledgeBase = {
+            "bairros": {
+                keywords: ["bairro", "bairros", "cadastrar bairro", "cadastro bairro", "cadastro de bairros", "bairro farma", "bairro linx", "tele entrega", "tele-entrega", "taxa entrega", "comissão motoqueiro", "motoqueiro", "cobrador", "taxa tele entrega", "processar lote", "f6", "cadastro bairros", "bairros cadastro", "novo bairro", "adicionar bairro", "incluir bairro", "registrar bairro"],
+                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
+                
+                <strong>📋 DADOS DO BAIRRO (Obrigatórios):</strong><br>
+                • Cidade<br>
+                • Estado (UF)<br>
+                • Bairro<br>
+                • Região (padrão: GERAL)<br>
+                • Situação (ativo/inativo)<br><br>
+                
+                <strong>🚀 ACESSO RÁPIDO:</strong><br>
+                • <span class="shortcut-key">F2</span> Consulta por nome<br>
+                • <span class="shortcut-key">F3</span> ou <span class="shortcut-key">ALT+N</span> Novo cadastro<br>
+                • <span class="shortcut-key">F4</span> ou <span class="shortcut-key">ALT+G</span> Salvar alterações<br>
+                • <span class="shortcut-key">F5</span> ou <span class="shortcut-key">ALT+I</span> Listagem de bairros<br>
+                • <span class="shortcut-key">F6</span> Processar em lote<br>
+                • <span class="shortcut-key">F9</span> ou <span class="shortcut-key">ALT+E</span> Excluir cadastro<br><br>
+                
+                <strong>🏍️ CONFIGURAÇÃO DE COMISSÕES - MOTOQUEIRO:</strong><br>
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <strong>% Comissão sobre venda</strong><br>
+                        Percentual pago sobre cada venda entregue
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo na entrega</strong><br>
+                        Valor fixo pago por cada entrega (R$)
+                    </div>
+                    <div class="commission-item">
+                        <strong>% Comissão transferência</strong><br>
+                        Percentual sobre transferências entre filiais
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo transferência</strong><br>
+                        Valor fixo para entregas de transferência (R$)
+                    </div>
+                </div><br>
+                
+                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
+                • % Comissão sobre recebimento<br>
+                • Valor fixo por título recebido<br><br>
+                
+                <strong>📦 TELE ENTREGA:</strong><br>
+                • <strong>Valor único:</strong> Taxa fixa por venda<br>
+                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
+                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
+                
+                <div class="info-box">
+                    <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
+                </div>`
+            },
+
             "cadastrar": {
-                keywords: ["cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro", "fazer cadastro"],
+                keywords: ["cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro", "fazer cadastro", "cliente", "clientes"],
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
@@ -357,65 +416,6 @@
                 <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
             },
 
-            "bairros": {
-                keywords: ["bairro", "bairros", "cadastrar bairro", "cadastro bairro", "cadastro de bairros", "bairro farma", "bairro linx", "tele entrega", "tele-entrega", "taxa entrega", "comissão motoqueiro", "motoqueiro", "cobrador", "taxa tele entrega", "processar lote", "f6"],
-                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
-                
-                <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
-                
-                <strong>📋 DADOS DO BAIRRO (Obrigatórios):</strong><br>
-                • Cidade<br>
-                • Estado (UF)<br>
-                • Bairro<br>
-                • Região (padrão: GERAL)<br>
-                • Situação (ativo/inativo)<br><br>
-                
-                <strong>🚀 ACESSO RÁPIDO:</strong><br>
-                • <span class="shortcut-key">F2</span> Consulta por nome<br>
-                • <span class="shortcut-key">F3</span> ou <span class="shortcut-key">ALT+N</span> Novo cadastro<br>
-                • <span class="shortcut-key">F4</span> ou <span class="shortcut-key">ALT+G</span> Salvar alterações<br>
-                • <span class="shortcut-key">F5</span> ou <span class="shortcut-key">ALT+I</span> Listagem de bairros<br>
-                • <span class="shortcut-key">F6</span> Processar em lote<br>
-                • <span class="shortcut-key">F9</span> ou <span class="shortcut-key">ALT+E</span> Excluir cadastro<br><br>
-                
-                <strong>🏍️ CONFIGURAÇÃO DE COMISSÕES - MOTOQUEIRO:</strong><br>
-                <div class="commission-grid">
-                    <div class="commission-item">
-                        <strong>% Comissão sobre venda</strong><br>
-                        Percentual pago sobre cada venda entregue
-                    </div>
-                    <div class="commission-item">
-                        <strong>Valor fixo na entrega</strong><br>
-                        Valor fixo pago por cada entrega (R$)
-                    </div>
-                    <div class="commission-item">
-                        <strong>% Comissão transferência</strong><br>
-                        Percentual sobre transferências entre filiais
-                    </div>
-                    <div class="commission-item">
-                        <strong>Valor fixo transferência</strong><br>
-                        Valor fixo para entregas de transferência (R$)
-                    </div>
-                </div><br>
-                
-                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
-                • % Comissão sobre recebimento<br>
-                • Valor fixo por título recebido<br><br>
-                
-                <strong>📦 TELE ENTREGA:</strong><br>
-                • <strong>Valor único:</strong> Taxa fixa por venda<br>
-                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
-                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
-                
-                <div class="info-box">
-                    <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
-                </div>
-                
-                <div class="warning-box">
-                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
-                </div>`
-            },
-
             "consultar": {
                 keywords: ["consultar", "consulta", "buscar", "procurar", "pesquisar", "localizar", "encontrar", "achar"],
                 answer: `<strong>Como consultar clientes:</strong><br><br>
@@ -461,10 +461,10 @@
                 <div class="suggested-alternative">
                 <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
                 
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar bairro')">Como cadastrar bairros</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar um cliente novo')">Como cadastrar um novo cliente</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar bairro')">Como cadastrar bairros</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar comissao motoqueiro')">Como configurar comissões</strong><br><br>
                 
                 <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
@@ -488,26 +488,25 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // Função SIMPLES e EFETIVA para encontrar correspondência
+        // Função CORRIGIDA para encontrar correspondência
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('Pergunta normalizada:', normalizedQuestion); // Debug
+            console.log('Pergunta normalizada:', normalizedQuestion);
             
-            // Verifica cada categoria
+            // Verifica primeiro por correspondências EXATAS de categoria
             for (const [category, data] of Object.entries(knowledgeBase)) {
                 for (const keyword of data.keywords) {
                     const normalizedKeyword = normalizeText(keyword);
-                    console.log('Verificando keyword:', normalizedKeyword); // Debug
                     
-                    // Verifica se a keyword está na pergunta
+                    // Verifica se a keyword está na pergunta como palavra completa
                     if (normalizedQuestion.includes(normalizedKeyword)) {
-                        console.log('✅ ENCONTROU correspondência:', category); // Debug
+                        console.log('✅ ENCONTROU correspondência:', category, 'com keyword:', normalizedKeyword);
                         return category;
                     }
                 }
             }
             
-            console.log('❌ NÃO encontrou correspondência, usando default'); // Debug
+            console.log('❌ NÃO encontrou correspondência, usando default');
             return "default";
         }
 
