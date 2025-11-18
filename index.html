@@ -311,12 +311,14 @@
     </div>
 
     <script>
-        // MÓDULO COMPLETAMENTE SEPARADO - BAIRROS
+        // DEBUG: Vamos ver EXATAMENTE o que está acontecendo
+        console.log('=== INICIANDO SISTEMA ===');
+
+        // MÓDULO BAIRROS - VERIFICAÇÃO PRIMEIRO
         const moduloBairros = {
             name: "bairros",
-            priority: 100, // Prioridade máxima
             patterns: [
-                // PALAVRAS-CHAVE EXCLUSIVAS DO MÓDULO BAIRROS
+                // PALAVRAS-CHAVE ESPECÍFICAS DE BAIRROS
                 "bairro", "bairros", "zona", "zonas", "região", "regiões",
                 "tele entrega", "tele-entrega", "taxa entrega", "taxa de entrega",
                 "motoqueiro", "motoqueiros", "cobrador", "cobradores",
@@ -324,7 +326,8 @@
                 "comissão cobrador", "comissao cobrador",
                 "f6", "processar lote", "processar em lote",
                 "taxa tele entrega", "valor tele entrega",
-                "cadastro bairro", "cadastro de bairros", "cadastrar bairro",
+                // COMBINAÇÕES COM "cadastrar" - DEVEM VIR PRIMEIRO
+                "cadastrar bairro", "cadastro bairro", "cadastro de bairros",
                 "cadastrar um bairro", "novo bairro", "adicionar bairro",
                 "incluir bairro", "criar bairro", "registrar bairro",
                 "como cadastrar bairro", "quero cadastrar bairro",
@@ -370,33 +373,20 @@
                     </div>
                 </div><br>
                 
-                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
-                • % Comissão sobre recebimento<br>
-                • Valor fixo por título recebido<br><br>
-                
-                <strong>📦 TELE ENTREGA:</strong><br>
-                • <strong>Valor único:</strong> Taxa fixa por venda<br>
-                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
-                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
-                
                 <div class="info-box">
                     <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
-                </div>
-                
-                <div class="warning-box">
-                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
                 </div>`
         };
 
-        // MÓDULO COMPLETAMENTE SEPARADO - CLIENTES
+        // MÓDULO CLIENTES - VERIFICAÇÃO SEGUNDO
         const moduloClientes = {
             name: "clientes", 
-            priority: 50, // Prioridade menor que bairros
             patterns: [
-                // PALAVRAS-CHAVE EXCLUSIVAS DO MÓDULO CLIENTES
+                // PALAVRAS-CHAVE ESPECÍFICAS DE CLIENTES
                 "cliente", "clientes", "pessoa", "pessoas",
                 "cpf", "cnpj", "lgpd", "termo lgpd",
                 "matrícula", "matricula", "limite crédito", "limite credito",
+                // COMBINAÇÕES COM "cadastrar" - DEVEM VIR DEPOIS DAS DE BAIRROS
                 "cadastro cliente", "cadastro de clientes", "cadastrar cliente",
                 "cadastrar um cliente", "novo cliente", "adicionar cliente", 
                 "incluir cliente", "criar cliente", "registrar cliente",
@@ -417,27 +407,7 @@
                 • Data nascimento e naturalidade<br>
                 • Termo LGPD assinado<br><br>
                 
-                <strong>2. VINCULAR CONVÊNIO (Obrigatório):</strong><br>
-                • Cliente deve ter pelo menos 1 convênio<br>
-                • Preencher matrícula (ou gerar automaticamente)<br>
-                • Configurar situação do vínculo<br>
-                • Definir limite de crédito se necessário<br><br>
-                
                 <div class="info-box"><strong>Dica:</strong> CPF/CNPJ só é obrigatório se exigido pelo convênio.</div>`
-        };
-
-        // OUTROS MÓDULOS
-        const outrosModulos = {
-            "dependentes": {
-                patterns: ["dependente", "dependentes", "colocar dependente", "incluir dependente"],
-                answer: `<strong>Como incluir dependentes:</strong><br><br>
-                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div>`
-            },
-            "convênios": {
-                patterns: ["convênio", "convenio", "convênios", "convenios", "vincular convênio"],
-                answer: `<strong>Como vincular convênios:</strong><br><br>
-                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div>`
-            }
         };
 
         // Elementos do DOM
@@ -456,47 +426,53 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA DEFINITIVO - MÓDULOS SEPARADOS
+        // SISTEMA CORRIGIDO - DEBUG DETALHADO
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('🔍 ANALISANDO:', normalizedQuestion);
+            console.log('=== NOVA ANÁLISE ===');
+            console.log('📝 Pergunta original:', question);
+            console.log('🔍 Pergunta normalizada:', normalizedQuestion);
             
-            // 1. PRIMEIRO verifica o MÓDULO BAIRROS (prioridade máxima)
-            for (const pattern of moduloBairros.patterns) {
+            // 1. VERIFICAÇÃO DETALHADA DO MÓDULO BAIRROS
+            console.log('🔎 VERIFICANDO MÓDULO BAIRROS...');
+            for (let i = 0; i < moduloBairros.patterns.length; i++) {
+                const pattern = moduloBairros.patterns[i];
                 const normalizedPattern = normalizeText(pattern);
+                
+                console.log(`   Testando padrão ${i + 1}: "${pattern}" -> "${normalizedPattern}"`);
+                
                 if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ MÓDULO BAIRROS encontrado:', pattern);
+                    console.log(`   ✅✅✅ ENCONTRADO NO MÓDULO BAIRROS: "${pattern}"`);
+                    console.log(`   ✅✅✅ RETORNANDO: MÓDULO BAIRROS`);
                     return moduloBairros.answer;
+                } else {
+                    console.log(`   ❌ Não encontrado: "${pattern}"`);
                 }
             }
             
-            // 2. DEPOIS verifica o MÓDULO CLIENTES
-            for (const pattern of moduloClientes.patterns) {
+            // 2. VERIFICAÇÃO DETALHADA DO MÓDULO CLIENTES
+            console.log('🔎 VERIFICANDO MÓDULO CLIENTES...');
+            for (let i = 0; i < moduloClientes.patterns.length; i++) {
+                const pattern = moduloClientes.patterns[i];
                 const normalizedPattern = normalizeText(pattern);
+                
+                console.log(`   Testando padrão ${i + 1}: "${pattern}" -> "${normalizedPattern}"`);
+                
                 if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ MÓDULO CLIENTES encontrado:', pattern);
+                    console.log(`   ✅✅✅ ENCONTRADO NO MÓDULO CLIENTES: "${pattern}"`);
+                    console.log(`   ✅✅✅ RETORNANDO: MÓDULO CLIENTES`);
                     return moduloClientes.answer;
+                } else {
+                    console.log(`   ❌ Não encontrado: "${pattern}"`);
                 }
             }
             
-            // 3. FINALMENTE verifica outros módulos
-            for (const [modulo, data] of Object.entries(outrosModulos)) {
-                for (const pattern of data.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    if (normalizedQuestion.includes(normalizedPattern)) {
-                        console.log('✅', modulo.toUpperCase(), 'encontrado:', pattern);
-                        return data.answer;
-                    }
-                }
-            }
-            
-            console.log('❌ Nenhum módulo encontrado');
-            return `🤔 <strong>Não entendi sua pergunta!</strong><br><br>
+            console.log('❌❌❌ NENHUM MÓDULO ENCONTRADO');
+            return `🤔 <strong>Não entendi sua pergunta sobre "${question}"!</strong><br><br>
                 <div class="suggested-alternative">
                 <strong>Tente uma destas opções:</strong><br><br>
                 • <strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('cadastrar bairro')">Cadastrar bairro</strong><br>
                 • <strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cadastrar cliente')">Cadastrar cliente</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Incluir dependentes</strong><br>
                 <em>Ou reformule sua pergunta!</em>
                 </div>`;
         }
@@ -562,15 +538,23 @@
             });
         });
 
-        // Mensagem de boas-vindas
+        // Mensagem de boas-vindas com DEBUG
         setTimeout(() => {
-            addMessage(`<strong>🎯 SISTEMA DE MÓDULOS SEPARADOS</strong><br><br>
-            <strong>Módulo Bairros:</strong> "bairro", "tele entrega", "motoqueiro", "f6"<br>
-            <strong>Módulo Clientes:</strong> "cliente", "cpf", "lgpd", "matrícula"<br><br>
-            <strong>Teste garantido:</strong><br>
-            • "cadastrar bairro" → <strong style="color: var(--bairro-color)">MÓDULO BAIRROS</strong> ✅<br>
-            • "cadastrar cliente" → <strong style="color: var(--cliente-color)">MÓDULO CLIENTES</strong> ✅<br>
-            <em>Módulos completamente independentes! 🚀</em>`);
+            addMessage(`<strong>🔧 SISTEMA EM MODO DEBUG</strong><br><br>
+            <strong>Teste estas frases e veja o console (F12):</strong><br>
+            • "cadastrar bairro"<br>
+            • "cadastrar cliente"<br>
+            • "bairro"<br>
+            • "cliente"<br><br>
+            <em>Verifique o console do navegador para ver a análise detalhada!</em>`);
+            
+            // Teste automático para debug
+            console.log('=== TESTE AUTOMÁTICO ===');
+            console.log('Testando "cadastrar bairro":');
+            findBestMatch("cadastrar bairro");
+            console.log('---');
+            console.log('Testando "cadastrar cliente":');
+            findBestMatch("cadastrar cliente");
         }, 1000);
     </script>
 </body>
