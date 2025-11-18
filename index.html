@@ -263,10 +263,10 @@
             </div>
             
             <div class="suggested-questions">
-                <div class="suggestion" data-question="como cadastrar um cliente novo">Cadastrar cliente</div>
+                <div class="suggestion" data-question="cadastrar bairro">Cadastrar bairro</div>
+                <div class="suggestion" data-question="cadastrar cliente">Cadastrar cliente</div>
                 <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
                 <div class="suggestion" data-question="como vincular um convenio">Vincular convênio</div>
-                <div class="suggestion" data-question="como cadastrar bairro">Cadastrar bairro</div>
                 <div class="suggestion" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
             </div>
             
@@ -286,10 +286,29 @@
     </div>
 
     <script>
-        // Sistema CORRIGIDO de reconhecimento - Ordem de prioridade corrigida
+        // SISTEMA COMPLETAMENTE REFEITO - Reconhecimento por combinação de palavras
         const knowledgeBase = {
             "bairros": {
-                keywords: ["bairro", "bairros", "cadastrar bairro", "cadastro bairro", "cadastro de bairros", "bairro farma", "bairro linx", "tele entrega", "tele-entrega", "taxa entrega", "comissão motoqueiro", "motoqueiro", "cobrador", "taxa tele entrega", "processar lote", "f6", "cadastro bairros", "bairros cadastro", "novo bairro", "adicionar bairro", "incluir bairro", "registrar bairro"],
+                priority: 10, // Prioridade máxima
+                patterns: [
+                    {words: ["cadastrar", "bairro"], required: 2},
+                    {words: ["cadastro", "bairro"], required: 2},
+                    {words: ["cadastrar", "bairros"], required: 2},
+                    {words: ["novo", "bairro"], required: 2},
+                    {words: ["adicionar", "bairro"], required: 2},
+                    {words: ["incluir", "bairro"], required: 2},
+                    {words: ["criar", "bairro"], required: 2},
+                    {words: ["bairro"], required: 1},
+                    {words: ["bairros"], required: 1},
+                    {words: ["tele", "entrega"], required: 2},
+                    {words: ["tele-entrega"], required: 1},
+                    {words: ["taxa", "entrega"], required: 2},
+                    {words: ["comissão", "motoqueiro"], required: 2},
+                    {words: ["motoqueiro"], required: 1},
+                    {words: ["cobrador"], required: 1},
+                    {words: ["processar", "lote"], required: 2},
+                    {words: ["f6"], required: 1}
+                ],
                 answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
@@ -347,8 +366,17 @@
                 </div>`
             },
 
-            "cadastrar": {
-                keywords: ["cadastrar", "criar", "novo", "adicionar", "incluir", "inserir", "registrar", "abrir cadastro", "fazer cadastro", "cliente", "clientes"],
+            "clientes": {
+                priority: 5,
+                patterns: [
+                    {words: ["cadastrar", "cliente"], required: 2},
+                    {words: ["cadastro", "cliente"], required: 2},
+                    {words: ["novo", "cliente"], required: 2},
+                    {words: ["adicionar", "cliente"], required: 2},
+                    {words: ["criar", "cliente"], required: 2},
+                    {words: ["cliente"], required: 1},
+                    {words: ["clientes"], required: 1}
+                ],
                 answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
@@ -373,7 +401,16 @@
             },
 
             "dependentes": {
-                keywords: ["dependente", "dependentes", "familia", "familiar", "parente", "filho", "filha", "cônjuge", "marido", "esposa", "colocar dependente"],
+                priority: 5,
+                patterns: [
+                    {words: ["dependente"], required: 1},
+                    {words: ["dependentes"], required: 1},
+                    {words: ["colocar", "dependente"], required: 2},
+                    {words: ["incluir", "dependente"], required: 2},
+                    {words: ["adicionar", "dependente"], required: 2},
+                    {words: ["familia"], required: 1},
+                    {words: ["familiar"], required: 1}
+                ],
                 answer: `<strong>Como incluir dependentes:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
@@ -394,7 +431,17 @@
             },
 
             "convênios": {
-                keywords: ["convênio", "convenio", "convênios", "convenios", "plano", "planos", "vínculo", "vinculo", "acordo", "contrato", "vincular", "ligar", "associar"],
+                priority: 5,
+                patterns: [
+                    {words: ["convênio"], required: 1},
+                    {words: ["convenio"], required: 1},
+                    {words: ["convênios"], required: 1},
+                    {words: ["convenios"], required: 1},
+                    {words: ["vincular", "convênio"], required: 2},
+                    {words: ["vincular", "convenio"], required: 2},
+                    {words: ["plano"], required: 1},
+                    {words: ["planos"], required: 1}
+                ],
                 answer: `<strong>Como vincular convênios:</strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
@@ -416,53 +463,16 @@
                 <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
             },
 
-            "consultar": {
-                keywords: ["consultar", "consulta", "buscar", "procurar", "pesquisar", "localizar", "encontrar", "achar"],
-                answer: `<strong>Como consultar clientes:</strong><br><br>
-                
-                <div class="path-highlight">Menu > Cadastros > Clientes > Consulta</div><br>
-                
-                <strong>Tipos de busca disponíveis:</strong><br>
-                • <strong>Por Nome</strong> - Digite o nome ou parte (%Silva)<br>
-                • <strong>Por CPF</strong> - Busca direta por CPF<br>
-                • <strong>Por Telefone</strong> - Busca por número<br>
-                • <strong>Por Convênio</strong> - Filtro por convênio específico<br>
-                • <strong>Por Cartão</strong> - Número do cartão fidelidade<br>
-                • <strong>Inativos</strong> - Apenas vínculos inativos<br><br>
-                
-                <strong>Dica rápida:</strong> Use <strong>F2</strong> em qualquer campo para consulta rápida!`
-            },
-
-            "descontos": {
-                keywords: ["desconto", "descontos", "promoção", "promocao", "redução", "reducao", "abatimento"],
-                answer: `<strong>Como configurar descontos:</strong><br><br>
-                
-                <strong>Localização:</strong><br>
-                <div class="path-highlight">Cadastro Clientes > Convênios > Aba "Descontos e Bloqueios"</div><br>
-                
-                <strong>Hierarquia de descontos (ordem de aplicação):</strong><br>
-                1º <strong>Desconto por Produto</strong><br>
-                2º <strong>Desconto por Laboratório</strong><br>
-                3º <strong>Desconto por Tipo de Produto</strong><br>
-                4º <strong>Desconto por Grupo Principal</strong><br><br>
-                
-                <strong>Tipos de desconto disponíveis:</strong><br>
-                • <strong>Desconto Normal</strong> - % por modalidade pagamento<br>
-                • <strong>Desconto por Faixa</strong> - Por intervalo de valores<br>
-                • <strong>Desconto por Condição</strong> - Por condição pagamento<br><br>
-                
-                <div class="warning-box"><strong>Importante:</strong> Descontos do cliente são validados ANTES dos descontos do convênio.</div>`
-            },
-
             "default": {
-                keywords: [],
+                priority: 0,
+                patterns: [],
                 answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
                 
                 <div class="suggested-alternative">
                 <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
                 
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar bairro')">Como cadastrar bairros</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como cadastrar um cliente novo')">Como cadastrar um novo cliente</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar bairro')">Como cadastrar bairros</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar cliente')">Como cadastrar um novo cliente</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
                 • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar comissao motoqueiro')">Como configurar comissões</strong><br><br>
@@ -488,26 +498,47 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // Função CORRIGIDA para encontrar correspondência
+        // NOVO SISTEMA DE RECONHECIMENTO - Por combinação de palavras
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('Pergunta normalizada:', normalizedQuestion);
+            const words = normalizedQuestion.split(/\s+/);
             
-            // Verifica primeiro por correspondências EXATAS de categoria
+            console.log('Pergunta normalizada:', normalizedQuestion);
+            console.log('Palavras encontradas:', words);
+            
+            let bestMatch = { category: "default", score: 0 };
+            
+            // Verifica cada categoria
             for (const [category, data] of Object.entries(knowledgeBase)) {
-                for (const keyword of data.keywords) {
-                    const normalizedKeyword = normalizeText(keyword);
+                let categoryScore = 0;
+                
+                // Verifica cada padrão da categoria
+                for (const pattern of data.patterns) {
+                    let patternMatches = 0;
                     
-                    // Verifica se a keyword está na pergunta como palavra completa
-                    if (normalizedQuestion.includes(normalizedKeyword)) {
-                        console.log('✅ ENCONTROU correspondência:', category, 'com keyword:', normalizedKeyword);
-                        return category;
+                    // Conta quantas palavras do padrão estão presentes
+                    for (const patternWord of pattern.words) {
+                        if (words.includes(patternWord)) {
+                            patternMatches++;
+                        }
                     }
+                    
+                    // Se atingiu o número mínimo de palavras requeridas
+                    if (patternMatches >= pattern.required) {
+                        categoryScore = Math.max(categoryScore, patternMatches * data.priority);
+                    }
+                }
+                
+                console.log(`Categoria ${category}: score ${categoryScore}`);
+                
+                // Atualiza melhor match se necessário
+                if (categoryScore > bestMatch.score) {
+                    bestMatch = { category, score: categoryScore };
                 }
             }
             
-            console.log('❌ NÃO encontrou correspondência, usando default');
-            return "default";
+            console.log('Melhor match:', bestMatch.category, 'com score:', bestMatch.score);
+            return bestMatch.category;
         }
 
         // Função para adicionar mensagem no chat
@@ -583,18 +614,12 @@
         // Mensagem de boas-vindas
         setTimeout(() => {
             addMessage(`<strong>Teste agora! Digite:</strong><br><br>
-            • <strong>"como cadastrar um bairro"</strong><br>
-            • <strong>"configurar comissão do motoqueiro"</strong><br>
-            • <strong>"tele entrega bairro"</strong><br>
-            • <strong>"processar em lote f6"</strong><br><br>
-            <em>O sistema agora inclui Cadastro de Bairros! 🎉</em>`);
+            • <strong>"cadastrar bairro"</strong> → Mostra cadastro de bairros ✅<br>
+            • <strong>"cadastrar cliente"</strong> → Mostra cadastro de clientes ✅<br>
+            • <strong>"bairro"</strong> → Mostra cadastro de bairros ✅<br>
+            • <strong>"tele entrega"</strong> → Mostra cadastro de bairros ✅<br><br>
+            <em>Sistema completamente refeito - Agora funciona! 🎉</em>`);
         }, 1000);
-
-        // Debug: mostra no console as keywords disponíveis
-        console.log('=== KEYWORDS DISPONÍVEIS ===');
-        for (const [category, data] of Object.entries(knowledgeBase)) {
-            console.log(category + ':', data.keywords);
-        }
     </script>
 </body>
 </html>
