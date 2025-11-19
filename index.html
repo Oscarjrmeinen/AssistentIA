@@ -9,239 +9,148 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1e5799 0%, #207cca 51%, #2989d8 100%);
+            background: #f5f5f5;
             color: #333;
-            min-height: 100vh;
+            line-height: 1.6;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            width: 100%;
             max-width: 800px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        header {
-            background: linear-gradient(to right, #1e5799, #2989d8);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        header h1 {
+        h1 {
+            color: #2c3e50;
             font-size: 24px;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 25px;
-        }
-        
-        .section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .section:last-child {
-            border-bottom: none;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
         
         h2 {
-            color: #1e5799;
-            font-size: 18px;
-            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 20px;
+            margin: 25px 0 15px 0;
             padding-bottom: 5px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 1px solid #ecf0f1;
         }
         
         h3 {
-            color: #1e5799;
+            color: #2c3e50;
             font-size: 16px;
-            margin: 15px 0 10px 0;
+            margin: 20px 0 10px 0;
         }
         
         p {
-            margin-bottom: 10px;
-            line-height: 1.5;
-            font-size: 14px;
+            margin-bottom: 15px;
         }
         
         ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
+            margin: 15px 0;
+            padding-left: 20px;
         }
         
         li {
             margin-bottom: 8px;
-            line-height: 1.4;
-            font-size: 14px;
         }
         
         .module {
-            background: #f0f7ff;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
             font-weight: bold;
-            color: #1e5799;
-        }
-        
-        .important {
-            background: #fff3cd;
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 4px solid #ffc107;
-            font-size: 14px;
         }
         
         .menu-path {
-            background: #e8f5e9;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: #e8f6f3;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
             font-family: monospace;
-            font-size: 14px;
         }
         
-        .options-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+        .important {
+            background: #fff9e6;
+            padding: 15px;
+            border-left: 4px solid #f1c40f;
+            margin: 20px 0;
+        }
+        
+        .options {
+            margin: 20px 0;
         }
         
         .option-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 5px;
-            border-left: 3px solid #2989d8;
-            font-size: 14px;
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            margin: 5px 10px 5px 0;
+            border-radius: 3px;
         }
         
         .example {
             background: #f8f9fa;
             padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
+            border-radius: 3px;
+            margin: 20px 0;
             font-style: italic;
-            font-size: 14px;
-        }
-        
-        .send-button {
-            background: #2989d8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        
-        .send-button:hover {
-            background: #1e5799;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                max-width: 95%;
-            }
-            
-            .content {
-                padding: 15px;
-            }
-            
-            .options-list {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Assistente Inteligente Cadastro - Softpharma</h1>
-            <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
-        </header>
+        <h1>Assistente Inteligente Cadastro - Softpharma</h1>
+        <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
         
-        <div class="content">
-            <div class="section">
-                <h2>Incluir Dependentes</h2>
-                <div class="module">MÓDULO DEPENDENTES</div>
-                
-                <div class="menu-path">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div>
-                
-                <h3>Dados necessários:</h3>
-                <ul>
-                    <li>Nome completo</li>
-                    <li>Grau de parentesco</li>
-                    <li>Telefone de contato</li>
-                    <li>Data de nascimento</li>
-                    <li>Situação (ativo/inativo)</li>
-                </ul>
-                
-                <h3>Controle por senha/biometria:</h3>
-                <ul>
-                    <li><strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos</li>
-                    <li><strong>Cadastrar biometria</strong> - Até 5 digitais</li>
-                    <li>Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
-                </ul>
-                
-                <div class="important">
-                    <strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.
-                </div>
-            </div>
-            
-            <div class="section">
-                <h3>Cadastrar bairro</h3>
-                <div class="options-list">
-                    <div class="option-item">Cadastro bairro</div>
-                    <div class="option-item">Cadastrar cliente</div>
-                    <div class="option-item">Incluir dependente</div>
-                    <div class="option-item">Comissão motoqueiro</div>
-                </div>
-                
-                <div class="example">
-                    Ex: como cadastrar um bairro no sistema...
-                </div>
-                
-                <button class="send-button">Enviar</button>
-            </div>
+        <h2>Incluir Dependentes</h2>
+        <div class="module">MÓDULO DEPENDENTES</div>
+        
+        <div class="menu-path">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div>
+        
+        <h3>Dados necessários:</h3>
+        <ul>
+            <li>Nome completo</li>
+            <li>Grau de parentesco</li>
+            <li>Telefone de contato</li>
+            <li>Data de nascimento</li>
+            <li>Situação (ativo/inativo)</li>
+        </ul>
+        
+        <h3>Controle por senha/biometria:</h3>
+        <ul>
+            <li><strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos</li>
+            <li><strong>Cadastrar biometria</strong> - Até 5 digitais</li>
+            <li>Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
+        </ul>
+        
+        <div class="important">
+            <strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.
         </div>
-    </div>
-
-    <script>
-        // Adicionando funcionalidade ao botão Enviar
-        document.querySelector('.send-button').addEventListener('click', function() {
-            alert('Sua solicitação foi enviada para o assistente inteligente. Em breve você receberá a resposta detalhada.');
-        });
         
-        // Adicionando interatividade aos itens de opções
-        document.querySelectorAll('.option-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const optionText = this.textContent;
-                alert(`Você selecionou: ${optionText}\n\nO assistente irá fornecer instruções detalhadas sobre este procedimento.`);
-            });
-        });
-    </script>
+        <h3>Cadastrar bairro</h3>
+        <div class="options">
+            <div class="option-item">Cadastro bairro</div>
+            <div class="option-item">Cadastrar cliente</div>
+            <div class="option-item">Incluir dependente</div>
+            <div class="option-item">Comissão motoqueiro</div>
+        </div>
+        
+        <div class="example">
+            Ex: como cadastrar um bairro no sistema...
+        </div>
+        
+        <p>Enviar</p>
+    </div>
 </body>
 </html>
