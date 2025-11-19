@@ -1,156 +1,612 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assistente Inteligente Cadastro - Softpharma</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
         
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 900px;
             background: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
-        h1 {
-            color: #2c3e50;
-            font-size: 24px;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
         }
         
-        h2 {
-            color: #2c3e50;
-            font-size: 20px;
-            margin: 25px 0 15px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #ecf0f1;
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         
-        h3 {
-            color: #2c3e50;
-            font-size: 16px;
-            margin: 20px 0 10px 0;
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
         }
         
-        p {
-            margin-bottom: 15px;
+        .chat-container {
+            height: 600px;
+            display: flex;
+            flex-direction: column;
         }
         
-        ul {
-            margin: 15px 0;
-            padding-left: 20px;
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
-        li {
-            margin-bottom: 8px;
+        .message {
+            padding: 1rem;
+            border-radius: 15px;
+            max-width: 85%;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease-in;
         }
         
-        .module {
-            background: #ecf0f1;
-            padding: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: var(--secondary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            background: var(--light);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .suggested-questions {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #f8f9fa;
+        }
+        
+        .suggestion {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+        
+        .chat-input button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-left: 0.5rem;
+        }
+        
+        .chat-input button:hover {
+            background: #2980b9;
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 1rem;
+            align-self: flex-start;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        .path-highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-weight: 500;
+        }
+
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid var(--secondary);
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background: #ffecb3;
+            border-left: 4px solid #ffc107;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .suggested-alternative {
+            background: #e8f5e8;
+            border-left: 4px solid var(--success);
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .shortcut-key {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 6px;
             border-radius: 3px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        
-        .menu-path {
-            background: #e8f6f3;
-            padding: 10px;
-            border-radius: 3px;
-            margin: 10px 0;
+            font-size: 0.75rem;
+            margin: 0 3px;
             font-family: monospace;
         }
-        
-        .important {
-            background: #fff9e6;
-            padding: 15px;
-            border-left: 4px solid #f1c40f;
-            margin: 20px 0;
+
+        .commission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
         }
-        
-        .options {
-            margin: 20px 0;
+
+        .commission-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
-        
-        .option-item {
-            display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 8px 15px;
-            margin: 5px 10px 5px 0;
-            border-radius: 3px;
-        }
-        
-        .example {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 3px;
-            margin: 20px 0;
-            font-style: italic;
+
+        @media (max-width: 768px) {
+            .commission-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Assistente Inteligente Cadastro - Softpharma</h1>
-        <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
-        
-        <h2>Incluir Dependentes</h2>
-        <div class="module">MÓDULO DEPENDENTES</div>
-        
-        <div class="menu-path">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div>
-        
-        <h3>Dados necessários:</h3>
-        <ul>
-            <li>Nome completo</li>
-            <li>Grau de parentesco</li>
-            <li>Telefone de contato</li>
-            <li>Data de nascimento</li>
-            <li>Situação (ativo/inativo)</li>
-        </ul>
-        
-        <h3>Controle por senha/biometria:</h3>
-        <ul>
-            <li><strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos</li>
-            <li><strong>Cadastrar biometria</strong> - Até 5 digitais</li>
-            <li>Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
-        </ul>
-        
-        <div class="important">
-            <strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.
+        <div class="header">
+            <h1>💊 Assistente Inteligente Cadastro - Softpharma</h1>
+            <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
         </div>
         
-        <h3>Cadastrar bairro</h3>
-        <div class="options">
-            <div class="option-item">Cadastro bairro</div>
-            <div class="option-item">Cadastrar cliente</div>
-            <div class="option-item">Incluir dependente</div>
-            <div class="option-item">Comissão motoqueiro</div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Olá! Sou seu assistente inteligente para Cadastros do Softpharma. 
+                    Fale comigo naturalmente - entendo perguntas informais! 😊
+                </div>
+            </div>
+            
+            <div class="suggested-questions">
+                <div class="suggestion" data-question="cadastrar bairro">Cadastrar bairro</div>
+                <div class="suggestion" data-question="cadastrar cliente">Cadastrar cliente</div>
+                <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
+                <div class="suggestion" data-question="como vincular um convenio">Vincular convênio</div>
+                <div class="suggestion" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ex: como cadastrar um bairro no sistema...">
+                <button id="send-btn">Enviar</button>
+            </div>
         </div>
-        
-        <div class="example">
-            Ex: como cadastrar um bairro no sistema...
-        </div>
-        
-        <p>Enviar</p>
     </div>
+
+    <script>
+        // SISTEMA COMPLETAMENTE REFEITO - Reconhecimento por combinação exata
+        const knowledgeBase = {
+            "bairros": {
+                patterns: [
+                    // Padrões que devem ser verificados PRIMEIRO
+                    "cadastrar bairro",
+                    "cadastro bairro", 
+                    "cadastrar um bairro",
+                    "cadastro de bairros",
+                    "novo bairro",
+                    "adicionar bairro",
+                    "incluir bairro",
+                    "criar bairro",
+                    "como cadastrar bairro",
+                    "quero cadastrar bairro",
+                    "preciso cadastrar bairro",
+                    // Palavras individuais (verificadas por último)
+                    "bairro",
+                    "bairros",
+                    "tele entrega",
+                    "tele-entrega",
+                    "motoqueiro",
+                    "cobrador",
+                    "f6",
+                    "processar lote"
+                ],
+                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
+                
+                <strong>📋 DADOS DO BAIRRO (Obrigatórios):</strong><br>
+                • Cidade<br>
+                • Estado (UF)<br>
+                • Bairro<br>
+                • Região (padrão: GERAL)<br>
+                • Situação (ativo/inativo)<br><br>
+                
+                <strong>🚀 ACESSO RÁPIDO:</strong><br>
+                • <span class="shortcut-key">F2</span> Consulta por nome<br>
+                • <span class="shortcut-key">F3</span> ou <span class="shortcut-key">ALT+N</span> Novo cadastro<br>
+                • <span class="shortcut-key">F4</span> ou <span class="shortcut-key">ALT+G</span> Salvar alterações<br>
+                • <span class="shortcut-key">F5</span> ou <span class="shortcut-key">ALT+I</span> Listagem de bairros<br>
+                • <span class="shortcut-key">F6</span> Processar em lote<br>
+                • <span class="shortcut-key">F9</span> ou <span class="shortcut-key">ALT+E</span> Excluir cadastro<br><br>
+                
+                <strong>🏍️ CONFIGURAÇÃO DE COMISSÕES - MOTOQUEIRO:</strong><br>
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <strong>% Comissão sobre venda</strong><br>
+                        Percentual pago sobre cada venda entregue
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo na entrega</strong><br>
+                        Valor fixo pago por cada entrega (R$)
+                    </div>
+                    <div class="commission-item">
+                        <strong>% Comissão transferência</strong><br>
+                        Percentual sobre transferências entre filiais
+                    </div>
+                    <div class="commission-item">
+                        <strong>Valor fixo transferência</strong><br>
+                        Valor fixo para entregas de transferência (R$)
+                    </div>
+                </div><br>
+                
+                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
+                • % Comissão sobre recebimento<br>
+                • Valor fixo por título recebido<br><br>
+                
+                <strong>📦 TELE ENTREGA:</strong><br>
+                • <strong>Valor único:</strong> Taxa fixa por venda<br>
+                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
+                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
+                
+                <div class="info-box">
+                    <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
+                </div>`
+            },
+
+            "clientes": {
+                patterns: [
+                    // Padrões específicos primeiro
+                    "cadastrar cliente",
+                    "cadastro cliente",
+                    "cadastrar um cliente", 
+                    "cadastro de clientes",
+                    "novo cliente",
+                    "adicionar cliente",
+                    "incluir cliente",
+                    "criar cliente",
+                    "como cadastrar cliente",
+                    // Palavras individuais por último
+                    "cliente",
+                    "clientes"
+                ],
+                answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
+                
+                <strong>1. DADOS BÁSICOS (Obrigatórios):</strong><br>
+                • Código (automático): (Filial × 10.000) + Sequência<br>
+                • Nome completo<br>
+                • Endereço completo (CEP autocompleta)<br>
+                • Contatos (telefone/celular)<br>
+                • E-mails (até 5)<br>
+                • Documentos oficiais<br>
+                • Data nascimento e naturalidade<br>
+                • Termo LGPD assinado<br><br>
+                
+                <strong>2. VINCULAR CONVÊNIO (Obrigatório):</strong><br>
+                • Cliente deve ter pelo menos 1 convênio<br>
+                • Preencher matrícula (ou gerar automaticamente)<br>
+                • Configurar situação do vínculo<br>
+                • Definir limite de crédito se necessário<br><br>
+                
+                <div class="info-box"><strong>Dica:</strong> CPF/CNPJ só é obrigatório se exigido pelo convênio.</div>`
+            },
+
+            "dependentes": {
+                patterns: ["dependente", "dependentes", "colocar dependente", "incluir dependente"],
+                answer: `<strong>Como incluir dependentes:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
+                
+                <strong>Dados necessários:</strong><br>
+                • Nome completo<br>
+                • Grau de parentesco<br>
+                • Telefone de contato<br>
+                • Data de nascimento<br>
+                • Situação (ativo/inativo)<br><br>
+                
+                <div class="warning-box"><strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.</div>`
+            },
+
+            "convênios": {
+                patterns: ["convênio", "convenio", "convênios", "convenios", "vincular convênio"],
+                answer: `<strong>Como vincular convênios:</strong><br><br>
+                
+                <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
+                
+                <strong>Passo a passo:</strong><br>
+                1. Clique em <strong>"Novo"</strong> na guia Convênios<br>
+                2. Informe o código do convênio ou use F2 para consultar<br>
+                3. Preencha a <strong>matrícula</strong> (ou deixe gerar automaticamente)<br>
+                4. Configure a <strong>situação</strong> do vínculo<br>
+                5. Defina <strong>limite de crédito</strong> se necessário<br>
+                6. Clique em <strong>"Aplicar"</strong> para salvar<br><br>
+                
+                <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
+            },
+
+            "default": {
+                patterns: [],
+                answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
+                
+                <div class="suggested-alternative">
+                <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
+                
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar bairro')">Como cadastrar bairros</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar cliente')">Como cadastrar um novo cliente</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
+                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar comissao motoqueiro')">Como configurar comissões</strong><br><br>
+                
+                <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
+                </div>`
+            }
+        };
+
+        // Elementos do DOM
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const suggestions = document.querySelectorAll('.suggestion');
+
+        // Função para normalizar texto
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^\w\s]/gi, ' ');
+        }
+
+        // SISTEMA CORRIGIDO - Verifica combinações EXATAS primeiro
+        function findBestMatch(question) {
+            const normalizedQuestion = normalizeText(question);
+            console.log('🔍 Analisando:', normalizedQuestion);
+            
+            // PRIMEIRO: Verifica combinações EXATAS em BAIRROS
+            for (const pattern of knowledgeBase.bairros.patterns) {
+                const normalizedPattern = normalizeText(pattern);
+                // Verifica se o padrão completo está na pergunta
+                if (normalizedQuestion.includes(normalizedPattern)) {
+                    console.log('✅ ENCONTROU BAIRRO (padrão exato):', normalizedPattern);
+                    return "bairros";
+                }
+            }
+            
+            // SEGUNDO: Verifica combinações EXATAS em CLIENTES
+            for (const pattern of knowledgeBase.clientes.patterns) {
+                const normalizedPattern = normalizeText(pattern);
+                if (normalizedQuestion.includes(normalizedPattern)) {
+                    console.log('✅ ENCONTROU CLIENTE (padrão exato):', normalizedPattern);
+                    return "clientes";
+                }
+            }
+            
+            // TERCEIRO: Verifica palavras individuais em BAIRROS
+            const words = normalizedQuestion.split(/\s+/);
+            for (const word of words) {
+                for (const pattern of knowledgeBase.bairros.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    // Verifica se é uma palavra individual (não combinação)
+                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
+                        console.log('✅ ENCONTROU BAIRRO (palavra individual):', word);
+                        return "bairros";
+                    }
+                }
+            }
+            
+            // QUARTO: Verifica palavras individuais em CLIENTES
+            for (const word of words) {
+                for (const pattern of knowledgeBase.clientes.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
+                        console.log('✅ ENCONTROU CLIENTE (palavra individual):', word);
+                        return "clientes";
+                    }
+                }
+            }
+            
+            // QUINTO: Verifica outras categorias
+            for (const [category, data] of Object.entries(knowledgeBase)) {
+                if (category === "bairros" || category === "clientes" || category === "default") continue;
+                
+                for (const pattern of data.patterns) {
+                    const normalizedPattern = normalizeText(pattern);
+                    if (normalizedQuestion.includes(normalizedPattern)) {
+                        console.log('✅ ENCONTROU', category.toUpperCase(), ':', normalizedPattern);
+                        return category;
+                    }
+                }
+            }
+            
+            console.log('❌ Nenhuma correspondência, usando default');
+            return "default";
+        }
+
+        // Função para adicionar mensagem no chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.innerHTML = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para mostrar indicador de digitação
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Função para esconder indicador de digitação
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Função para processar a pergunta do usuário
+        function processQuestion(question) {
+            const bestMatch = findBestMatch(question);
+            return knowledgeBase[bestMatch].answer;
+        }
+
+        // Função global para fazer perguntas
+        window.askQuestion = function(question) {
+            userInput.value = question;
+            sendMessage();
+        };
+
+        // Função para enviar mensagem
+        function sendMessage() {
+            const question = userInput.value.trim();
+            if (question === '') return;
+            
+            addMessage(question, true);
+            userInput.value = '';
+            
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const answer = processQuestion(question);
+                addMessage(answer);
+            }, 800);
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Sugestões de perguntas
+        suggestions.forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                const question = suggestion.getAttribute('data-question');
+                userInput.value = question;
+                sendMessage();
+            });
+        });
+
+    </script>
 </body>
 </html>
