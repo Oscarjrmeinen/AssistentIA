@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente Inteligente - Softpharma</title>
+    <title>Assistente Inteligente Cadastro - Softpharma</title>
     <style>
         * {
             margin: 0;
@@ -24,155 +24,154 @@
         
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
         
         header {
             background: linear-gradient(to right, #1e5799, #2989d8);
             color: white;
-            padding: 25px 30px;
+            padding: 20px;
             text-align: center;
         }
         
         header h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
+            font-size: 24px;
+            margin-bottom: 5px;
             font-weight: 600;
         }
         
         header p {
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0.9;
         }
         
         .content {
-            padding: 30px;
+            padding: 25px;
         }
         
-        .question-section {
-            margin-bottom: 30px;
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
         }
         
-        .question-title {
-            font-size: 22px;
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
             color: #1e5799;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .question-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .question-item {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 15px 20px;
-            border-left: 4px solid #2989d8;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        
-        .question-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .question-item h3 {
-            color: #1e5799;
-            margin-bottom: 5px;
             font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e0e0e0;
         }
         
-        .question-item p {
-            color: #555;
-            font-size: 14px;
+        h3 {
+            color: #1e5799;
+            font-size: 16px;
+            margin: 15px 0 10px 0;
+        }
+        
+        p {
+            margin-bottom: 10px;
             line-height: 1.5;
+            font-size: 14px;
         }
         
-        .response-section {
-            margin-top: 30px;
-        }
-        
-        .response-title {
-            font-size: 22px;
-            color: #1e5799;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .response-content {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            display: none;
-        }
-        
-        .response-content h4 {
-            color: #1e5799;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .response-content ul {
+        ul {
             margin-left: 20px;
             margin-bottom: 15px;
         }
         
-        .response-content li {
+        li {
             margin-bottom: 8px;
-            line-height: 1.5;
+            line-height: 1.4;
+            font-size: 14px;
         }
         
-        .highlight {
-            background-color: #e3f2fd;
+        .module {
+            background: #f0f7ff;
             padding: 10px 15px;
             border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #1e5799;
+        }
+        
+        .important {
+            background: #fff3cd;
+            padding: 12px 15px;
+            border-radius: 5px;
             margin: 15px 0;
-            border-left: 3px solid #1e5799;
+            border-left: 4px solid #ffc107;
+            font-size: 14px;
         }
         
-        .contact-info {
-            background: #f0f7ff;
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid #e0e0e0;
-            margin-top: 20px;
+        .menu-path {
+            background: #e8f5e9;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 14px;
         }
         
-        .contact-info p {
-            margin-bottom: 10px;
-            color: #555;
+        .options-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
         }
         
-        .contact-info a {
-            color: #2989d8;
-            text-decoration: none;
-            font-weight: 500;
+        .option-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 3px solid #2989d8;
+            font-size: 14px;
         }
         
-        .contact-info a:hover {
-            text-decoration: underline;
+        .example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-style: italic;
+            font-size: 14px;
+        }
+        
+        .send-button {
+            background: #2989d8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .send-button:hover {
+            background: #1e5799;
         }
         
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 24px;
+            .container {
+                max-width: 95%;
             }
             
             .content {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .options-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -180,165 +179,69 @@
 <body>
     <div class="container">
         <header>
-            <h1>Assistente Inteligente - Softpharma</h1>
+            <h1>Assistente Inteligente Cadastro - Softpharma</h1>
             <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
         </header>
         
         <div class="content">
-            <section class="question-section">
-                <h2 class="question-title">
-                    <span>❓</span> Dúvidas Frequentes
-                </h2>
-                <div class="question-list">
-                    <div class="question-item" onclick="showResponse('dependentResponse')">
-                        <h3>Incluir Dependentes</h3>
-                        <p>Como adicionar dependentes a um cliente? Quais dados são necessários?</p>
-                    </div>
-                    
-                    <div class="question-item" onclick="showResponse('clientResponse')">
-                        <h3>Cadastro de Clientes</h3>
-                        <p>Como cadastrar um novo cliente no sistema? Quais campos são obrigatórios?</p>
-                    </div>
-                    
-                    <div class="question-item" onclick="showResponse('neighborhoodResponse')">
-                        <h3>Cadastro de Bairros</h3>
-                        <p>Como cadastrar um novo bairro para entregas no sistema?</p>
-                    </div>
-                    
-                    <div class="question-item" onclick="showResponse('commissionResponse')">
-                        <h3>Comissão de Entregadores</h3>
-                        <p>Como configurar e calcular comissões para motoqueiros?</p>
-                    </div>
+            <div class="section">
+                <h2>Incluir Dependentes</h2>
+                <div class="module">MÓDULO DEPENDENTES</div>
+                
+                <div class="menu-path">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div>
+                
+                <h3>Dados necessários:</h3>
+                <ul>
+                    <li>Nome completo</li>
+                    <li>Grau de parentesco</li>
+                    <li>Telefone de contato</li>
+                    <li>Data de nascimento</li>
+                    <li>Situação (ativo/inativo)</li>
+                </ul>
+                
+                <h3>Controle por senha/biometria:</h3>
+                <ul>
+                    <li><strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos</li>
+                    <li><strong>Cadastrar biometria</strong> - Até 5 digitais</li>
+                    <li>Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
+                </ul>
+                
+                <div class="important">
+                    <strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.
                 </div>
-            </section>
+            </div>
             
-            <section class="response-section">
-                <h2 class="response-title">
-                    <span>💡</span> Resposta
-                </h2>
-                
-                <!-- Resposta para Incluir Dependentes -->
-                <div id="dependentResponse" class="response-content">
-                    <h4>Incluir Dependentes - Passo a Passo</h4>
-                    <p><strong>MÓDULO DEPENDENTES</strong></p>
-                    <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</p>
-                    
-                    <p><strong>Dados necessários:</strong></p>
-                    <ul>
-                        <li>Nome completo</li>
-                        <li>Grau de parentesco</li>
-                        <li>Telefone de contato</li>
-                        <li>Data de nascimento</li>
-                        <li>Situação (ativo/inativo)</li>
-                    </ul>
-                    
-                    <p><strong>Controle por senha/biometria:</strong></p>
-                    <ul>
-                        <li><strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos</li>
-                        <li><strong>Cadastrar biometria</strong> - Até 5 digitais</li>
-                        <li>Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
-                    </ul>
-                    
-                    <div class="highlight">
-                        <strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.
-                    </div>
+            <div class="section">
+                <h3>Cadastrar bairro</h3>
+                <div class="options-list">
+                    <div class="option-item">Cadastro bairro</div>
+                    <div class="option-item">Cadastrar cliente</div>
+                    <div class="option-item">Incluir dependente</div>
+                    <div class="option-item">Comissão motoqueiro</div>
                 </div>
                 
-                <!-- Resposta para Cadastro de Clientes -->
-                <div id="clientResponse" class="response-content">
-                    <h4>Cadastro de Clientes - Passo a Passo</h4>
-                    <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Clientes > Novo Cliente</p>
-                    
-                    <p><strong>Dados obrigatórios:</strong></p>
-                    <ul>
-                        <li>Nome completo ou razão social</li>
-                        <li>CPF (pessoa física) ou CNPJ (pessoa jurídica)</li>
-                        <li>Telefone para contato</li>
-                        <li>Endereço completo (logradouro, número, bairro, cidade)</li>
-                    </ul>
-                    
-                    <p><strong>Dados complementares importantes:</strong></p>
-                    <ul>
-                        <li>E-mail para contato</li>
-                        <li>Data de nascimento (para pessoa física)</li>
-                        <li>Indicador de IE (inscrição estadual)</li>
-                        <li>Configuração de senha de acesso (6 dígitos)</li>
-                    </ul>
-                    
-                    <p><strong>Observação:</strong> Após o cadastro, o sistema gera automaticamente uma senha de 6 dígitos que pode ser visualizada na Ficha do Cliente (F8 ou ALT+1).</p>
+                <div class="example">
+                    Ex: como cadastrar um bairro no sistema...
                 </div>
                 
-                <!-- Resposta para Cadastro de Bairros -->
-                <div id="neighborhoodResponse" class="response-content">
-                    <h4>Cadastro de Bairros - Passo a Passo</h4>
-                    
-                    <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Bairros > Novo Bairro</p>
-                    
-                    <p><strong>Dados necessários:</strong></p>
-                    <ul>
-                        <li>Nome do bairro</li>
-                        <li>Cidade de referência</li>
-                        <li>Taxa de entrega (se aplicável)</li>
-                        <li>Zona de entrega</li>
-                        <li>Entregador padrão</li>
-                    </ul>
-                    
-                    <p><strong>Configurações importantes:</strong></p>
-                    <ul>
-                        <li>Definir valor de taxa de entrega específica para o bairro</li>
-                        <li>Vincular a uma zona de entrega existente</li>
-                        <li>Associar um entregador padrão para o bairro</li>
-                    </ul>
-                </div>
-                
-                <!-- Resposta para Comissão de Entregadores -->
-                <div id="commissionResponse" class="response-content">
-                    <h4>Comissão de Entregadores - Configuração</h4>
-                    
-                    <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Entregadores > [Entregador] > Aba Comissões</p>
-                    
-                    <p><strong>Tipos de comissão disponíveis:</strong></p>
-                    <ul>
-                        <li>Comissão por porcentagem sobre o valor da venda</li>
-                        <li>Comissão por valor fixo por entrega</li>
-                        <li>Comissão por faixa de valor</li>
-                    </ul>
-                    
-                    <p><strong>Configuração passo a passo:</strong></p>
-                    <ul>
-                        <li>Selecione o tipo de comissão desejado</li>
-                        <li>Defina o valor ou porcentagem</li>
-                        <li>Configure as regras específicas (horários, bairros, etc.)</li>
-                        <li>Salve as configurações</li>
-                    </ul>
-                </div>
-                
-                <!-- Mensagem inicial -->
-                <div id="initialMessage" class="response-content" style="display: block;">
-                    <p>Clique em uma das dúvidas frequentes acima para visualizar a resposta detalhada.</p>
-                </div>
-            </section>
-        </div>
-        
-        <div class="contact-info">
-            <p>Não encontrou o que procurava? Entre em contato com nosso suporte:</p>
-            <p>Telefone: <a href="tel:+5511999999999">(11) 99999-9999</a> | Email: <a href="mailto:suporte@softpharma.com">suporte@softpharma.com</a></p>
+                <button class="send-button">Enviar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Função para mostrar respostas
-        function showResponse(responseId) {
-            // Esconde todas as respostas
-            const allResponses = document.querySelectorAll('.response-content');
-            allResponses.forEach(response => {
-                response.style.display = 'none';
+        // Adicionando funcionalidade ao botão Enviar
+        document.querySelector('.send-button').addEventListener('click', function() {
+            alert('Sua solicitação foi enviada para o assistente inteligente. Em breve você receberá a resposta detalhada.');
+        });
+        
+        // Adicionando interatividade aos itens de opções
+        document.querySelectorAll('.option-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const optionText = this.textContent;
+                alert(`Você selecionou: ${optionText}\n\nO assistente irá fornecer instruções detalhadas sobre este procedimento.`);
             });
-            
-            // Mostra a resposta selecionada
-            const selectedResponse = document.getElementById(responseId);
-            selectedResponse.style.display = 'block';
-        }
+        });
     </script>
 </body>
 </html>
