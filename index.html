@@ -17,6 +17,7 @@
             --convenio-color: #f39c12;
             --consulta-color: #16a085;
             --relatorio-color: #8e44ad;
+            --desconto-color: #c0392b;
         }
         
         * {
@@ -143,6 +144,10 @@
         
         .suggestion.relatorio {
             border-left: 4px solid var(--relatorio-color);
+        }
+        
+        .suggestion.desconto {
+            border-left: 4px solid var(--desconto-color);
         }
         
         .suggestion:hover {
@@ -304,6 +309,10 @@
             background: var(--relatorio-color);
         }
 
+        .module-tag.desconto {
+            background: var(--desconto-color);
+        }
+
         .step-list {
             margin: 10px 0;
             padding-left: 20px;
@@ -350,12 +359,13 @@
             </div>
             
             <div class="suggested-questions">
-                <div class="suggestion bairro" data-question="cadastrar bairro">Cadastrar bairro</div>
-                <div class="suggestion cliente" data-question="cadastrar cliente">Cadastrar cliente</div>
-                <div class="suggestion dependente" data-question="incluir dependente">Incluir dependente</div>
-                <div class="suggestion convenio" data-question="vincular convenio">Vincular convênio</div>
-                <div class="suggestion consulta" data-question="consultar cliente">Consultar cliente</div>
-                <div class="suggestion relatorio" data-question="relatorios cliente">Relatórios cliente</div>
+                <div class="suggestion bairro" data-question="bairro">Cadastrar bairro</div>
+                <div class="suggestion cliente" data-question="cliente">Cadastrar cliente</div>
+                <div class="suggestion dependente" data-question="dependente">Incluir dependente</div>
+                <div class="suggestion convenio" data-question="convenio">Vincular convênio</div>
+                <div class="suggestion consulta" data-question="consulta">Consultar cliente</div>
+                <div class="suggestion relatorio" data-question="relatorio">Relatórios cliente</div>
+                <div class="suggestion desconto" data-question="desconto">Liberar descontos</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -589,8 +599,8 @@
             },
 
             "descontos": {
-                targetWords: ["liberar desconto", "retirar desconto", "desconto em lote", "desconto todos clientes"],
-                answer: `<strong>💰 Liberar/Retirar Descontos em Lote <span class="module-tag convenio">MÓDULO DESCONTOS</span></strong><br><br>
+                targetWords: ["liberar desconto", "retirar desconto", "desconto em lote", "desconto todos clientes", "liberar", "retirar"],
+                answer: `<strong>💰 Liberar/Retirar Descontos em Lote <span class="module-tag desconto">MÓDULO DESCONTOS</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Convênios > Liberar/Retirar Descontos</div><br>
                 
@@ -627,7 +637,6 @@
         // Sistema de correspondência inteligente
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('🔍 ANALISANDO FRASE:', normalizedQuestion);
             
             // Contagem de correspondências por módulo
             const matchCounts = {};
@@ -639,7 +648,6 @@
                 for (const targetWord of data.targetWords) {
                     if (normalizedQuestion.includes(targetWord)) {
                         matchCounts[module]++;
-                        console.log(`✅ ENCONTRADO: "${targetWord}" no módulo ${module}`);
                     }
                 }
             }
@@ -657,12 +665,10 @@
             
             // Retorna a resposta do módulo com mais correspondências
             if (bestMatch && maxMatches > 0) {
-                console.log(`🎯 MELHOR CORRESPONDÊNCIA: ${bestMatch} com ${maxMatches} matches`);
                 return knowledgeBase[bestMatch].answer;
             }
             
             // Se não encontrou correspondência específica
-            console.log('❌ NENHUMA CORRESPONDÊNCIA ESPECÍFICA ENCONTRADA');
             return getDefaultResponse();
         }
 
@@ -671,12 +677,13 @@
             return `🤔 <strong>Não entendi completamente sua pergunta!</strong><br><br>
                 <div class="suggested-alternative">
                 <strong>Tente ser mais específico ou use uma dessas opções:</strong><br><br>
-                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="window.askQuestion('bairro')">bairro</strong>" - Cadastro de bairros e comissões<br>
-                • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="window.askQuestion('cliente')">cliente</strong>" - Cadastro de clientes<br>
-                • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="window.askQuestion('dependente')">dependente</strong>" - Incluir dependentes<br>
-                • "<strong style="cursor:pointer; color: var(--convenio-color);" onclick="window.askQuestion('convenio')">convênio</strong>" - Vincular convênios<br>
-                • "<strong style="cursor:pointer; color: var(--consulta-color);" onclick="window.askQuestion('consulta')">consulta</strong>" - Consultar clientes<br>
-                • "<strong style="cursor:pointer; color: var(--relatorio-color);" onclick="window.askQuestion('relatorio')">relatório</strong>" - Relatórios de clientes<br>
+                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('bairro')">bairro</strong>" - Cadastro de bairros e comissões<br>
+                • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cliente')">cliente</strong>" - Cadastro de clientes<br>
+                • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="askQuestion('dependente')">dependente</strong>" - Incluir dependentes<br>
+                • "<strong style="cursor:pointer; color: var(--convenio-color);" onclick="askQuestion('convenio')">convênio</strong>" - Vincular convênios<br>
+                • "<strong style="cursor:pointer; color: var(--consulta-color);" onclick="askQuestion('consulta')">consulta</strong>" - Consultar clientes<br>
+                • "<strong style="cursor:pointer; color: var(--relatorio-color);" onclick="askQuestion('relatorio')">relatório</strong>" - Relatórios de clientes<br>
+                • "<strong style="cursor:pointer; color: var(--desconto-color);" onclick="askQuestion('desconto')">desconto</strong>" - Liberar descontos em lote<br>
                 <br><em>Ou use as sugestões de perguntas acima!</em>
                 </div>`;
         }
@@ -702,11 +709,11 @@
             typingIndicator.style.display = 'none';
         }
 
-        // Função global para fazer perguntas (agora realmente global)
-        window.askQuestion = function(question) {
+        // Função global para fazer perguntas
+        function askQuestion(question) {
             userInput.value = question;
             sendMessage();
-        };
+        }
 
         // Função para enviar mensagem
         function sendMessage() {
@@ -737,7 +744,7 @@
         suggestions.forEach(suggestion => {
             suggestion.addEventListener('click', () => {
                 const question = suggestion.getAttribute('data-question');
-                window.askQuestion(question);
+                askQuestion(question);
             });
         });
 
@@ -750,7 +757,8 @@
             • <span style="color: var(--dependente-color)">Dependentes</span> - Parentescos e autorizações<br>
             • <span style="color: var(--convenio-color)">Convênios</span> - Vínculos, descontos e limites<br>
             • <span style="color: var(--consulta-color)">Consulta</span> - Busca por CPF, nome, telefone<br>
-            • <span style="color: var(--relatorio-color)">Relatórios</span> - Fichas, mensagens e e-mails<br><br>
+            • <span style="color: var(--relatorio-color)">Relatórios</span> - Fichas, mensagens e e-mails<br>
+            • <span style="color: var(--desconto-color)">Descontos</span> - Liberação em lote<br><br>
             <em>Faça sua pergunta de forma natural! 😊</em>`);
         }, 1000);
     </script>
