@@ -928,7 +928,6 @@
         // Sistema de correspondência inteligente
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('Pergunta normalizada:', normalizedQuestion);
             
             // Contagem de correspondências por módulo
             const matchCounts = {};
@@ -940,7 +939,6 @@
                 for (const targetWord of data.targetWords) {
                     if (normalizedQuestion.includes(targetWord)) {
                         matchCounts[module]++;
-                        console.log(`Encontrado: "${targetWord}" no módulo ${module}`);
                     }
                 }
             }
@@ -955,8 +953,6 @@
                     bestMatch = module;
                 }
             }
-            
-            console.log('Melhor correspondência:', bestMatch, 'com', maxMatches, 'matches');
             
             // Retorna a resposta do módulo com mais correspondências
             if (bestMatch && maxMatches > 0) {
@@ -1057,19 +1053,7 @@
             });
         });
 
-        // Mensagem de boas-vindas
-        setTimeout(() => {
-            addMessage(`<strong>🎯 ASSISTENTE DE CADASTRO COMPLETO - SOFT PHARMA</strong><br><br>
-            <strong>Agora com respostas específicas para cada tipo de pergunta!</strong><br><br>
-            Experimente perguntar:<br>
-            • "<strong>Como cadastrar um cliente</strong>" - Guia completo<br>
-            • "<strong>Vincular convênio</strong>" - Passo a passo específico<br>
-            • "<strong>Cadastrar dependente</strong>" - Instruções detalhadas<br>
-            • "<strong>Configurar descontos</strong>" - Tutorial completo<br><br>
-            <em>Ou clique nas sugestões acima! 😊</em>`);
-        }, 1000);
-
-        // Tornar a função global
+        // Tornar as funções globais
         window.askQuestion = askQuestion;
         window.openTab = openTab;
     </script>
