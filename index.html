@@ -46,8 +46,40 @@
             opacity: 0.9;
         }
         
+        .chat-container {
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .assistant-message {
+            background: #f5f5f5;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1e5799;
+        }
+        
         .help-section {
-            padding: 30px;
+            padding: 20px;
             border-bottom: 1px solid #eaeaea;
         }
         
@@ -55,23 +87,16 @@
             font-size: 22px;
             color: #1e5799;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .help-title i {
-            font-size: 24px;
         }
         
         .search-box {
             display: flex;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         
         .search-box input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border: 2px solid #e0e0e0;
             border-radius: 8px 0 0 8px;
             font-size: 16px;
@@ -99,53 +124,68 @@
         }
         
         .faq-section {
-            padding: 30px;
+            padding: 20px;
         }
         
         .faq-title {
             font-size: 22px;
             color: #1e5799;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .faq-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 15px;
         }
         
         .faq-item {
             background: #f8fafc;
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             border-left: 4px solid #2989d8;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
         
         .faq-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .faq-item h3 {
             color: #1e5799;
-            margin-bottom: 10px;
-            font-size: 18px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
         
-        .faq-item p {
-            color: #555;
-            font-size: 14px;
+        .response-content {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .response-content h4 {
+            color: #1e5799;
+            margin-bottom: 10px;
+        }
+        
+        .response-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .response-content li {
+            margin-bottom: 8px;
             line-height: 1.5;
         }
         
         .contact-info {
             background: #f0f7ff;
-            padding: 25px 30px;
+            padding: 20px;
             text-align: center;
             border-top: 1px solid #e0e0e0;
         }
@@ -175,7 +215,11 @@
             }
             
             .help-section, .faq-section {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .message {
+                max-width: 90%;
             }
         }
     </style>
@@ -187,51 +231,197 @@
             <p>IA com reconhecimento de linguagem natural para cadastros do sistema</p>
         </header>
         
+        <div class="chat-container" id="chatContainer">
+            <div class="message user-message">
+                <div class="message-header">Você</div>
+                <div>como cadastrar um cliente</div>
+            </div>
+            <div class="message assistant-message">
+                <div class="message-header">Assistente</div>
+                <div>
+                    <strong>Para cadastrar um cliente no sistema Softpharma:</strong>
+                    <br><br>
+                    1. Acesse: <strong>Menu > Cadastros > Clientes > Novo Cliente</strong>
+                    <br>
+                    2. Preencha os dados obrigatórios:
+                    <ul>
+                        <li>Nome completo</li>
+                        <li>CPF/CNPJ</li>
+                        <li>Telefone para contato</li>
+                        <li>Endereço completo</li>
+                    </ul>
+                    3. Configure as permissões de acesso (senha/biometria)
+                    <br>
+                    4. Salve o cadastro
+                </div>
+            </div>
+        </div>
+        
         <section class="help-section">
-            <h2 class="help-title">
-                <i>🔍</i> Como posso ajudar você hoje?
-            </h2>
+            <h2 class="help-title">Como posso ajudar você hoje?</h2>
             <div class="search-box">
-                <input type="text" placeholder="Digite sua dúvida sobre o sistema...">
-                <button>Pesquisar</button>
+                <input type="text" id="questionInput" placeholder="Digite sua dúvida sobre o sistema...">
+                <button id="searchButton">Pesquisar</button>
             </div>
             <p>Exemplos: "Como cadastrar um cliente?", "Onde encontro o relatório de vendas?"</p>
         </section>
         
         <section class="faq-section">
-            <h2 class="faq-title">
-                <i>❓</i> Dúvidas Frequentes
-            </h2>
+            <h2 class="faq-title">Dúvidas Frequentes</h2>
             <div class="faq-grid">
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('clientResponse')">
                     <h3>Cadastro de Clientes</h3>
                     <p>Como cadastrar um novo cliente no sistema? Quais campos são obrigatórios?</p>
                 </div>
                 
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('dependentResponse')">
                     <h3>Incluir Dependentes</h3>
                     <p>Como adicionar dependentes a um cliente? Quais dados são necessários?</p>
                 </div>
                 
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('accessResponse')">
                     <h3>Controle de Acesso</h3>
                     <p>Como configurar senhas e biometria para clientes e dependentes?</p>
                 </div>
                 
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('neighborhoodResponse')">
                     <h3>Cadastro de Bairros</h3>
                     <p>Como cadastrar um novo bairro para entregas no sistema?</p>
                 </div>
                 
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('commissionResponse')">
                     <h3>Comissão de Entregadores</h3>
                     <p>Como configurar e calcular comissões para motoqueiros?</p>
                 </div>
                 
-                <div class="faq-item">
+                <div class="faq-item" onclick="showResponse('inactivationResponse')">
                     <h3>Inativação de Dependentes</h3>
                     <p>O que acontece ao inativar um dependente? Como afeta as autorizações?</p>
                 </div>
+            </div>
+            
+            <!-- Respostas detalhadas -->
+            <div id="clientResponse" class="response-content">
+                <h4>Cadastro de Clientes - Passo a Passo</h4>
+                <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Clientes > Novo Cliente</p>
+                
+                <p><strong>Dados obrigatórios:</strong></p>
+                <ul>
+                    <li>Nome completo ou razão social</li>
+                    <li>CPF (pessoa física) ou CNPJ (pessoa jurídica)</li>
+                    <li>Telefone para contato</li>
+                    <li>Endereço completo (logradouro, número, bairro, cidade)</li>
+                </ul>
+                
+                <p><strong>Dados complementares importantes:</strong></p>
+                <ul>
+                    <li>E-mail para contato</li>
+                    <li>Data de nascimento (para pessoa física)</li>
+                    <li>Indicador de IE (inscrição estadual)</li>
+                    <li>Configuração de senha de acesso (6 dígitos)</li>
+                </ul>
+                
+                <p><strong>Observação:</strong> Após o cadastro, o sistema gera automaticamente uma senha de 6 dígitos que pode ser visualizada na Ficha do Cliente (F8 ou ALT+1).</p>
+            </div>
+            
+            <div id="dependentResponse" class="response-content">
+                <h4>Incluir Dependentes - Passo a Passo</h4>
+                <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</p>
+                
+                <p><strong>Dados necessários para cada dependente:</strong></p>
+                <ul>
+                    <li>Nome completo do dependente</li>
+                    <li>Grau de parentesco</li>
+                    <li>Telefone de contato</li>
+                    <li>Data de nascimento</li>
+                    <li>Situação (ativo/inativo)</li>
+                </ul>
+                
+                <p><strong>Controle por senha/biometria:</strong></p>
+                <ul>
+                    <li><strong>Gerar Senha Padrão:</strong> Sistema cria automaticamente senha de 6 dígitos</li>
+                    <li><strong>Cadastrar biometria:</strong> É possível cadastrar até 5 digitais por dependente</li>
+                    <li>A senha fica visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)</li>
+                </ul>
+            </div>
+            
+            <div id="accessResponse" class="response-content">
+                <h4>Controle de Acesso - Configuração</h4>
+                
+                <p><strong>Para clientes e dependentes:</strong></p>
+                <ul>
+                    <li>O sistema gera automaticamente uma senha de 6 dígitos</li>
+                    <li>É possível cadastrar biometria (até 5 digitais)</li>
+                    <li>A senha pode ser visualizada na Ficha do Cliente (F8 ou ALT+1)</li>
+                </ul>
+                
+                <p><strong>Localização das configurações:</strong></p>
+                <ul>
+                    <li>Para clientes: Na tela de cadastro do cliente</li>
+                    <li>Para dependentes: Na Guia Dependentes do cliente</li>
+                </ul>
+                
+                <p><strong>Importante:</strong> A senha padrão deve ser alterada no primeiro acesso pelo cliente/dependente.</p>
+            </div>
+            
+            <div id="neighborhoodResponse" class="response-content">
+                <h4>Cadastro de Bairros - Passo a Passo</h4>
+                
+                <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Bairros > Novo Bairro</p>
+                
+                <p><strong>Dados necessários:</strong></p>
+                <ul>
+                    <li>Nome do bairro</li>
+                    <li>Cidade de referência</li>
+                    <li>Taxa de entrega (se aplicável)</li>
+                    <li>Zona de entrega</li>
+                    <li>Entregador padrão</li>
+                </ul>
+                
+                <p><strong>Configurações importantes:</strong></p>
+                <ul>
+                    <li>Definir valor de taxa de entrega específica para o bairro</li>
+                    <li>Vincular a uma zona de entrega existente</li>
+                    <li>Associar um entregador padrão para o bairro</li>
+                </ul>
+            </div>
+            
+            <div id="commissionResponse" class="response-content">
+                <h4>Comissão de Entregadores - Configuração</h4>
+                
+                <p><strong>Caminho no sistema:</strong> Menu > Cadastros > Entregadores > [Entregador] > Aba Comissões</p>
+                
+                <p><strong>Tipos de comissão disponíveis:</strong></p>
+                <ul>
+                    <li>Comissão por porcentagem sobre o valor da venda</li>
+                    <li>Comissão por valor fixo por entrega</li>
+                    <li>Comissão por faixa de valor</li>
+                </ul>
+                
+                <p><strong>Configuração passo a passo:</strong></p>
+                <ul>
+                    <li>Selecione o tipo de comissão desejado</li>
+                    <li>Defina o valor ou porcentagem</li>
+                    <li>Configure as regras específicas (horários, bairros, etc.)</li>
+                    <li>Salve as configurações</li>
+                </ul>
+            </div>
+            
+            <div id="inactivationResponse" class="response-content">
+                <h4>Inativação de Dependentes - Procedimento</h4>
+                
+                <p><strong>Como inativar:</strong> Acesse a Guia Dependentes do cliente e altere a situação para "Inativo"</p>
+                
+                <p><strong>Efeitos da inativação:</strong></p>
+                <ul>
+                    <li>O dependente perde o acesso ao sistema</li>
+                    <li>As autorizações em convênios são removidas automaticamente</li>
+                    <li>O histórico de movimentações é mantido</li>
+                </ul>
+                
+                <p><strong>Importante:</strong> Ao inativar um dependente, o sistema remove automaticamente todas as autorizações em convênios vinculadas a ele.</p>
+                
+                <p><strong>Observação:</strong> É possível reativar o dependente posteriormente, mas as autorizações precisarão ser reconfiguradas manualmente.</p>
             </div>
         </section>
         
@@ -242,26 +432,74 @@
     </div>
 
     <script>
-        // Adicionando interatividade aos itens de FAQ
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const question = this.querySelector('h3').textContent;
-                document.querySelector('.search-box input').value = question;
+        // Função para mostrar respostas
+        function showResponse(responseId) {
+            // Esconde todas as respostas
+            const allResponses = document.querySelectorAll('.response-content');
+            allResponses.forEach(response => {
+                response.style.display = 'none';
             });
-        });
+            
+            // Mostra a resposta selecionada
+            const selectedResponse = document.getElementById(responseId);
+            selectedResponse.style.display = 'block';
+            
+            // Rola a página até a resposta
+            selectedResponse.scrollIntoView({ behavior: 'smooth' });
+        }
         
         // Adicionando funcionalidade de busca
-        document.querySelector('.search-box button').addEventListener('click', function() {
-            const searchTerm = document.querySelector('.search-box input').value;
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const searchTerm = document.getElementById('questionInput').value.toLowerCase();
             if (searchTerm.trim() !== '') {
-                alert(`Buscando por: "${searchTerm}"\n\nEm uma implementação real, esta busca retornaria os resultados mais relevantes do sistema de ajuda.`);
+                // Adiciona a pergunta do usuário ao chat
+                const chatContainer = document.getElementById('chatContainer');
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user-message';
+                userMessage.innerHTML = `<div class="message-header">Você</div><div>${searchTerm}</div>`;
+                chatContainer.appendChild(userMessage);
+                
+                // Simula resposta do assistente baseada na pergunta
+                const assistantMessage = document.createElement('div');
+                assistantMessage.className = 'message assistant-message';
+                
+                let response = '';
+                
+                if (searchTerm.includes('cliente') || searchTerm.includes('cadastrar cliente')) {
+                    response = `<strong>Para cadastrar um cliente:</strong><br><br>
+                    1. Acesse: <strong>Menu > Cadastros > Clientes > Novo Cliente</strong><br>
+                    2. Preencha os dados obrigatórios: Nome, CPF/CNPJ, Telefone, Endereço<br>
+                    3. Configure senha/biometria<br>
+                    4. Salve o cadastro`;
+                } else if (searchTerm.includes('dependente')) {
+                    response = `<strong>Para incluir dependentes:</strong><br><br>
+                    Acesse: <strong>Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</strong><br>
+                    Dados necessários: Nome, Parentesco, Telefone, Data de Nascimento<br>
+                    Sistema gera senha de 6 dígitos automaticamente`;
+                } else if (searchTerm.includes('bairro')) {
+                    response = `<strong>Para cadastrar bairro:</strong><br><br>
+                    Acesse: <strong>Menu > Cadastros > Bairros > Novo Bairro</strong><br>
+                    Informe: Nome do bairro, Cidade, Taxa de entrega<br>
+                    Associe a uma zona de entrega e entregador padrão`;
+                } else {
+                    response = `Encontrei informações relacionadas à sua pesquisa. Para uma resposta mais específica, clique em uma das dúvidas frequentes abaixo ou entre em contato com nosso suporte.`;
+                }
+                
+                assistantMessage.innerHTML = `<div class="message-header">Assistente</div><div>${response}</div>`;
+                chatContainer.appendChild(assistantMessage);
+                
+                // Limpa o campo de busca
+                document.getElementById('questionInput').value = '';
+                
+                // Rola para a última mensagem
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         });
         
         // Permitir busca com Enter
-        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+        document.getElementById('questionInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                document.querySelector('.search-box button').click();
+                document.getElementById('searchButton').click();
             }
         });
     </script>
