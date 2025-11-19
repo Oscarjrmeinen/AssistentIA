@@ -11,6 +11,9 @@
             --light: #ecf0f1;
             --dark: #2c3e50;
             --success: #27ae60;
+            --bairro-color: #e74c3c;
+            --cliente-color: #2ecc71;
+            --dependente-color: #9b59b6;
         }
         
         * {
@@ -113,6 +116,18 @@
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s;
+        }
+        
+        .suggestion.bairro {
+            border-left: 4px solid var(--bairro-color);
+        }
+        
+        .suggestion.cliente {
+            border-left: 4px solid var(--cliente-color);
+        }
+        
+        .suggestion.dependente {
+            border-left: 4px solid var(--dependente-color);
         }
         
         .suggestion:hover {
@@ -240,6 +255,25 @@
             border: 1px solid #ddd;
         }
 
+        .module-tag {
+            display: inline-block;
+            background: var(--bairro-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .module-tag.cliente {
+            background: var(--cliente-color);
+        }
+
+        .module-tag.dependente {
+            background: var(--dependente-color);
+        }
+
         @media (max-width: 768px) {
             .commission-grid {
                 grid-template-columns: 1fr;
@@ -263,11 +297,11 @@
             </div>
             
             <div class="suggested-questions">
-                <div class="suggestion" data-question="cadastrar bairro">Cadastrar bairro</div>
-                <div class="suggestion" data-question="cadastrar cliente">Cadastrar cliente</div>
-                <div class="suggestion" data-question="como colocar dependente">Incluir dependente</div>
-                <div class="suggestion" data-question="como vincular um convenio">Vincular convênio</div>
-                <div class="suggestion" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
+                <div class="suggestion bairro" data-question="cadastrar bairro">Cadastrar bairro</div>
+                <div class="suggestion bairro" data-question="cadastro bairro">Cadastro bairro</div>
+                <div class="suggestion cliente" data-question="cadastrar cliente">Cadastrar cliente</div>
+                <div class="suggestion dependente" data-question="incluir dependente">Incluir dependente</div>
+                <div class="suggestion bairro" data-question="configurar comissao motoqueiro">Comissão motoqueiro</div>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -286,33 +320,12 @@
     </div>
 
     <script>
-        // SISTEMA COMPLETAMENTE REFEITO - Reconhecimento por combinação exata
+        // SISTEMA REVOLUCIONÁRIO - Foco APENAS nas palavras ESPECÍFICAS
         const knowledgeBase = {
             "bairros": {
-                patterns: [
-                    // Padrões que devem ser verificados PRIMEIRO
-                    "cadastrar bairro",
-                    "cadastro bairro", 
-                    "cadastrar um bairro",
-                    "cadastro de bairros",
-                    "novo bairro",
-                    "adicionar bairro",
-                    "incluir bairro",
-                    "criar bairro",
-                    "como cadastrar bairro",
-                    "quero cadastrar bairro",
-                    "preciso cadastrar bairro",
-                    // Palavras individuais (verificadas por último)
-                    "bairro",
-                    "bairros",
-                    "tele entrega",
-                    "tele-entrega",
-                    "motoqueiro",
-                    "cobrador",
-                    "f6",
-                    "processar lote"
-                ],
-                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx</strong><br><br>
+                // PALAVRAS EXCLUSIVAS do módulo bairros
+                targetWords: ["bairro", "bairros", "zona", "zonas", "região", "tele entrega", "motoqueiro", "cobrador", "f6", "processar lote", "taxa entrega"],
+                answer: `<strong>📍 Cadastro de Bairros - Farma/Linx <span class="module-tag">MÓDULO BAIRROS</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Bairros</div><br>
                 
@@ -349,43 +362,13 @@
                         <strong>Valor fixo transferência</strong><br>
                         Valor fixo para entregas de transferência (R$)
                     </div>
-                </div><br>
-                
-                <strong>💰 CONFIGURAÇÃO - COBRADOR:</strong><br>
-                • % Comissão sobre recebimento<br>
-                • Valor fixo por título recebido<br><br>
-                
-                <strong>📦 TELE ENTREGA:</strong><br>
-                • <strong>Valor único:</strong> Taxa fixa por venda<br>
-                • <strong>Faixa de valores:</strong> Taxas diferenciadas por valor da compra<br>
-                • <strong>Horário de venda:</strong> Taxas por período do dia<br><br>
-                
-                <div class="info-box">
-                    <strong>💡 Dica:</strong> Use <span class="shortcut-key">F6</span> - Processar em Lote para replicar configurações de tele entrega para vários bairros de uma vez.
-                </div>
-                
-                <div class="warning-box">
-                    <strong>⚠️ Atenção:</strong> Ao cadastrar um novo bairro, os valores de comissões devem ser informados, caso contrário não será calculada a comissão do motoqueiro/cobrador.
                 </div>`
             },
 
             "clientes": {
-                patterns: [
-                    // Padrões específicos primeiro
-                    "cadastrar cliente",
-                    "cadastro cliente",
-                    "cadastrar um cliente", 
-                    "cadastro de clientes",
-                    "novo cliente",
-                    "adicionar cliente",
-                    "incluir cliente",
-                    "criar cliente",
-                    "como cadastrar cliente",
-                    // Palavras individuais por último
-                    "cliente",
-                    "clientes"
-                ],
-                answer: `<strong>Passo a passo para cadastrar novo cliente:</strong><br><br>
+                // PALAVRAS EXCLUSIVAS do módulo clientes
+                targetWords: ["cliente", "clientes", "cpf", "cnpj", "lgpd", "matrícula", "matricula", "limite crédito", "limite credito"],
+                answer: `<strong>👤 Cadastro de Clientes <span class="module-tag cliente">MÓDULO CLIENTES</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > Novo</div><br>
                 
@@ -399,18 +382,13 @@
                 • Data nascimento e naturalidade<br>
                 • Termo LGPD assinado<br><br>
                 
-                <strong>2. VINCULAR CONVÊNIO (Obrigatório):</strong><br>
-                • Cliente deve ter pelo menos 1 convênio<br>
-                • Preencher matrícula (ou gerar automaticamente)<br>
-                • Configurar situação do vínculo<br>
-                • Definir limite de crédito se necessário<br><br>
-                
                 <div class="info-box"><strong>Dica:</strong> CPF/CNPJ só é obrigatório se exigido pelo convênio.</div>`
             },
 
             "dependentes": {
-                patterns: ["dependente", "dependentes", "colocar dependente", "incluir dependente"],
-                answer: `<strong>Como incluir dependentes:</strong><br><br>
+                // PALAVRAS EXCLUSIVAS do módulo dependentes
+                targetWords: ["dependente", "dependentes", "familia", "familiar", "parente", "filho", "filha"],
+                answer: `<strong>👨‍👩‍👧‍👦 Incluir Dependentes <span class="module-tag dependente">MÓDULO DEPENDENTES</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Dependentes</div><br>
                 
@@ -421,12 +399,18 @@
                 • Data de nascimento<br>
                 • Situação (ativo/inativo)<br><br>
                 
+                <strong>Controle por senha/biometria:</strong><br>
+                • <strong>Gerar Senha Padrão</strong> - Sistema cria senha de 6 dígitos<br>
+                • <strong>Cadastrar biometria</strong> - Até 5 digitais<br>
+                • Senha visível na <strong>Ficha do Cliente</strong> (F8 ou ALT+1)<br><br>
+                
                 <div class="warning-box"><strong>Importante:</strong> Ao inativar dependente, sistema remove automaticamente autorizações em convênios.</div>`
             },
 
             "convênios": {
-                patterns: ["convênio", "convenio", "convênios", "convenios", "vincular convênio"],
-                answer: `<strong>Como vincular convênios:</strong><br><br>
+                // PALAVRAS EXCLUSIVAS do módulo convênios
+                targetWords: ["convênio", "convenio", "convênios", "convenios", "plano", "planos", "vincular"],
+                answer: `<strong>📋 Vincular Convênios <span class="module-tag">MÓDULO CONVÊNIOS</span></strong><br><br>
                 
                 <div class="path-highlight">Menu > Cadastros > Clientes > [Cliente] > Guia Convênios</div><br>
                 
@@ -439,23 +423,6 @@
                 6. Clique em <strong>"Aplicar"</strong> para salvar<br><br>
                 
                 <div class="info-box"><strong>Lembrete:</strong> Todo cliente precisa ter pelo menos 1 convênio vinculado!</div>`
-            },
-
-            "default": {
-                patterns: [],
-                answer: `🤔 <strong>Entendi que você quer ajuda com cadastros!</strong><br><br>
-                
-                <div class="suggested-alternative">
-                <strong>Baseado na sua pergunta, talvez você queira saber sobre:</strong><br><br>
-                
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar bairro')">Como cadastrar bairros</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('cadastrar cliente')">Como cadastrar um novo cliente</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como colocar dependente')">Como incluir dependentes</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('como vincular um convenio')">Como vincular convênios</strong><br>
-                • <strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('configurar comissao motoqueiro')">Como configurar comissões</strong><br><br>
-                
-                <em>Clique em uma das opções acima ou reformule sua pergunta!</em>
-                </div>`
             }
         };
 
@@ -475,69 +442,64 @@
                 .replace(/[^\w\s]/gi, ' ');
         }
 
-        // SISTEMA CORRIGIDO - Verifica combinações EXATAS primeiro
+        // SISTEMA DEFINITIVO - IGNORA "cadastrar" e foca nas palavras ESPECÍFICAS
         function findBestMatch(question) {
             const normalizedQuestion = normalizeText(question);
-            console.log('🔍 Analisando:', normalizedQuestion);
+            console.log('🔍 ANALISANDO FRASE:', normalizedQuestion);
             
-            // PRIMEIRO: Verifica combinações EXATAS em BAIRROS
-            for (const pattern of knowledgeBase.bairros.patterns) {
-                const normalizedPattern = normalizeText(pattern);
-                // Verifica se o padrão completo está na pergunta
-                if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ ENCONTROU BAIRRO (padrão exato):', normalizedPattern);
-                    return "bairros";
-                }
-            }
+            // REMOVE palavras genéricas que causam confusão
+            const cleanedQuestion = normalizedQuestion
+                .replace(/\b(cadastrar|cadastro|criar|novo|adicionar|incluir|registrar|como|quero|preciso|fazer)\b/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
             
-            // SEGUNDO: Verifica combinações EXATAS em CLIENTES
-            for (const pattern of knowledgeBase.clientes.patterns) {
-                const normalizedPattern = normalizeText(pattern);
-                if (normalizedQuestion.includes(normalizedPattern)) {
-                    console.log('✅ ENCONTROU CLIENTE (padrão exato):', normalizedPattern);
-                    return "clientes";
-                }
-            }
+            console.log('🧹 FRASE LIMPA:', cleanedQuestion);
             
-            // TERCEIRO: Verifica palavras individuais em BAIRROS
-            const words = normalizedQuestion.split(/\s+/);
+            const words = cleanedQuestion.split(/\s+/);
+            console.log('📝 PALAVRAS RELEVANTES:', words);
+            
+            // 1. PRIMEIRO: Procura por palavras ESPECÍFICAS de BAIRROS (prioridade máxima)
             for (const word of words) {
-                for (const pattern of knowledgeBase.bairros.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    // Verifica se é uma palavra individual (não combinação)
-                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
-                        console.log('✅ ENCONTROU BAIRRO (palavra individual):', word);
-                        return "bairros";
-                    }
+                if (knowledgeBase.bairros.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO BAIRROS: "${word}"`);
+                    return knowledgeBase.bairros.answer;
                 }
             }
             
-            // QUARTO: Verifica palavras individuais em CLIENTES
+            // 2. SEGUNDO: Procura por palavras ESPECÍFICAS de CLIENTES
             for (const word of words) {
-                for (const pattern of knowledgeBase.clientes.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    if (normalizedPattern.split(' ').length === 1 && word === normalizedPattern) {
-                        console.log('✅ ENCONTROU CLIENTE (palavra individual):', word);
-                        return "clientes";
-                    }
+                if (knowledgeBase.clientes.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO CLIENTES: "${word}"`);
+                    return knowledgeBase.clientes.answer;
                 }
             }
             
-            // QUINTO: Verifica outras categorias
-            for (const [category, data] of Object.entries(knowledgeBase)) {
-                if (category === "bairros" || category === "clientes" || category === "default") continue;
-                
-                for (const pattern of data.patterns) {
-                    const normalizedPattern = normalizeText(pattern);
-                    if (normalizedQuestion.includes(normalizedPattern)) {
-                        console.log('✅ ENCONTROU', category.toUpperCase(), ':', normalizedPattern);
-                        return category;
-                    }
+            // 3. TERCEIRO: Procura por palavras ESPECÍFICAS de DEPENDENTES
+            for (const word of words) {
+                if (knowledgeBase.dependentes.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO DEPENDENTES: "${word}"`);
+                    return knowledgeBase.dependentes.answer;
                 }
             }
             
-            console.log('❌ Nenhuma correspondência, usando default');
-            return "default";
+            // 4. QUARTO: Procura por palavras ESPECÍFICAS de CONVÊNIOS
+            for (const word of words) {
+                if (knowledgeBase.convênios.targetWords.includes(word)) {
+                    console.log(`✅✅✅ ENCONTRADO NO MÓDULO CONVÊNIOS: "${word}"`);
+                    return knowledgeBase.convênios.answer;
+                }
+            }
+            
+            console.log('❌ NENHUMA PALAVRA ESPECÍFICA ENCONTRADA');
+            return `🤔 <strong>Não entendi sua pergunta!</strong><br><br>
+                <div class="suggested-alternative">
+                <strong>Digite o nome do que você quer cadastrar:</strong><br><br>
+                • "<strong style="cursor:pointer; color: var(--bairro-color);" onclick="askQuestion('bairro')">bairro</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--cliente-color);" onclick="askQuestion('cliente')">cliente</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--dependente-color);" onclick="askQuestion('dependente')">dependente</strong>"<br>
+                • "<strong style="cursor:pointer; color: var(--secondary);" onclick="askQuestion('convênio')">convênio</strong>"<br>
+                <em>Ou use as sugestões acima!</em>
+                </div>`;
         }
 
         // Função para adicionar mensagem no chat
@@ -561,12 +523,6 @@
             typingIndicator.style.display = 'none';
         }
 
-        // Função para processar a pergunta do usuário
-        function processQuestion(question) {
-            const bestMatch = findBestMatch(question);
-            return knowledgeBase[bestMatch].answer;
-        }
-
         // Função global para fazer perguntas
         window.askQuestion = function(question) {
             userInput.value = question;
@@ -585,7 +541,7 @@
             
             setTimeout(() => {
                 hideTyping();
-                const answer = processQuestion(question);
+                const answer = findBestMatch(question);
                 addMessage(answer);
             }, 800);
         }
@@ -605,7 +561,18 @@
                 userInput.value = question;
                 sendMessage();
             });
+        });
+
+        // Mensagem de boas-vindas
+        setTimeout(() => {
+            addMessage(`<strong>🎯 SISTEMA DEFINITIVO - Foco nas PALAVRAS ESPECÍFICAS</strong><br><br>
+            <strong>Agora o sistema IGNORA "cadastrar" e foca no que importa:</strong><br><br>
+            • "<strong>cadastrar</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<strong>cadastro</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<strong>qualquer coisa</strong> <span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br>
+            • "<span style="color: var(--bairro-color)">bairro</span>" → Módulo Bairros ✅<br><br>
+            <em>O sistema agora foca APENAS nas palavras ESPECÍFICAS de cada módulo! 🚀</em>`);
+        }, 1000);
     </script>
 </body>
 </html>
-
